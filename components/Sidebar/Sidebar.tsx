@@ -1,4 +1,8 @@
+import Link from "next/link";
 import styled from "styled-components";
+
+import MenuData from "./MenuData";
+import MenuItem from "./MenuItem";
 
 const Sidebar = () => (
   <Container>
@@ -6,24 +10,32 @@ const Sidebar = () => (
       <span>Fight Census</span>
     </Brand>
     <Menu>
-      <Item>Home</Item>
-      <Item>Stats</Item>
-      <Item>Cards</Item>
-      <Item>Rankings</Item>
-      <Item>Fighters</Item>
+      <SubHeader>
+        <Link href="/">
+          <a>Home</a>
+        </Link>
+      </SubHeader>
+      {MenuData.map((section) => (
+        <MenuItem
+          key={section.header.toLowerCase()}
+          header={section.header}
+          items={section.items}
+        />
+      ))}
     </Menu>
   </Container>
 );
 
 const Container = styled.div`
-  background-color: yellowgreen;
-  padding: 2rem;
+  background-color: ${(props) => props.theme.colors.grey};
+  color: rgba(255, 255, 255, 0.7);
 `;
 
 const Brand = styled.a`
+  color: #fff;
   cursor: pointer;
   display: block;
-  text-align: center;
+  padding: 2rem;
 
   span {
     font-size: 2rem;
@@ -35,10 +47,18 @@ const Menu = styled.ul`
   padding-left: 0;
 `;
 
-const Item = styled.li`
-  display: block;
-  padding: 1rem;
-  cursor: pointer;
+const SubHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: ${(props) => props.theme.colors.darkGrey};
+    color: #fff;
+    cursor: pointer;
+  }
 `;
 
 export default Sidebar;

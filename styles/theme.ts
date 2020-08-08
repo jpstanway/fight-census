@@ -1,7 +1,9 @@
 export default {
   colors: {
-    white: "#fff",
-    black: "#000",
+    grey: "#354052",
+    lightGrey: "#F5F9FC",
+    medGrey: "#313b4c",
+    darkGrey: "#2D3646",
   },
   breakpoints: {
     sm: 500,
