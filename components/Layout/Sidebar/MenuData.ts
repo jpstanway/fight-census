@@ -19,6 +19,7 @@ export default [
   {
     header: "Rankings",
     items: [
+      { id: 1, name: "Pound for Pound", url: "/rankings" },
       { id: 11, name: "Heavyweight", url: "/rankings/heavyweight" },
       { id: 22, name: "Light Heavyweight", url: "/rankings/light-heavyweight" },
       { id: 33, name: "Middleweight", url: "/rankings/middleweight" },

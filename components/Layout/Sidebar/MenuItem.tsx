@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import styled from "styled-components";
+import { listenerCount } from "process";
 
 type Toggle = {
   toggle: boolean;
@@ -31,11 +32,11 @@ const MenuItem = (data: MenuItemProps) => {
       </SubHeader>
       <SubMenu toggle={toggle}>
         {data.items.map((item) => (
-          <SubItem key={item.id}>
+          <li key={item.id}>
             <Link href={item.url}>
-              <a>{item.name}</a>
+              <SubItem>{item.name}</SubItem>
             </Link>
-          </SubItem>
+          </li>
         ))}
       </SubMenu>
     </Container>
@@ -70,7 +71,7 @@ const SubMenu = styled.ul<Toggle>`
   transition: max-height 3s ease-out;
 `;
 
-const SubItem = styled.li`
+const SubItem = styled.a`
   color: rgba(255, 255, 255, 0.55);
   display: block;
   cursor: pointer;

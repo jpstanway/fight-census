@@ -6,15 +6,10 @@ import MenuItem from "./MenuItem";
 
 const Sidebar = () => (
   <Container>
-    <Brand>
-      <span>Fight Census</span>
-    </Brand>
+    <Link href="/">
+      <Brand>Fight Census</Brand>
+    </Link>
     <Menu>
-      <SubHeader>
-        <Link href="/">
-          <a>Home</a>
-        </Link>
-      </SubHeader>
       {MenuData.map((section) => (
         <MenuItem
           key={section.header.toLowerCase()}
@@ -36,29 +31,12 @@ const Brand = styled.a`
   cursor: pointer;
   display: block;
   padding: 2rem;
-
-  span {
-    font-size: 2rem;
-  }
+  font-size: 2rem;
 `;
 
 const Menu = styled.ul`
   list-style-type: none;
   padding-left: 0;
-`;
-
-const SubHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 2rem;
-  transition: all 0.2s;
-
-  &:hover {
-    background-color: ${(props) => props.theme.colors.darkGrey};
-    color: #fff;
-    cursor: pointer;
-  }
 `;
 
 export default Sidebar;
