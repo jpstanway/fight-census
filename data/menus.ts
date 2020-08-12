@@ -19,9 +19,8 @@ export default [
   {
     header: "Rankings",
     items: [
-      { id: 1, name: "Pound for Pound", url: "/rankings/p4p" },
       { id: 11, name: "Heavyweight", url: "/rankings/heavyweight" },
-      { id: 22, name: "Light Heavyweight", url: "/rankings/light-heavyweight" },
+      { id: 22, name: "Light Heavyweight", url: "/rankings/lightHeavyweight" },
       { id: 33, name: "Middleweight", url: "/rankings/middleweight" },
       { id: 44, name: "Welterweight", url: "/rankings/welterweight" },
       { id: 55, name: "Lightweight", url: "/rankings/lightweight" },
@@ -31,15 +30,16 @@ export default [
       {
         id: 99,
         name: "Women's Featherweight",
-        url: "/rankings/w-featherweight",
+        url: "/rankings/wFeatherweight",
       },
       {
         id: 111,
         name: "Women's Bantamweight",
-        url: "/rankings/w-bantamweight",
+        url: "/rankings/wBantamweight",
       },
-      { id: 222, name: "Women's Flyweight", url: "/rankings/w-flyweight" },
-      { id: 333, name: "Women's Strawweight", url: "/rankings/w-strawweight" },
+      { id: 222, name: "Women's Flyweight", url: "/rankings/wFlyweight" },
+      { id: 333, name: "Women's Strawweight", url: "/rankings/wStrawweight" },
+      { id: 444, name: "Pound for Pound", url: "/rankings/p4p" },
     ],
   },
   {

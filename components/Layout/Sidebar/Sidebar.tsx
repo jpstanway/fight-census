@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styled from "styled-components";
+import data from "../../../data/menus";
 
-import MenuData from "./MenuData";
 import MenuItem from "./MenuItem";
 
 const Sidebar = () => (
@@ -10,7 +10,7 @@ const Sidebar = () => (
       <Brand>Fight Census</Brand>
     </Link>
     <Menu>
-      {MenuData.map((section) => (
+      {data.map((section) => (
         <MenuItem
           key={section.header.toLowerCase()}
           header={section.header}
