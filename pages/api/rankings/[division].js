@@ -1,9 +1,7 @@
 import data from "../../../data/rankings";
-import capitalizer from "../../../utils/capitalizer";
 
 const rankingsHandler = (req, res) => {
-  const rankings = data[req.query.division];
-  const division = capitalizer(req.query.division);
+  const { rankings, division } = data[req.query.division];
 
   if (division) {
     res.status(200).json({ rankings, division });

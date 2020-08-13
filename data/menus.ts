@@ -46,8 +46,7 @@ export default [
     header: "Fighters",
     items: [
       { id: 11, name: "Alphabetical", url: "/fighters" },
-      { id: 22, name: "by division", url: "/fighters/by-division" },
-      { id: 33, name: "by nationality", url: "/fighters/by-nationality" },
+      { id: 22, name: "by nationality", url: "/fighters/by-nationality" },
     ],
   },
 ];

@@ -68,7 +68,8 @@
     "**/*.ts",
     "**/*.tsx",
     "pages/rankings/[division].jsx",
-    "pages/api/rankings/[division].js"
+    "pages/api/rankings/[division].js",
+    "pages/cards/[timeline].jsx"
   ],
   "exclude": ["node_modules"]
 }
