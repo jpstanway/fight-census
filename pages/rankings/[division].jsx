@@ -18,7 +18,7 @@ const Rankings = () => {
       <h1>{data.division} Rankings</h1>
       <RankingsList>
         {data.rankings.map((fighter) => (
-          <li key={fighter.rank}>
+          <li key={fighter.id}>
             {fighter.rank}. {fighter.name} | {fighter.wins}-{fighter.losses}
           </li>
         ))}

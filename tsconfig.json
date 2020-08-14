@@ -69,7 +69,10 @@
     "**/*.tsx",
     "pages/rankings/[division].jsx",
     "pages/api/rankings/[division].js",
-    "pages/cards/[timeline].jsx"
+    "pages/cards/[timeline].jsx",
+    "pages/fighters/[filter].jsx",
+    "utils/aggregateByCountry.js",
+    "data/getFighters.js"
   ],
   "exclude": ["node_modules"]
 }
