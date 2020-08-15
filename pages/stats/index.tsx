@@ -8,7 +8,7 @@ const Stats = () => {
 
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
-  console.log(data);
+
   return (
     <div>
       <h1>All Stats</h1>

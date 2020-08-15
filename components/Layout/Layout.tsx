@@ -19,7 +19,7 @@ const Layout = (props: LayoutProps) => (
       <Sidebar />
       <Main>
         <Header />
-        {props.children}
+        <MainContainer>{props.children}</MainContainer>
         <Footer />
       </Main>
     </Container>
@@ -36,6 +36,12 @@ const Main = styled.div`
   min-height: 100vh;
   display: grid;
   grid-template-rows: 7rem 1fr 5rem;
+`;
+
+const MainContainer = styled.div`
+  background-color: ${(props) => props.theme.colors.lightGrey};
+  color: ${(props) => props.theme.colors.textDark};
+  padding: 2rem;
 `;
 
 export default Layout;
