@@ -3,10 +3,10 @@ export default [
     header: "Stats",
     items: [
       { id: 11, name: "All Stats", url: "/stats" },
-      { id: 22, name: "by size", url: "/stats/by-size" },
-      { id: 33, name: "by age", url: "/stats/by-age" },
-      { id: 44, name: "by location", url: "/stats/by-location" },
-      { id: 55, name: "by experience", url: "/stats/by-experience" },
+      { id: 22, name: "by size", url: "/stats/bySize" },
+      { id: 33, name: "by age", url: "/stats/byAge" },
+      { id: 44, name: "by location", url: "/stats/byLocation" },
+      { id: 55, name: "by experience", url: "/stats/byExperience" },
     ],
   },
   {

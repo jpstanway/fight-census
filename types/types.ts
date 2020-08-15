@@ -1,4 +1,5 @@
 export type Fighter = {
+  id: number;
   rank: number;
   name: string;
   wins: number;
@@ -9,4 +10,9 @@ export type Fighter = {
 export type Division = {
   division: string;
   rankings: Fighter[];
+};
+
+export type Stat = {
+  id: number;
+  stat: string;
 };

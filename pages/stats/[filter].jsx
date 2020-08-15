@@ -1,19 +1,23 @@
+import { useRouter } from "next/router";
 import useSWR from "swr";
 import fetcher from "../../utils/fetcher";
 import styled from "styled-components";
-import { Stat } from "../../types/types";
 
-const Stats = () => {
-  const { data, error } = useSWR(`/api/stats`, fetcher);
+const StatsBy = () => {
+  const { query } = useRouter();
+  const { data, error } = useSWR(
+    () => query.filter && `/api/stats/${query.filter}`,
+    fetcher
+  );
 
-  if (error) return <div>Failed to load</div>;
+  if (error) return <div>{error.message}</div>;
   if (!data) return <div>Loading...</div>;
-  console.log(data);
+
   return (
     <div>
-      <h1>All Stats</h1>
+      <h1>Stats {data.name}</h1>
       <StatsList>
-        {data.stats.map((stat: Stat) => (
+        {data.stats.map((stat) => (
           <li key={stat.id}>{stat.stat}</li>
         ))}
       </StatsList>
@@ -25,4 +29,4 @@ const StatsList = styled.ul`
   list-style-type: none;
 `;
 
-export default Stats;
+export default StatsBy;

@@ -72,7 +72,8 @@
     "pages/cards/[timeline].jsx",
     "pages/fighters/[filter].jsx",
     "utils/aggregateByCountry.js",
-    "data/getFighters.js"
+    "data/getFighters.js",
+    "pages/stats/[filter].jsx"
   ],
   "exclude": ["node_modules"]
 }

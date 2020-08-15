@@ -10,11 +10,14 @@ const Fighters = () => {
   if (!data) return <div>Loading...</div>;
 
   return (
-    <FightersList>
-      {data.fighters.map((fighter: Fighter) => (
-        <li key={fighter.id}>{fighter.name}</li>
-      ))}
-    </FightersList>
+    <div>
+      <h2>All Fighters</h2>
+      <FightersList>
+        {data.fighters.map((fighter: Fighter) => (
+          <li key={fighter.id}>{fighter.name}</li>
+        ))}
+      </FightersList>
+    </div>
   );
 };
 
