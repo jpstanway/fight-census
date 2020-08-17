@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Head from "next/head";
 import styled from "styled-components";
 
@@ -9,26 +10,36 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-const Layout = (props: LayoutProps) => (
-  <>
-    <Head>
-      <title>Fight Census</title>
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
-    <Container>
-      <Sidebar />
-      <Main>
-        <Header />
-        <MainContainer>{props.children}</MainContainer>
-        <Footer />
-      </Main>
-    </Container>
-  </>
-);
+export interface SidebarProps {
+  sidebar: boolean;
+  setSidebar?: any;
+}
 
-const Container = styled.div`
+const Layout = (props: LayoutProps) => {
+  const [sidebar, setSidebar] = useState<boolean>(true);
+
+  return (
+    <>
+      <Head>
+        <title>Fight Census</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Container sidebar={sidebar}>
+        <Sidebar sidebar={sidebar} />
+        <Main>
+          <Header sidebar={sidebar} setSidebar={setSidebar} />
+          <MainContainer>{props.children}</MainContainer>
+          <Footer />
+        </Main>
+      </Container>
+    </>
+  );
+};
+
+const Container = styled.div<SidebarProps>`
   display: grid;
-  grid-template-columns: 25rem 1fr;
+  grid-template-columns: ${(props) =>
+    props.sidebar ? "25rem 1fr" : "0rem 1fr"};
   height: 100%;
 `;
 
