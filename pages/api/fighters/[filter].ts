@@ -1,8 +1,9 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import data from "../../../data/rankings";
 import getFightersAlphabetical from "../../../utils/getFightersAlphabetical";
 import aggregateByCountry from "../../../utils/aggregateByCountry";
 
-const fightersFilterHandler = (req, res) => {
+const fightersFilterHandler = (req: NextApiRequest, res: NextApiResponse) => {
   const countries = aggregateByCountry(getFightersAlphabetical(data));
 
   if (countries) {

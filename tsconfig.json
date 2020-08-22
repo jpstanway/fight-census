@@ -67,13 +67,14 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "pages/rankings/[division].jsx",
-    "pages/api/rankings/[division].js",
-    "pages/cards/[timeline].jsx",
-    "pages/fighters/[filter].jsx",
+    "pages/rankings/[division].tsx",
+    "pages/api/rankings/[division].ts",
+    "pages/cards/[timeline].tsx",
+    "pages/fighters/[filter].tsx",
     "utils/aggregateByCountry.js",
     "data/getFighters.js",
-    "pages/stats/[filter].jsx"
+    "pages/stats/[filter].tsx",
+    "utils/createEventTable.ts"
   ],
   "exclude": ["node_modules"]
 }

@@ -16,3 +16,28 @@ export type Stat = {
   id: number;
   stat: string;
 };
+
+export type Stats = {
+  name: string;
+  stats: Stat[];
+};
+
+export type Card = {
+  id: number;
+  date: string;
+  event: string;
+  location: string;
+};
+
+export type Cards = {
+  timeline: string;
+  cards: Card[];
+};
+
+export type Event = {
+  id: number;
+  name: string;
+  date: string;
+  venue: string;
+  location: string;
+};

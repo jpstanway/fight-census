@@ -1,6 +1,7 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import data from "../../../data/rankings";
 
-const rankingsHandler = (req, res) => {
+const rankingsHandler = (req: NextApiRequest, res: NextApiResponse) => {
   const { rankings, division } = data[req.query.division];
 
   if (division) {

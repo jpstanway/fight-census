@@ -2,10 +2,11 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import fetcher from "../../utils/fetcher";
 import styled from "styled-components";
+import { Fighter } from "../../types/types";
 
 const FightersBy = () => {
   const { query } = useRouter();
-  const { data, error } = useSWR(
+  const { data, error } = useSWR<{ [key: string]: Fighter[] }, any>(
     () => query.filter && `/api/fighters/${query.filter}`,
     fetcher
   );
@@ -23,7 +24,7 @@ const FightersBy = () => {
           <div>
             <h2>{country}</h2>
             <FighterList>
-              {data[country].map((fighter) => (
+              {data[country].map((fighter: Fighter) => (
                 <li>{fighter.name}</li>
               ))}
             </FighterList>

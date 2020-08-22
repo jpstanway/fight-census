@@ -2,10 +2,11 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import fetcher from "../../utils/fetcher";
 import styled from "styled-components";
+import { Stat, Stats } from "../../types/types";
 
 const StatsBy = () => {
   const { query } = useRouter();
-  const { data, error } = useSWR(
+  const { data, error } = useSWR<Stats, any>(
     () => query.filter && `/api/stats/${query.filter}`,
     fetcher
   );
@@ -17,7 +18,7 @@ const StatsBy = () => {
     <div>
       <h1>Stats {data.name}</h1>
       <StatsList>
-        {data.stats.map((stat) => (
+        {data.stats.map((stat: Stat) => (
           <li key={stat.id}>{stat.stat}</li>
         ))}
       </StatsList>

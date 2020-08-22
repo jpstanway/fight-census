@@ -1,6 +1,7 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import data from "../../../data/stats";
 
-const statsFilterHandler = (req, res) => {
+const statsFilterHandler = (req: NextApiRequest, res: NextApiResponse) => {
   const { stats, name } = data[req.query.filter];
 
   if (name) {

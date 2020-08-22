@@ -2,10 +2,11 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import fetcher from "../../utils/fetcher";
 import styled from "styled-components";
+import { Division } from "../../types/types";
 
 const Rankings = () => {
   const { query } = useRouter();
-  const { data, error } = useSWR(
+  const { data, error } = useSWR<Division, any>(
     () => query.division && `/api/rankings/${query.division}`,
     fetcher
   );
