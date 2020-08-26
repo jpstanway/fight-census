@@ -1,25 +1,38 @@
 import { Event } from "../types/types";
 
 export default (data: any) => {
-  const wikitext = data.parse.wikitext["*"];
-  const lines = wikitext.split("|-");
-  const events = [];
+  let html = data.parse.text["*"];
+  html = html.replace(/\n|Event|Date|City|Country|Venue|Ref.|Notes/g, "");
+  const result = html.match(/<tbody>.*<\/tbody>/g);
+  const rows = result[0].split("<tr>");
+  const events: Event[] = [];
 
-  for (let i = 1; i < lines.length; i++) {
-    lines[i] = lines[i].replace(/(\[|\]|{|}|dts|\|)/gi, "").split("\n");
+  rows
+    .map((row: string) => {
+      return row.split(/<.+?>/g).filter((text) => text);
+    })
+    .forEach((item: string[], id: number) => {
+      if (item.length > 0) {
+        let event = {
+          id,
+          event: item[0],
+          date: item[1],
+          venue: item[2],
+          city: "",
+          country: "",
+        };
 
-    if (lines[i][1]) {
-      const event: Event = {
-        id: i,
-        name: lines[i][1],
-        date: lines[i][2],
-        venue: lines[i][3],
-        location: lines[i][4],
-      };
+        if (item[4] === ", ") {
+          event.city = `${item[3]}, ${item[5]}`;
+          event.country = item[6];
+        } else {
+          event.city = item[3];
+          event.country = item[4];
+        }
 
-      events.unshift(event);
-    }
-  }
+        events.push(event);
+      }
+    });
 
   return events;
 };

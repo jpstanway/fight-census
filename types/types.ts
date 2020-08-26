@@ -36,8 +36,8 @@ export type Cards = {
 
 export type Event = {
   id: number;
-  name: string;
+  event: string;
   date: string;
-  venue: string;
-  location: string;
+  city: string;
+  country: string;
 };

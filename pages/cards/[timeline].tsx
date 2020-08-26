@@ -1,7 +1,8 @@
 import { useRouter } from "next/router";
-import fetcher from "../../utils/fetcher";
-import styled from "styled-components";
+import { GetServerSideProps } from "next";
 import { Event } from "../../types/types";
+import styled from "styled-components";
+import fetcher from "../../utils/fetcher";
 import createEventTable from "../../utils/createEventTable";
 
 interface DataProps {
@@ -14,42 +15,32 @@ const Cards = (props: DataProps) => {
   return (
     <div>
       <PageTitle>{query.timeline} Cards</PageTitle>
-      <table>
-        <thead>
-          <tr>
-            <th>Event</th>
-            <th>Date</th>
-            <th>Venue</th>
-            <th>Location</th>
-          </tr>
-        </thead>
-        <tbody>
-          {props.data.map((event) => (
-            <tr key={event.id}>
-              <td>{event.name}</td>
-              <td>{event.date}</td>
-              <td>{event.venue}</td>
-              <td>{event.location}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <ul>
+        {props.data.map((event: Event) => (
+          <li key={event.id}>
+            {event.event} | {event.date} | {event.city} | {event.country}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const year = new Date().getFullYear();
+  const { timeline } = query;
+  const section = timeline === "upcoming" ? "7" : "8";
+
   const searchParams = new URLSearchParams({
     origin: "*",
     action: "parse",
-    page: "List_of_UFC_events",
+    page: `${year.toString()}_in_UFC`,
     format: "json",
-    prop: "wikitext",
-    section: "3",
+    prop: "text",
+    section,
   });
 
   const url = `https://en.wikipedia.org/w/api.php?${searchParams}`;
-
   const json = await fetcher(url);
   const data = createEventTable(json);
 
