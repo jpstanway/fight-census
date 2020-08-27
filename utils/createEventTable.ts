@@ -1,33 +1,48 @@
 import { Event } from "../types/types";
 
-export default (data: any) => {
+export default (data: any, timeline: string | string[] | undefined) => {
   let html = data.parse.text["*"];
-  html = html.replace(/\n|Event|Date|City|Country|Venue|Ref.|Notes/g, "");
+  html = html.replace(
+    /\n|Event|Date|City|Country|Venue|Ref.|Notes|#|Atten.|Fight of the Night|Performance of the Night|Bonus/g,
+    ""
+  );
   const result = html.match(/<tbody>.*<\/tbody>/g);
   const rows = result[0].split("<tr>");
   const events: Event[] = [];
 
   rows
     .map((row: string) => {
-      return row.split(/<.+?>/g).filter((text) => text);
+      // extract wikipedia link for individual events
+      let links = row.match(/<a\s+(?:[^>]*?\s+)?href=(["'])(.*?)\1/g);
+      let link = "";
+
+      if (links) {
+        link = links[0].replace(/(<a href=")|(")/g, "");
+      }
+
+      // remove html tags
+      const item = row.split(/<.+?>/g).filter((text) => text);
+      item.unshift(link);
+
+      return item;
     })
     .forEach((item: string[], id: number) => {
-      if (item.length > 0) {
+      if (item.length >= 5) {
+        let isUpcoming = timeline === "upcoming";
+
         let event = {
-          id,
-          event: item[0],
-          date: item[1],
-          venue: item[2],
-          city: "",
-          country: "",
+          id: isUpcoming ? id : Number(item[1]),
+          event: isUpcoming ? item[1] : item[2],
+          date: isUpcoming ? item[2] : item[3],
+          venue: isUpcoming ? item[3] : item[4],
+          city: isUpcoming ? item[4] : item[5],
+          country: isUpcoming ? item[5] : item[6],
+          link: item[0],
         };
 
-        if (item[4] === ", ") {
-          event.city = `${item[3]}, ${item[5]}`;
-          event.country = item[6];
-        } else {
-          event.city = item[3];
-          event.country = item[4];
+        if (item[5] === ", ") {
+          event.city = `${item[4]}, ${item[6]}`;
+          event.country = item[7];
         }
 
         events.push(event);

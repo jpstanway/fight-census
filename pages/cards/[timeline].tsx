@@ -18,7 +18,8 @@ const Cards = (props: DataProps) => {
       <ul>
         {props.data.map((event: Event) => (
           <li key={event.id}>
-            {event.event} | {event.date} | {event.city} | {event.country}
+            {event.event} | {event.date} | {event.city} | {event.country} |{" "}
+            {event.link}
           </li>
         ))}
       </ul>
@@ -42,7 +43,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 
   const url = `https://en.wikipedia.org/w/api.php?${searchParams}`;
   const json = await fetcher(url);
-  const data = createEventTable(json);
+  const data = createEventTable(json, timeline);
 
   return { props: { data } };
 };

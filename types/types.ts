@@ -40,4 +40,5 @@ export type Event = {
   date: string;
   city: string;
   country: string;
+  link: string;
 };
