@@ -7,6 +7,9 @@ export default {
     textLight: "#738189",
     textDark: "#495057",
     borderGrey: "#dee2e6",
+    lightBlue: "#47BAC1",
+    blue: "#2f878c",
+    darkBlue: "#39a2a9",
   },
   breakpoints: {
     sm: 500,

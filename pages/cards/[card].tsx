@@ -2,7 +2,6 @@ import { GetServerSideProps } from "next";
 import { Event } from "../../types/types";
 import styled from "styled-components";
 import getEvent from "../../utils/cards/getEvent";
-import fightersFilterHandler from "../api/fighters/[filter]";
 
 type EventProps = {
   data: Event;

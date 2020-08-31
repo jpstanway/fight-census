@@ -1,6 +1,8 @@
 import { GetServerSideProps } from "next";
-import { Event } from "../../types/types";
 import styled from "styled-components";
+import { Event } from "../../types/types";
+
+import EventsTable from "../../components/Common/Tables/EventsTable";
 import createEventsTable from "../../utils/cards/createEventsTable";
 
 type EventProps = {
@@ -13,23 +15,9 @@ type EventProps = {
 const Cards: React.FC<EventProps> = ({ data }) => (
   <div>
     <SectionTitle>Upcoming Cards</SectionTitle>
-    <ul>
-      {data.upcoming.map((event: Event) => (
-        <li key={event.id}>
-          {event.event} | {event.date} | {event.city} | {event.country} |{" "}
-          {event.link}
-        </li>
-      ))}
-    </ul>
+    <EventsTable rows={data.upcoming} />
     <SectionTitle>Past Cards</SectionTitle>
-    <ul>
-      {data.past.map((event: Event) => (
-        <li key={event.id}>
-          {event.event} | {event.date} | {event.city} | {event.country} |{" "}
-          {event.link}
-        </li>
-      ))}
-    </ul>
+    <EventsTable rows={data.past} />
   </div>
 );
 
