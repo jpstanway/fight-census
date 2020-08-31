@@ -1,11 +1,27 @@
-import { Event } from "../types/types";
+import fetcher from "../fetcher";
+import { Event } from "../../types/types";
 
-export default (data: any, timeline: string | string[] | undefined) => {
-  let html = data.parse.text["*"];
+export default async (section: string) => {
+  const year = new Date().getFullYear();
+  const searchParams = new URLSearchParams({
+    origin: "*",
+    action: "parse",
+    page: `${year.toString()}_in_UFC`,
+    format: "json",
+    prop: "text",
+    section,
+  });
+
+  const url = `https://en.wikipedia.org/w/api.php?${searchParams}`;
+
+  const json = await fetcher(url);
+  let html = json.parse.text["*"];
+
   html = html.replace(
     /\n|Event|Date|City|Country|Venue|Ref.|Notes|#|Atten.|Fight of the Night|Performance of the Night|Bonus/g,
     ""
   );
+
   const result = html.match(/<tbody>.*<\/tbody>/g);
   const rows = result[0].split("<tr>");
   const events: Event[] = [];
@@ -28,7 +44,7 @@ export default (data: any, timeline: string | string[] | undefined) => {
     })
     .forEach((item: string[], id: number) => {
       if (item.length >= 5) {
-        let isUpcoming = timeline === "upcoming";
+        let isUpcoming = section === "7";
 
         let event = {
           id: isUpcoming ? id : Number(item[1]),

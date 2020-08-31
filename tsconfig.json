@@ -69,12 +69,12 @@
     "**/*.tsx",
     "pages/rankings/[division].tsx",
     "pages/api/rankings/[division].ts",
-    "pages/cards/[timeline].tsx",
+    "pages/cards/index.tsx",
     "pages/fighters/[filter].tsx",
     "utils/aggregateByCountry.js",
     "data/getFighters.js",
     "pages/stats/[filter].tsx",
-    "utils/createEventTable.ts"
+    "utils/cards/createEventTable.ts"
   ],
   "exclude": ["node_modules"]
 }

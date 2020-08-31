@@ -42,3 +42,11 @@ export type Event = {
   country: string;
   link: string;
 };
+
+export type Fight = {
+  id: number;
+  division: string;
+  fighters: string[];
+  outcome?: string[];
+  links?: string[];
+};

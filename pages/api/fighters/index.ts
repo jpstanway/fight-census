@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import data from "../../../data/rankings";
-import getFightersAlphabetical from "../../../utils/getFightersAlphabetical";
+import getFightersAlphabetical from "../../../utils/fighters/getFightersAlphabetical";
 
 const handler = (req: NextApiRequest, res: NextApiResponse) => {
   const fighters = getFightersAlphabetical(data);

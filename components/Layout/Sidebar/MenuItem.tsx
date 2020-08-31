@@ -62,8 +62,6 @@ const SubHeader = styled.div`
 
 const SubMenu = styled.ul<Toggle>`
   background-color: ${(props) => props.theme.colors.medGrey};
-  list-style-type: none;
-  padding-left: 0;
   display: ${(props) => (props.toggle ? "block" : "none")};
   max-height: ${(props) => (props.toggle ? "100%" : "0")};
   overflow: hidden;

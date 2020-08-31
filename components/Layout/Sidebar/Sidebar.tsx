@@ -10,7 +10,7 @@ const Sidebar = (props: SidebarProps) => (
     <Link href="/">
       <Brand>Fight Census</Brand>
     </Link>
-    <Menu>
+    <ul>
       {data.map((section) => (
         <MenuItem
           key={section.header.toLowerCase()}
@@ -18,7 +18,7 @@ const Sidebar = (props: SidebarProps) => (
           items={section.items}
         />
       ))}
-    </Menu>
+    </ul>
   </Container>
 );
 
@@ -26,7 +26,6 @@ const Container: any = styled.div<SidebarProps>`
   background-color: ${(props) => props.theme.colors.grey};
   color: rgba(255, 255, 255, 0.7);
   transition: max-width 0.2s ease-out;
-
   max-width: ${(props) => (props.sidebar ? "50rem" : "0")};
 `;
 
@@ -37,11 +36,6 @@ const Brand = styled.a`
   padding: 2rem;
   font-size: 2rem;
   white-space: nowrap;
-`;
-
-const Menu = styled.ul`
-  list-style-type: none;
-  padding-left: 0;
 `;
 
 export default Sidebar;

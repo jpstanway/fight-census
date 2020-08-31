@@ -12,8 +12,8 @@ export default [
   {
     header: "Cards",
     items: [
-      { id: 11, name: "Upcoming", url: "/cards/upcoming" },
-      { id: 22, name: "Past", url: "/cards/past" },
+      { id: 11, name: "Next Card", url: "/cards/" },
+      { id: 12, name: "All Cards", url: "/cards" },
     ],
   },
   {

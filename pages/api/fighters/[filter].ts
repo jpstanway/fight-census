@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import data from "../../../data/rankings";
-import getFightersAlphabetical from "../../../utils/getFightersAlphabetical";
-import aggregateByCountry from "../../../utils/aggregateByCountry";
+import getFightersAlphabetical from "../../../utils/fighters/getFightersAlphabetical";
+import aggregateByCountry from "../../../utils/fighters/aggregateByCountry";
 
 const fightersFilterHandler = (req: NextApiRequest, res: NextApiResponse) => {
   const countries = aggregateByCountry(getFightersAlphabetical(data));
