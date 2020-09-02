@@ -48,5 +48,4 @@ export type Fight = {
   division: string;
   fighters: string[];
   outcome?: string[];
-  links?: string[];
 };

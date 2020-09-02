@@ -1,11 +1,10 @@
 import Link from "next/link";
-import styled from "styled-components";
-import { Event } from "../../../types/types";
+import { Event as EventType } from "../../../types/types";
 
 import modifyLink from "../../../utils/modifyLink";
 
 type TableProps = {
-  rows: Event[];
+  rows: EventType[];
 };
 
 const EventsTable: React.FC<TableProps> = ({ rows }) => (
@@ -19,7 +18,7 @@ const EventsTable: React.FC<TableProps> = ({ rows }) => (
       </tr>
     </thead>
     <tbody>
-      {rows.map((event: Event) => (
+      {rows.map((event: EventType) => (
         <tr key={event.id}>
           <td>
             <Link href={modifyLink(event.link, "cards")}>

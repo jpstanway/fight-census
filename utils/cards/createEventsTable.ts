@@ -61,7 +61,7 @@ export default async (section: string) => {
           event.country = item[7];
         }
 
-        events.push(event);
+        isUpcoming ? events.unshift(event) : events.push(event);
       }
     });
 

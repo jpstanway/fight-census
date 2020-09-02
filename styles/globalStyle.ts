@@ -1,3 +1,6 @@
+import { createGlobalStyle } from "styled-components";
+
+const GlobalStyle = createGlobalStyle`
 * {
   box-sizing: border-box;
 }
@@ -5,7 +8,7 @@
 html,
 body,
 div#__next {
-  height: 100%;
+  min-height: 100%;
 }
 
 html,
@@ -25,15 +28,34 @@ body {
 }
 
 a {
-  color: inherit;
+  color: #2f878c;
   text-decoration: none;
+  transition: all 0.2s;
+
+  &:hover {
+    color: #39a2a9;
+    text-decoration: underline;
+  }
+}
+
+table, thead, td {
+  border-collapse: collapse;
+  border: 1px solid #495057;
 }
 
 thead {
   text-align: left;
 }
 
+th, td {
+  padding: 1rem;
+}
+
 ul {
   list-style-type: none;
   padding-left: 0;
 }
+
+`;
+
+export default GlobalStyle;

@@ -30,10 +30,17 @@ export default async (page: string) => {
       // remove html tags
       const item = row.split(/<.+?>/g).filter((text) => text);
 
-      if (links) {
-        for (let i = 0; i < links?.length; i++) {
-          links[i] = links[i].replace(/(<a href=")|(");/g, "");
-          item.push(links[i]);
+      if (links && item.length > 1) {
+        // extract link path from html tags
+        for (let i = 0; i < links.length; i++) {
+          links[i] = links[i].replace(/(<a href=")|"/g, "");
+
+          // map link to fighter name
+          if (links[i].includes(item[1].replace(" ", "_"))) {
+            item[1] = `${item[1]}|${links[i]}`;
+          } else {
+            item[3] = `${item[3]}|${links[i]}`;
+          }
         }
       }
 
@@ -47,11 +54,8 @@ export default async (page: string) => {
           fighters: item.slice(1, 4),
         };
 
-        if (item.length >= 7) {
+        if (item.length > 4) {
           fight.outcome = item.slice(4, 7);
-          fight.links = item.slice(7, item.length);
-        } else if (item.length >= 4) {
-          fight.links = item.slice(4, item.length);
         }
 
         fights.push(fight);
