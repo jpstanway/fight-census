@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Card as CardType } from "../../../types/types";
 
-import modifyLink from "../../../utils/modifyLink";
+import createLink from "../../../utils/createLink";
 
 type TableProps = {
   rows: CardType[];
@@ -21,7 +21,7 @@ const CardsTable: React.FC<TableProps> = ({ rows }) => (
       {rows.map((card: CardType) => (
         <tr key={card.id}>
           <td>
-            <Link href={modifyLink(card.link, "cards")}>
+            <Link href={`/cards/${createLink(card.link, card.title)}`}>
               <a>{card.title}</a>
             </Link>
           </td>

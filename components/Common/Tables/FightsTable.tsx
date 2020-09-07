@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Fight as FightType } from "../../../types/types";
-import modifyLink from "../../../utils/modifyLink";
+import createLink from "../../../utils/createLink";
 
 type TableProps = {
   rows: FightType[];
@@ -11,7 +11,7 @@ const FightsTable: React.FC<TableProps> = ({ rows }) => {
     if (fighter.includes("|")) {
       let arr = fighter.split("|");
       return (
-        <Link href={modifyLink(arr[1], "fighters")}>
+        <Link href={`/fighters/${createLink(arr[1])}`}>
           <a>{arr[0]}</a>
         </Link>
       );

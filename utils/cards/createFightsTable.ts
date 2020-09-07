@@ -14,6 +14,22 @@ export default async (page: string) => {
   const url = `https://en.wikipedia.org/w/api.php?${searchParams}`;
 
   const json = await fetcher(url);
+
+  if (json.error) {
+    const newSearchParams = new URLSearchParams({
+      origin: "*",
+      action: "query",
+      titles: page,
+      format: "json",
+      prop: "redirects",
+    });
+
+    const newUrl = `https://en.wikipedia.org/w/api.php?${newSearchParams}`;
+
+    const newJson = await fetcher(newUrl);
+    console.log(newJson.query);
+  }
+
   let html = json.parse.text["*"];
 
   html = html.replace(

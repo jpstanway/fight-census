@@ -32,9 +32,7 @@ export default async (section: string) => {
       let links = row.match(/<a\s+(?:[^>]*?\s+)?href=(["'])(.*?)\1/g);
       let link = "";
 
-      if (links) {
-        link = links[0].replace(/(<a href=")|(")/g, "");
-      }
+      if (links) link = links[0].replace(/(<a href=")|(")/g, "");
 
       // remove html tags
       const item = row.split(/<.+?>/g).filter((text) => text);
