@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Head from "next/head";
 import styled from "styled-components";
 
 import Header from "./Header/Header";
@@ -19,20 +18,14 @@ const Layout = (props: LayoutProps) => {
   const [sidebar, setSidebar] = useState<boolean>(true);
 
   return (
-    <>
-      <Head>
-        <title>Fight Census</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Container sidebar={sidebar}>
-        <Sidebar sidebar={sidebar} />
-        <Main>
-          <Header sidebar={sidebar} setSidebar={setSidebar} />
-          <MainContainer>{props.children}</MainContainer>
-          <Footer />
-        </Main>
-      </Container>
-    </>
+    <Container sidebar={sidebar}>
+      <Sidebar sidebar={sidebar} />
+      <Main>
+        <Header sidebar={sidebar} setSidebar={setSidebar} />
+        <MainContainer>{props.children}</MainContainer>
+        <Footer />
+      </Main>
+    </Container>
   );
 };
 

@@ -22,21 +22,10 @@ export type Stats = {
   stats: Stat[];
 };
 
+// Fight Cards
 export type Card = {
   id: number;
-  date: string;
-  event: string;
-  location: string;
-};
-
-export type Cards = {
-  timeline: string;
-  cards: Card[];
-};
-
-export type Event = {
-  id: number;
-  event: string;
+  title: string;
   date: string;
   city: string;
   country: string;

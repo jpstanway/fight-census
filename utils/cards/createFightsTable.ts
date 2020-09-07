@@ -16,7 +16,10 @@ export default async (page: string) => {
   const json = await fetcher(url);
   let html = json.parse.text["*"];
 
-  html = html.replace(/\n|Weight class|Method|Round|Time|Notes/g, "");
+  html = html.replace(
+    /\n|Weight class|Method|Round|Time|Notes|(\s\(c\))|(&.*;)/g,
+    ""
+  );
 
   const result = html.match(/<tbody>.*<\/tbody>/g);
   const rows = result[0].split("<tr>");

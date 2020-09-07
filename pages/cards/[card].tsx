@@ -1,30 +1,47 @@
 import { GetServerSideProps } from "next";
-import { Fight } from "../../types/types";
-import styled from "styled-components";
+import { connect } from "react-redux";
+import { wrapper } from "../../redux/store";
+import { Fight as FightType } from "../../types/types";
+
+import { initializeFights } from "../../redux/fights/actions";
 
 import FightsTable from "../../components/Common/Tables/FightsTable";
-import getEvent from "../../utils/cards/getEvent";
+import createFightsTable from "../../utils/cards/createFightsTable";
 
-type EventProps = {
-  data: Fight[];
+type CardProps = {
+  fights: FightType[];
+  card: string;
 };
 
-const Card: React.FC<EventProps> = ({ data }) => (
-  <div>
-    <SectionTitle>Card</SectionTitle>
-    <FightsTable rows={data} />
-  </div>
+const Card: React.FC<CardProps> = ({ card, fights }) => {
+  const title = card.replace(/_/g, " ");
+
+  return (
+    <div>
+      <h1>{title}</h1>
+      <FightsTable rows={fights} />
+    </div>
+  );
+};
+
+export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
+  async ({ store, query }) => {
+    let { card } = query;
+    let data: FightType[] = [];
+
+    if (card) {
+      card = card.toString();
+      data = await createFightsTable(card);
+
+      store.dispatch(initializeFights(data));
+
+      return { props: { card } };
+    }
+  }
 );
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const { card } = query;
-  const data = await getEvent(card);
+const mapStateToProps = (state: any) => ({
+  fights: state.fights,
+});
 
-  return { props: { data } };
-};
-
-const SectionTitle = styled.h1`
-  text-transform: capitalize;
-`;
-
-export default Card;
+export default connect(mapStateToProps, {})(Card);

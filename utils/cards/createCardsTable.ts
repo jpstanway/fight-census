@@ -1,5 +1,5 @@
 import fetcher from "../fetcher";
-import { Event } from "../../types/types";
+import { Card } from "../../types/types";
 
 export default async (section: string) => {
   const year = new Date().getFullYear();
@@ -24,11 +24,11 @@ export default async (section: string) => {
 
   const result = html.match(/<tbody>.*<\/tbody>/g);
   const rows = result[0].split("<tr>");
-  const events: Event[] = [];
+  const cards: Card[] = [];
 
   rows
     .map((row: string) => {
-      // extract wikipedia link for individual events
+      // extract wikipedia link for individual cards
       let links = row.match(/<a\s+(?:[^>]*?\s+)?href=(["'])(.*?)\1/g);
       let link = "";
 
@@ -46,9 +46,9 @@ export default async (section: string) => {
       if (item.length >= 5) {
         let isUpcoming = section === "7";
 
-        let event = {
-          id: isUpcoming ? id : Number(item[1]),
-          event: isUpcoming ? item[1] : item[2],
+        let card = {
+          id,
+          title: isUpcoming ? item[1] : item[2],
           date: isUpcoming ? item[2] : item[3],
           venue: isUpcoming ? item[3] : item[4],
           city: isUpcoming ? item[4] : item[5],
@@ -57,13 +57,13 @@ export default async (section: string) => {
         };
 
         if (item[5] === ", ") {
-          event.city = `${item[4]}, ${item[6]}`;
-          event.country = item[7];
+          card.city = `${item[4]}, ${item[6]}`;
+          card.country = item[7];
         }
 
-        isUpcoming ? events.unshift(event) : events.push(event);
+        isUpcoming ? cards.unshift(card) : cards.push(card);
       }
     });
 
-  return events;
+  return cards;
 };

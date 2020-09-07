@@ -1,14 +1,20 @@
-import type { AppProps /*, AppContext */ } from "next/app";
+import type { AppProps } from "next/app";
 import { ThemeProvider } from "styled-components";
+import { wrapper } from "../redux/store";
 
 import theme from "../styles/theme";
 import GlobalStyle from "../styles/globalStyle";
 
+import Head from "next/head";
 import Layout from "../components/Layout/Layout";
 
-const App = ({ Component, pageProps }: AppProps) => {
+const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <ThemeProvider theme={theme}>
+      <Head>
+        <title>Fight Census</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <GlobalStyle />
       <Layout>
         <Component {...pageProps} />
@@ -17,4 +23,4 @@ const App = ({ Component, pageProps }: AppProps) => {
   );
 };
 
-export default App;
+export default wrapper.withRedux(App);
