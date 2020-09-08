@@ -7,6 +7,8 @@ type TableProps = {
 };
 
 const FightsTable: React.FC<TableProps> = ({ rows }) => {
+  if (rows[0].error) return <div>{rows[0].error}</div>;
+
   const renderFighter = (fighter: string) => {
     if (fighter.includes("|")) {
       let arr = fighter.split("|");

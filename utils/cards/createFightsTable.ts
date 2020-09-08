@@ -14,30 +14,26 @@ export default async (page: string) => {
   const url = `https://en.wikipedia.org/w/api.php?${searchParams}`;
 
   const json = await fetcher(url);
-
-  if (json.error) {
-    const newSearchParams = new URLSearchParams({
-      origin: "*",
-      action: "query",
-      titles: page,
-      format: "json",
-      prop: "redirects",
-    });
-
-    const newUrl = `https://en.wikipedia.org/w/api.php?${newSearchParams}`;
-
-    const newJson = await fetcher(newUrl);
-    console.log(newJson.query);
-  }
-
   let html = json.parse.text["*"];
 
   html = html.replace(
-    /\n|Weight class|Method|Round|Time|Notes|(\s\(c\))|(&.*;)/g,
+    /\n|Weight class|Method|Round|Time|Notes|(\s\(c\))|(\s\(ic\))|(&.*;)/g,
     ""
   );
 
   const result = html.match(/<tbody>.*<\/tbody>/g);
+
+  if (!result || result[0].includes("This section is empty.")) {
+    return [
+      {
+        id: 1,
+        division: "",
+        fighters: ["", ""],
+        error: "There is no information on this card yet. Check back later.",
+      },
+    ];
+  }
+
   const rows = result[0].split("<tr>");
   const fights: Fight[] = [];
 
