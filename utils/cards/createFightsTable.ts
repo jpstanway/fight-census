@@ -2,13 +2,36 @@ import fetcher from "../fetcher";
 import { Fight } from "../../types/types";
 
 export default async (page: string) => {
+  // get results section
+  const prevSearchParams = new URLSearchParams({
+    origin: "*",
+    action: "parse",
+    page,
+    format: "json",
+    prop: "sections",
+  });
+
+  const prevUrl = `https://en.wikipedia.org/w/api.php?${prevSearchParams}`;
+
+  const prevJson = await fetcher(prevUrl);
+  const sections = prevJson.parse.sections;
+  let sectionIndex = "";
+
+  for (let section of sections) {
+    if (section.line === "Results" || section.line === "Fight card") {
+      sectionIndex = section.index;
+      break;
+    }
+  }
+
+  // get page content
   const searchParams = new URLSearchParams({
     origin: "*",
     action: "parse",
     page,
     format: "json",
     prop: "text",
-    section: "2",
+    section: sectionIndex,
   });
 
   const url = `https://en.wikipedia.org/w/api.php?${searchParams}`;

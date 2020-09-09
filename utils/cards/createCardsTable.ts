@@ -41,11 +41,11 @@ export default async (section: string) => {
       return item;
     })
     .forEach((item: string[], id: number) => {
-      if (item.length >= 5) {
+      if (item.length >= 5 && item[1] !== "–" && item[4] !== "TBD") {
         let isUpcoming = section === "7";
 
         let card = {
-          id,
+          id: isUpcoming ? id : Number(item[1]),
           title: isUpcoming ? item[1] : item[2],
           date: isUpcoming ? item[2] : item[3],
           venue: isUpcoming ? item[3] : item[4],
