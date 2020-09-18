@@ -1,4 +1,5 @@
 import Link from "next/link";
+import styled from "styled-components";
 import { Fight as FightType } from "../../../types/types";
 import createLink from "../../../utils/createLink";
 
@@ -22,7 +23,7 @@ const FightsTable: React.FC<TableProps> = ({ rows }) => {
   };
 
   return (
-    <table>
+    <Container>
       <thead>
         <tr>
           <th>Weight</th>
@@ -52,8 +53,12 @@ const FightsTable: React.FC<TableProps> = ({ rows }) => {
           </tr>
         ))}
       </tbody>
-    </table>
+    </Container>
   );
 };
+
+const Container = styled.table`
+  margin: auto;
+`;
 
 export default FightsTable;

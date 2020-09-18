@@ -1,3 +1,4 @@
+import { Dispatch } from "redux";
 import { Card } from "../../types/types";
 
 export type Cards = {
@@ -9,9 +10,9 @@ export const cardActionTypes = {
   INITIALIZE_CARDS: "INITIALIZE_CARDS",
 };
 
-export const initializeCards = (cards: Cards) => {
-  return {
+export const initializeCards = (cards: Cards) => (dispatch: Dispatch) => {
+  return dispatch({
     type: cardActionTypes.INITIALIZE_CARDS,
     payload: cards,
-  };
+  });
 };

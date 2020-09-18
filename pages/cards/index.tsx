@@ -1,5 +1,4 @@
-import { GetServerSideProps } from "next";
-import { connect } from "react-redux";
+import { NextPage, GetServerSideProps } from "next";
 import { wrapper } from "../../redux/store";
 import { Card as CardType } from "../../types/types";
 
@@ -15,7 +14,7 @@ type CardProps = {
   };
 };
 
-const Cards: React.FC<CardProps> = ({ cards }) => (
+const Cards: NextPage<CardProps> = ({ cards }) => (
   <div>
     <h1>Upcoming Cards</h1>
     <CardsTable rows={cards.upcoming} />
@@ -26,16 +25,16 @@ const Cards: React.FC<CardProps> = ({ cards }) => (
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
   async ({ store }) => {
-    const upcoming = await createCardsTable("7");
-    const past = await createCardsTable("8");
-    const data = { upcoming, past };
+    const year = new Date().getFullYear();
+    const page = `${year.toString()}_in_UFC`;
+    const upcoming = await createCardsTable(page, "Scheduled events");
+    const past = await createCardsTable(page, "Past events");
+    const cards = { upcoming, past };
 
-    store.dispatch(initializeCards(data));
+    store.dispatch(initializeCards(cards));
+
+    return { props: { cards } };
   }
 );
 
-const mapStateToProps = (state: any) => ({
-  cards: state.cards,
-});
-
-export default connect(mapStateToProps, {})(Cards);
+export default Cards;

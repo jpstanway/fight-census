@@ -27,6 +27,7 @@ export type Card = {
   id: number;
   title: string;
   date: string;
+  venue: string;
   city: string;
   country: string;
   link: string;

@@ -36,6 +36,11 @@ const Brand = styled.a`
   padding: 2rem;
   font-size: 2rem;
   white-space: nowrap;
+
+  &:hover {
+    color: #fff;
+    text-decoration: none;
+  }
 `;
 
 export default Sidebar;

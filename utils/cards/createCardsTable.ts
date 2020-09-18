@@ -1,29 +1,9 @@
-import fetcher from "../fetcher";
 import { Card } from "../../types/types";
+import { getSectionIndex, getTableData } from "../../api/wiki";
 
-export default async (section: string) => {
-  const year = new Date().getFullYear();
-  const searchParams = new URLSearchParams({
-    origin: "*",
-    action: "parse",
-    page: `${year.toString()}_in_UFC`,
-    format: "json",
-    prop: "text",
-    section,
-  });
-
-  const url = `https://en.wikipedia.org/w/api.php?${searchParams}`;
-
-  const json = await fetcher(url);
-  let html = json.parse.text["*"];
-
-  html = html.replace(
-    /\n|Event|Date|City|Country|Venue|Ref.|Notes|#|Atten.|Fight of the Night|Performance of the Night|Bonus/g,
-    ""
-  );
-
-  const result = html.match(/<tbody>.*<\/tbody>/g);
-  const rows = result[0].split("<tr>");
+export default async (page: string, title: string) => {
+  const sectionIndex = await getSectionIndex(page, title);
+  const rows = await getTableData(page, sectionIndex);
   const cards: Card[] = [];
 
   rows
@@ -42,7 +22,7 @@ export default async (section: string) => {
     })
     .forEach((item: string[], id: number) => {
       if (item.length >= 5 && item[1] !== "–" && item[4] !== "TBD") {
-        let isUpcoming = section === "7";
+        let isUpcoming = title === "Scheduled events";
 
         let card = {
           id: isUpcoming ? id : Number(item[1]),

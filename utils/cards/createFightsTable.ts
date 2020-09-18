@@ -1,64 +1,12 @@
-import fetcher from "../fetcher";
 import { Fight } from "../../types/types";
+import { getSectionIndex, getTableData } from "../../api/wiki";
 
 export default async (page: string) => {
-  // get results section
-  const prevSearchParams = new URLSearchParams({
-    origin: "*",
-    action: "parse",
-    page,
-    format: "json",
-    prop: "sections",
-  });
-
-  const prevUrl = `https://en.wikipedia.org/w/api.php?${prevSearchParams}`;
-
-  const prevJson = await fetcher(prevUrl);
-  const sections = prevJson.parse.sections;
-  let sectionIndex = "";
-
-  for (let section of sections) {
-    if (section.line === "Results" || section.line === "Fight card") {
-      sectionIndex = section.index;
-      break;
-    }
-  }
-
-  // get page content
-  const searchParams = new URLSearchParams({
-    origin: "*",
-    action: "parse",
-    page,
-    format: "json",
-    prop: "text",
-    section: sectionIndex,
-  });
-
-  const url = `https://en.wikipedia.org/w/api.php?${searchParams}`;
-
-  const json = await fetcher(url);
-  let html = json.parse.text["*"];
-
-  html = html.replace(
-    /\n|Weight class|Method|Round|Time|Notes|(\s\(c\))|(\s\(ic\))|(&.*;)/g,
-    ""
-  );
-
-  const result = html.match(/<tbody>.*<\/tbody>/g);
-
-  if (!result || result[0].includes("This section is empty.")) {
-    return [
-      {
-        id: 1,
-        division: "",
-        fighters: ["", ""],
-        error: "There is no information on this card yet. Check back later.",
-      },
-    ];
-  }
-
-  const rows = result[0].split("<tr>");
+  const sectionIndex = await getSectionIndex(page, "Results", "Fight card");
+  const rows = await getTableData(page, sectionIndex);
   const fights: Fight[] = [];
+
+  if (rows[0].error) return rows;
 
   rows
     .map((row: string) => {

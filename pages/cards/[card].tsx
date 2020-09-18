@@ -1,7 +1,8 @@
-import { GetServerSideProps } from "next";
-import { connect } from "react-redux";
-import { wrapper } from "../../redux/store";
+import { NextPage, GetServerSideProps } from "next";
+import Link from "next/link";
+import styled from "styled-components";
 import { Fight as FightType } from "../../types/types";
+import { wrapper } from "../../redux/store";
 
 import { initializeFights } from "../../redux/fights/actions";
 
@@ -10,38 +11,71 @@ import createFightsTable from "../../utils/cards/createFightsTable";
 
 type CardProps = {
   fights: FightType[];
-  card: string;
+  cardTitle: string;
 };
 
-const Card: React.FC<CardProps> = ({ card, fights }) => {
-  const title = card.replace(/_/g, " ");
+const Card: NextPage<CardProps> = ({ fights, cardTitle }) => {
+  const title = cardTitle.replace(/_/g, " ");
 
   return (
     <div>
-      <h1>{title}</h1>
+      <Link href="/cards">
+        <NavigationButton>
+          <img src="/navigate-before.svg" alt="back arrow" />
+          All Cards
+        </NavigationButton>
+      </Link>
+      <CardTitle>{title}</CardTitle>
       <FightsTable rows={fights} />
+      <CardNavigation>
+        <Link href="/cards">
+          <NavigationButton>
+            <img src="/arrow-left.svg" alt="previous arrow" />
+            Previous card
+          </NavigationButton>
+        </Link>
+        <Link href="/cards">
+          <NavigationButton>
+            Next card
+            <img src="/arrow-right.svg" alt="next arrow" />
+          </NavigationButton>
+        </Link>
+      </CardNavigation>
     </div>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
   async ({ store, query }) => {
+    // get card information from api
     let { card } = query;
-    let data: FightType[] = [];
+    let fights: FightType[] = [];
 
     if (card) {
       card = card.toString();
-      data = await createFightsTable(card);
+      fights = await createFightsTable(card);
 
-      store.dispatch(initializeFights(data));
+      store.dispatch(initializeFights(fights));
 
-      return { props: { card } };
+      return { props: { fights, card } };
     }
   }
 );
 
-const mapStateToProps = (state: any) => ({
-  fights: state.fights,
-});
+const NavigationButton = styled.a`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+`;
 
-export default connect(mapStateToProps, {})(Card);
+const CardTitle = styled.h1`
+  text-align: center;
+`;
+
+const CardNavigation = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+`;
+
+export default Card;

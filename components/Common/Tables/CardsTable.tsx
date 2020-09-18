@@ -13,6 +13,7 @@ const CardsTable: React.FC<TableProps> = ({ rows }) => (
       <tr>
         <th>Event</th>
         <th>Date</th>
+        <th>Venue</th>
         <th>City</th>
         <th>Country</th>
       </tr>
@@ -26,6 +27,7 @@ const CardsTable: React.FC<TableProps> = ({ rows }) => (
             </Link>
           </td>
           <td>{card.date}</td>
+          <td>{card.venue}</td>
           <td>{card.city} </td>
           <td>{card.country}</td>
         </tr>

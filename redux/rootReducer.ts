@@ -1,25 +1,10 @@
-import { combineReducers, AnyAction } from "redux";
-import { HYDRATE } from "next-redux-wrapper";
-
+import { combineReducers } from "redux";
 import cards from "./cards/reducer";
 import fights from "./fights/reducer";
 
-const combinedReducers = combineReducers({
+const rootReducer = combineReducers({
   cards,
   fights,
 });
 
-const reducer = (state: any, action: AnyAction) => {
-  if (action.type === HYDRATE) {
-    const nextState = {
-      ...state,
-      ...action.payload,
-    };
-
-    return nextState;
-  } else {
-    return combinedReducers(state, action);
-  }
-};
-
-export default reducer;
+export default rootReducer;

@@ -10,6 +10,7 @@ const reducer = (state: Cards = initialState, action: AnyAction) => {
   switch (action.type) {
     case cardActionTypes.INITIALIZE_CARDS:
       return {
+        ...state,
         ...action.payload,
       };
     default:
