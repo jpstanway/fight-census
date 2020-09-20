@@ -1,7 +1,7 @@
 import { Card } from "../../types/types";
 import { getSectionIndex, getTableData } from "../../api/wiki";
 
-export default async (page: string, title: string) => {
+const createCardsTable = async (page: string, title: string) => {
   const sectionIndex = await getSectionIndex(page, title);
   const rows = await getTableData(page, sectionIndex);
   const cards: Card[] = [];
@@ -44,4 +44,12 @@ export default async (page: string, title: string) => {
     });
 
   return cards;
+};
+
+export const getCards = async () => {
+  const year = new Date().getFullYear();
+  const page = `${year.toString()}_in_UFC`;
+  const upcoming = await createCardsTable(page, "Scheduled events");
+  const past = await createCardsTable(page, "Past events");
+  return { upcoming, past };
 };

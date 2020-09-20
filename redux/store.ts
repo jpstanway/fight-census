@@ -1,15 +1,19 @@
-import {
-  createStore,
-  applyMiddleware,
-  combineReducers,
-  Middleware,
-  AnyAction,
-} from "redux";
-import { HYDRATE, createWrapper } from "next-redux-wrapper";
+import { createStore, applyMiddleware, Middleware } from "redux";
+import { createWrapper, MakeStore } from "next-redux-wrapper";
+import { persistStore, persistReducer } from "redux-persist";
+import { Card, Fight } from "../types/types";
 import thunk from "redux-thunk";
-import cardsReducer from "./cards/reducer";
-import fightsReducer from "./fights/reducer";
+import rootReducer from "./rootReducer";
 
+export interface RootState {
+  cards: {
+    upcoming: Card[];
+    past: Card[];
+  };
+  fights: Fight[];
+}
+
+// Middleware
 const bindMiddleware = (middleware: Middleware[]) => {
   if (process.env.NODE_ENV !== "production") {
     const { composeWithDevTools } = require("redux-devtools-extension");
@@ -19,30 +23,31 @@ const bindMiddleware = (middleware: Middleware[]) => {
   return applyMiddleware(...middleware);
 };
 
-const combinedReducers = combineReducers({
-  cardsReducer,
-  fightsReducer,
-});
+// Create Store
+const makeStore: MakeStore = () => {
+  const isServer = typeof window === "undefined";
 
-const reducer = (state: any, action: AnyAction) => {
-  if (action.type === HYDRATE) {
-    const nextState = {
-      ...state,
-      ...action.payload,
+  if (isServer) {
+    // create store server side
+    return createStore(rootReducer, bindMiddleware([thunk]));
+  } else {
+    // create store client side to persist
+    const storage = require("redux-persist/lib/storage").default;
+
+    const persistConfig = {
+      key: "nextjs",
+      storage,
+      whitelist: ["cards"],
     };
 
-    if (state.cards.upcoming && state.cards.upcoming.length > 0)
-      nextState.cards.upcoming = state.cards.upcoming;
-    if (state.cards.past && state.cards.past.length > 0)
-      nextState.cards.past = state.cards.past;
+    // create new reducer with existing reducer
+    const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-    return nextState;
-  } else {
-    return combinedReducers(state, action);
+    const store = createStore(persistedReducer, bindMiddleware([thunk]));
+
+    store.__persistor = persistStore(store);
+    return store;
   }
 };
 
-// initialState needs to be
-const initStore = () => createStore(reducer, bindMiddleware([thunk]));
-
-export const wrapper = createWrapper(initStore);
+export const wrapper = createWrapper(makeStore);

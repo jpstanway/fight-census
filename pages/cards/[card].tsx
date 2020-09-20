@@ -1,13 +1,12 @@
 import { NextPage, GetServerSideProps } from "next";
+import { useSelector } from "react-redux";
 import Link from "next/link";
 import styled from "styled-components";
 import { Fight as FightType } from "../../types/types";
-import { wrapper } from "../../redux/store";
+import { wrapper, RootState } from "../../redux/store";
 
 import { initializeFights } from "../../redux/fights/actions";
-
 import FightsTable from "../../components/Common/Tables/FightsTable";
-import createFightsTable from "../../utils/cards/createFightsTable";
 
 type CardProps = {
   fights: FightType[];
@@ -15,6 +14,7 @@ type CardProps = {
 };
 
 const Card: NextPage<CardProps> = ({ fights, cardTitle }) => {
+  const cards = useSelector((state: RootState) => state.cards);
   const title = cardTitle.replace(/_/g, " ");
 
   return (
@@ -49,15 +49,13 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
   async ({ store, query }) => {
     // get card information from api
     let { card } = query;
-    let fights: FightType[] = [];
 
     if (card) {
-      card = card.toString();
-      fights = await createFightsTable(card);
+      await store.dispatch<any>(initializeFights(card.toString()));
 
-      store.dispatch(initializeFights(fights));
+      const { fights } = store.getState();
 
-      return { props: { fights, card } };
+      return { props: { fights, cardTitle: card } };
     }
   }
 );

@@ -1,7 +1,7 @@
 import { Fight } from "../../types/types";
 import { getSectionIndex, getTableData } from "../../api/wiki";
 
-export default async (page: string) => {
+const createFightsTable = async (page: string) => {
   const sectionIndex = await getSectionIndex(page, "Results", "Fight card");
   const rows = await getTableData(page, sectionIndex);
   const fights: Fight[] = [];
@@ -48,5 +48,10 @@ export default async (page: string) => {
       }
     });
 
+  return fights;
+};
+
+export const getFights = async (card: string) => {
+  const fights: Fight[] = await createFightsTable(card);
   return fights;
 };

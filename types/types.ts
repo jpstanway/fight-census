@@ -1,3 +1,7 @@
+import { Action } from "redux";
+import { ThunkAction } from "redux-thunk";
+import { RootState } from "../redux/store";
+
 export type Fighter = {
   id: number;
   rank: number;
@@ -40,3 +44,11 @@ export type Fight = {
   outcome?: string[];
   error?: string;
 };
+
+// Thunks
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  Action<string>
+>;
