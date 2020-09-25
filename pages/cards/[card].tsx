@@ -1,20 +1,23 @@
 import { NextPage, GetServerSideProps } from "next";
-import { useSelector } from "react-redux";
 import Link from "next/link";
 import styled from "styled-components";
-import { Fight as FightType } from "../../types/types";
-import { wrapper, RootState } from "../../redux/store";
+import { Fight, Cards } from "../../types/types";
+import { wrapper } from "../../redux/store";
 
+import useCache from "../../api/useCache";
+import { getFights } from "../../redux/fights/helpers";
+import { getCards } from "../../redux/cards/helpers";
 import { initializeFights } from "../../redux/fights/actions";
+import { initializeCards } from "../../redux/cards/actions";
 import FightsTable from "../../components/Common/Tables/FightsTable";
 
 type CardProps = {
-  fights: FightType[];
+  cards: Cards;
+  fights: Fight[];
   cardTitle: string;
 };
 
-const Card: NextPage<CardProps> = ({ fights, cardTitle }) => {
-  const cards = useSelector((state: RootState) => state.cards);
+const Card: NextPage<CardProps> = ({ fights, cards, cardTitle }) => {
   const title = cardTitle.replace(/_/g, " ");
 
   return (
@@ -50,12 +53,14 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
     // get card information from api
     let { card } = query;
 
-    if (card) {
-      await store.dispatch<any>(initializeFights(card.toString()));
+    if (card && typeof card === "string") {
+      const fights: Fight[] = await useCache(card, getFights, true);
+      await store.dispatch<any>(initializeFights(fights));
 
-      const { fights } = store.getState();
+      const cards: Cards = await useCache("cards", getCards);
+      await store.dispatch<any>(initializeCards(cards));
 
-      return { props: { fights, cardTitle: card } };
+      return { props: { fights, cards, cardTitle: card } };
     }
   }
 );

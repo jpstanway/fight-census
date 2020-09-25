@@ -27,6 +27,11 @@ export type Stats = {
 };
 
 // Fight Cards
+export type Cards = {
+  upcoming: Card[];
+  past: Card[];
+};
+
 export type Card = {
   id: number;
   title: string;
