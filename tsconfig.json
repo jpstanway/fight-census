@@ -75,7 +75,8 @@
     "utils/aggregateByCountry.js",
     "data/getFighters.js",
     "pages/stats/[filter].tsx",
-    "utils/cards/createEventTable.ts"
+    "utils/cards/createEventTable.ts",
+    "next.config.js"
   ],
   "exclude": ["node_modules"]
 }
