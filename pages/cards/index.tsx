@@ -1,10 +1,8 @@
-import { NextPage, GetServerSideProps } from "next";
-import { wrapper } from "../../redux/store";
+import { NextPage, GetStaticProps } from "next";
 import { Cards as CardsType } from "../../types/types";
 
 import useCache from "../../api/useCache";
-import { getCards } from "../../redux/cards/helpers";
-import { initializeCards } from "../../redux/cards/actions";
+import { getCards } from "../../api/cards";
 import CardsTable from "../../components/Common/Tables/CardsTable";
 
 type CardProps = {
@@ -20,13 +18,10 @@ const Cards: NextPage<CardProps> = ({ cards }) => (
   </div>
 );
 
-export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
-  async ({ store }) => {
-    const cards: CardsType = await useCache("cards", getCards);
-    await store.dispatch<any>(initializeCards(cards));
+export const getStaticProps: GetStaticProps = async () => {
+  const cards: CardsType = await useCache("cards", getCards);
 
-    return { props: { cards } };
-  }
-);
+  return { props: { cards } };
+};
 
 export default Cards;

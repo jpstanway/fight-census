@@ -11,10 +11,7 @@ export default [
   },
   {
     header: "Cards",
-    items: [
-      { id: 11, name: "Next Card", url: "/cards/" },
-      { id: 12, name: "All Cards", url: "/cards" },
-    ],
+    items: [{ id: 12, name: "All Cards", url: "/cards" }],
   },
   {
     header: "Rankings",

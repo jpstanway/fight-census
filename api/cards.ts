@@ -1,5 +1,5 @@
-import { Card } from "../../types/types";
-import { getSectionIndex, getTableData } from "../../api/wiki";
+import { Card, Cards } from "../types/types";
+import { getSectionIndex, getTableData } from "./wiki";
 
 const createCardsTable = async (page: string, title: string) => {
   const sectionIndex = await getSectionIndex(page, title);
@@ -52,4 +52,29 @@ export const getCards = async () => {
   const upcoming = await createCardsTable(page, "Scheduled events");
   const past = await createCardsTable(page, "Past events");
   return { upcoming, past };
+};
+
+export const getAdjacentCards = (cards: Cards, current: string) => {
+  let prev, next, position;
+  // combine upcoming + past arrays in correct order
+  const allCards = [...cards.upcoming.reverse(), ...cards.past];
+  // find currently viewed card
+  allCards.find((card, i) => {
+    if (card.title.includes(current)) {
+      position = i;
+      return;
+    }
+  });
+
+  // get adjacent cards from array (if they exist)
+  if (position !== undefined) {
+    prev = allCards[position + 1]
+      ? allCards[position + 1].link.replace(/\/wiki\//g, "")
+      : "";
+    next = allCards[position - 1]
+      ? allCards[position - 1].link.replace(/\/wiki\//g, "")
+      : "";
+  }
+
+  return { prev, next };
 };

@@ -14,10 +14,10 @@ export const getSectionIndex = async (
     prop: "sections",
   });
 
-  const prevUrl = `https://en.wikipedia.org/w/api.php?${searchParams}`;
+  const url = `https://en.wikipedia.org/w/api.php?${searchParams}`;
 
-  const prevJson = await fetcher(prevUrl);
-  const sections = prevJson.parse.sections;
+  const json = await fetcher(url);
+  const sections = json.parse.sections;
   let sectionIndex = "";
 
   for (let section of sections) {

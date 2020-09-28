@@ -11,8 +11,8 @@ const useCache = async (resource: string, getResource: any, arg = false) => {
     if (reply !== 1) {
       // cache miss, need to fetch
       data = arg ? await getResource(resource) : await getResource();
-      // assign resource in cache with 7 day lifetime
-      cache.set(resource, JSON.stringify(data), "EX", 86400 * 3);
+      // assign resource in cache with expiration time
+      cache.set(resource, JSON.stringify(data), "EX", 86400);
     } else {
       // cache hit, get data from redis
       data = JSON.parse(await cache.getAsync(resource));
