@@ -2,13 +2,10 @@ import { NextPage, GetServerSideProps } from "next";
 import Link from "next/link";
 import styled from "styled-components";
 import { Fight, Cards } from "../../types/types";
-import { wrapper } from "../../redux/store";
 
 import useCache from "../../api/useCache";
-import { getFights } from "../../redux/fights/helpers";
-import { getCards } from "../../redux/cards/helpers";
-import { initializeFights } from "../../redux/fights/actions";
-import { initializeCards } from "../../redux/cards/actions";
+import { getFights } from "../../api/fights";
+import { getCards } from "../../api/cards";
 import FightsTable from "../../components/Common/Tables/FightsTable";
 
 type CardProps = {
@@ -17,7 +14,7 @@ type CardProps = {
   cardTitle: string;
 };
 
-const Card: NextPage<CardProps> = ({ fights, cards, cardTitle }) => {
+const Card: NextPage<CardProps> = ({ fights, cardTitle }) => {
   const title = cardTitle.replace(/_/g, " ");
 
   return (
@@ -48,22 +45,19 @@ const Card: NextPage<CardProps> = ({ fights, cards, cardTitle }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
-  async ({ store, query }) => {
-    // get card information from api
-    let { card } = query;
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  // get card information from api
+  let { card } = query;
+  let fights: Fight[] = [];
+  let cards: Cards = { upcoming: [], past: [] };
 
-    if (card && typeof card === "string") {
-      const fights: Fight[] = await useCache(card, getFights, true);
-      await store.dispatch<any>(initializeFights(fights));
-
-      const cards: Cards = await useCache("cards", getCards);
-      await store.dispatch<any>(initializeCards(cards));
-
-      return { props: { fights, cards, cardTitle: card } };
-    }
+  if (card && typeof card === "string") {
+    fights = await useCache(card, getFights, true);
+    cards = await useCache("cards", getCards);
   }
-);
+
+  return { props: { fights, cards, cardTitle: card } };
+};
 
 const NavigationButton = styled.a`
   cursor: pointer;

@@ -11,8 +11,17 @@ const useCache = async (resource: string, getResource: any, arg = false) => {
     if (reply !== 1) {
       // cache miss, need to fetch
       data = arg ? await getResource(resource) : await getResource();
-      // assign resource in cache with 7 day lifetime
-      cache.set(resource, JSON.stringify(data), "EX", 86400 * 3);
+      // assign resource in cache with expiration time
+      cache.set(resource, JSON.stringify(data), "EX", 86400);
+      // also assign next fight to retrieve separately
+      if (resource === "cards") {
+        cache.set(
+          "next card",
+          JSON.stringify(data.upcoming[0]),
+          "EX",
+          86400 * 7
+        );
+      }
     } else {
       // cache hit, get data from redis
       data = JSON.parse(await cache.getAsync(resource));

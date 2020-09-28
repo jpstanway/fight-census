@@ -1,5 +1,4 @@
 import { AppProps } from "next/app";
-import { wrapper } from "../redux/store";
 
 import { ThemeProvider } from "styled-components";
 import theme from "../styles/theme";
@@ -21,4 +20,4 @@ const App = ({ Component, pageProps }: AppProps) => (
   </ThemeProvider>
 );
 
-export default wrapper.withRedux(App);
+export default App;
