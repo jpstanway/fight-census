@@ -1,35 +1,31 @@
-import { useRouter } from "next/router";
-import useSWR from "swr";
-import fetcher from "../../utils/fetcher";
+import { NextPage, GetServerSideProps } from "next";
 import styled from "styled-components";
-import { Division } from "../../types/types";
 
-const Rankings = () => {
-  const { query } = useRouter();
-  const { data, error } = useSWR<Division, any>(
-    () => query.division && `/api/rankings/${query.division}`,
-    fetcher
-  );
-
-  if (error) return <div>{error.message}</div>;
-  if (!data) return <div>Loading...</div>;
-
-  return (
-    <div>
-      <h1>{data.division} Rankings</h1>
-      <RankingsList>
-        {data.rankings.map((fighter) => (
-          <li key={fighter.id}>
-            {fighter.rank}. {fighter.name} | {fighter.wins}-{fighter.losses}
-          </li>
-        ))}
-      </RankingsList>
-    </div>
-  );
+type DivisionProps = {
+  title: string;
 };
 
-const RankingsList = styled.ul`
-  list-style-type: none;
+const Division: NextPage<DivisionProps> = ({ title }) => (
+  <div>
+    <DivisionTitle>{title}</DivisionTitle>
+  </div>
+);
+
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  let { division } = query;
+  let title;
+
+  if (division && typeof division === "string") {
+    title = division.replace(/-/g, " ");
+  }
+
+  return { props: { title } };
+};
+
+const DivisionTitle = styled.h1`
+  color: ${(props) => props.theme.textDark};
+  text-align: center;
+  text-transform: capitalize;
 `;
 
-export default Rankings;
+export default Division;
