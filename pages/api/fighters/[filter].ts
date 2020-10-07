@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import data from "../../../data/rankings";
+import data from "../../../data/divisionApiTitles";
 import getFightersAlphabetical from "../../../utils/fighters/getFightersAlphabetical";
 import aggregateByCountry from "../../../utils/fighters/aggregateByCountry";
 

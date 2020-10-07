@@ -1,6 +1,7 @@
 import { NextPage, GetServerSideProps } from "next";
 import styled from "styled-components";
 import { getDivisionsData } from "../../api/divisions";
+import divisionApiTitles from "../../data/divisionApiTitles";
 
 type DivisionProps = {
   title: string;
@@ -20,11 +21,12 @@ const Division: NextPage<DivisionProps> = ({ title, data }) => (
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   let { division } = query;
-  let title, data;
+  let title, data, apiTitle;
 
   if (division && typeof division === "string") {
     title = division.replace(/-/g, " ");
-    data = await getDivisionsData();
+    apiTitle = divisionApiTitles[division];
+    data = await getDivisionsData(apiTitle);
   }
 
   return { props: { title, data } };
