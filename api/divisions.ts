@@ -14,9 +14,19 @@ export const getDivisionsData = async (division: string) => {
 
       fightersMap = cheerio("tr > td:nth-child(2)", table)
         .map(async (index, element) => {
+          const country = cheerio(element).prev().find("img")[0].attribs.alt;
           const name = cheerio(element).text().trim();
+          const age = cheerio(element).next().text();
+          const height = cheerio(element).next().next().text();
+          const record = cheerio(element).nextAll("td").last().text();
 
-          return { name };
+          let link = "";
+
+          if (cheerio(element).find("a").length > 0) {
+            link = cheerio(element).find("a")[0].attribs.href;
+          }
+
+          return { country, name, age, height, record, link };
         })
         .get();
 

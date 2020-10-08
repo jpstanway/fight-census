@@ -1,5 +1,8 @@
 import { NextPage, GetServerSideProps } from "next";
+import Link from "next/link";
 import styled from "styled-components";
+
+import useCache from "../../api/useCache";
 import { getDivisionsData } from "../../api/divisions";
 import divisionApiTitles from "../../data/divisionApiTitles";
 
@@ -13,7 +16,16 @@ const Division: NextPage<DivisionProps> = ({ title, data }) => (
     <DivisionTitle>{title}</DivisionTitle>
     <ul>
       {data.map((fighter: any, index: number) => (
-        <li key={index}>{fighter.name}</li>
+        <li key={index}>
+          {fighter.link ? (
+            <Link href={fighter.link}>
+              <a>{fighter.name}</a>
+            </Link>
+          ) : (
+            fighter.name
+          )}
+          | {fighter.age}| {fighter.height}| {fighter.record}
+        </li>
       ))}
     </ul>
   </div>
@@ -26,7 +38,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   if (division && typeof division === "string") {
     title = division.replace(/-/g, " ");
     apiTitle = divisionApiTitles[division];
-    data = await getDivisionsData(apiTitle);
+    data = await useCache(apiTitle, getDivisionsData, true);
   }
 
   return { props: { title, data } };
