@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import useCache from "../../api/useCache";
 import { getDivisionsData } from "../../api/divisions";
-import divisionApiTitles from "../../data/divisionApiTitles";
+import formatDivisionString from '../../utils/rankings/formatDivisionString';
 
 type DivisionProps = {
   title: string;
@@ -24,7 +24,7 @@ const Division: NextPage<DivisionProps> = ({ title, data }) => (
           ) : (
             fighter.name
           )}
-          | {fighter.age}| {fighter.height}| {fighter.record}
+          | {fighter.age}| {fighter.height}| {fighter.record} | {fighter.rank}
         </li>
       ))}
     </ul>
@@ -33,12 +33,11 @@ const Division: NextPage<DivisionProps> = ({ title, data }) => (
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   let { division } = query;
-  let title, data, apiTitle;
+  let title, data;
 
   if (division && typeof division === "string") {
-    title = division.replace(/-/g, " ");
-    apiTitle = divisionApiTitles[division];
-    data = await useCache(apiTitle, getDivisionsData, true);
+    title = formatDivisionString(division);
+    data = await useCache(title, getDivisionsData, true);
   }
 
   return { props: { title, data } };

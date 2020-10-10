@@ -26,6 +26,11 @@ export type Stats = {
   stats: Stat[];
 };
 
+// General
+export type IterableObject = {
+  [key: string]: string;
+};
+
 // Fight Cards
 export type Cards = {
   upcoming: Card[];
