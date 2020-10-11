@@ -1,45 +1,61 @@
 import axios from "axios";
 import cheerio from "cheerio";
-import { IterableObject } from "../types/types";
 
 const baseURL = "https://en.wikipedia.org";
 const divisionsURL = "/wiki/List_of_current_UFC_fighters";
 
-export const getDivisionsData = async (division: string) => {
+export const getTop15 = async (division: string) => {
   const { data } = await axios.get(baseURL + divisionsURL);
-  let fightersMap: any,
-    divisionIndex: number,
-    rankings: IterableObject = {};
+  let divisionIndex: number, rankingsMap: any;
 
-  if (division !== "women's featherweight") {
-    // get rankings data
-    cheerio("h2", data).each((index, element) => {
-      if (cheerio(element).text().toLowerCase().includes("rankings")) {
-        const tables: any = cheerio(element).nextAll("table");
-        const regexp = new RegExp(division, 'gi');
+  if (division === "women's featherweight") return false;
 
-        const table = tables.eq(0).html().search(regexp) !== -1
-          ? tables.eq(0).html()
-          : tables.eq(1).html();
-        
-        cheerio("th", table).each((index, element) => {
-          if (cheerio(element).text().toLowerCase().trim() === division) {
-            divisionIndex = index + 1;
-            return false;
-          }
-        });
-        
-        cheerio(`tr > td:nth-child(${divisionIndex})`, table).each(
-          (index, element) => {
-            const name = cheerio(element).text().replace(/\(C\)|\(IC\)|\*/g, "").trim();
-            const rank = index === 0 ? "(C)" : index.toString();
-            rankings[name] = rank;
-          }
-        );
-      }
-    });
-  }
-  
+  // get rankings table
+  cheerio("h2", data).each((index, element) => {
+    if (cheerio(element).text().toLowerCase().includes("rankings")) {
+      const tables: any = cheerio(element).nextAll("table");
+      const regexp = new RegExp(division, 'gi');
+
+      // get sub table with division
+      const table = tables.eq(0).html().search(regexp) !== -1
+        ? tables.eq(0).html()
+        : tables.eq(1).html();
+      
+      // get index of division column  
+      cheerio("th", table).each((index, element) => {
+        if (cheerio(element).text().toLowerCase().trim() === division) {
+          divisionIndex = index + 1;
+          return false;
+        }
+      });
+      
+      // get all fighters in column with rank
+      rankingsMap = cheerio(`tr > td:nth-child(${divisionIndex})`, table).map(
+        async (index, element) => {
+          const name = cheerio(element).text().replace(/\(.*\)|[0-9]|\*/g, "").trim();
+          const rank = index.toString();
+          let link = "";
+
+          if (cheerio(element).find("a").length > 0) link = cheerio(element).find("a")[0].attribs.href;
+
+          // TODO: get remaining details from fighter page using link
+
+          return { rank, name, link };
+        }
+      )
+      .get();
+
+      return false;
+    }
+  });
+
+  return Promise.all(rankingsMap);
+};
+
+export const getDivisionData = async (division: string) => {
+  const { data } = await axios.get(baseURL + divisionsURL);
+  let fightersMap: any;
+
   // get full division data
   cheerio("h3", data).each((index, element) => {
     if (cheerio(element).text().toLowerCase().includes(division)) {
@@ -48,18 +64,18 @@ export const getDivisionsData = async (division: string) => {
       fightersMap = cheerio("tr > td:nth-child(2)", table)
         .map(async (index, element) => {
           const country = cheerio(element).prev().find("img")[0].attribs.alt;
-          const name = cheerio(element).text().replace(/\(C\)|\(IC\)|\*/g, "").trim();
-          const age = cheerio(element).next().text();
-          const height = cheerio(element).next().next().text();
-          const record = cheerio(element).nextAll("td").last().text();
-          const rank = rankings.hasOwnProperty(name) ? rankings[name] : "";
-          let link = "";  
+          const name = cheerio(element).text().replace(/\(.*\)|\*/g, "").trim();
+          const age = cheerio(element).next().text().trim();
+          const height = cheerio(element).next().next().text().trim();
+          const record = cheerio(element).nextAll("td").last().text().trim();
+          let link = "";
 
+          // get fighter page link
           if (cheerio(element).find("a").length > 0) {
             link = cheerio(element).find("a")[0].attribs.href;
-          }
+          } 
 
-          return { country, name, age, height, record, link, rank };
+          return { country, name, age, height, record, link };
         })
         .get();
 
