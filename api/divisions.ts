@@ -34,9 +34,7 @@ export const getTop15 = async (division: string) => {
         async (index, element) => {
           const name = cheerio(element).text().replace(/\(.*\)|[0-9]|\*/g, "").trim();
           const rank = index.toString();
-          let link = "";
-
-          if (cheerio(element).find("a").length > 0) link = cheerio(element).find("a")[0].attribs.href;
+          let link = createFighterLink(element, name);
 
           // TODO: get remaining details from fighter page using link
 
@@ -68,12 +66,7 @@ export const getDivisionData = async (division: string) => {
           const age = cheerio(element).next().text().trim();
           const height = cheerio(element).next().next().text().trim();
           const record = cheerio(element).nextAll("td").last().text().trim();
-          let link = "";
-
-          // get fighter page link
-          if (cheerio(element).find("a").length > 0) {
-            link = cheerio(element).find("a")[0].attribs.href;
-          } 
+          let link = createFighterLink(element, name);
 
           return { country, name, age, height, record, link };
         })
@@ -84,4 +77,14 @@ export const getDivisionData = async (division: string) => {
   });
 
   return Promise.all(fightersMap);
+};
+
+const createFighterLink = (element: any, name: string) => {
+  let link = "";
+  if (cheerio(element).find("a").length > 0) {
+    link = cheerio(element).find("a")[0].attribs.href.replace(/wiki/g, "fighters");
+  }  else {
+    link = `/fighters/${name.replace(/\s/g, "_")}`;
+  }
+  return link;
 };
