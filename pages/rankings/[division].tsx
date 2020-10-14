@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import useCache from "../../api/useCache";
 import { getTop15, getDivisionData } from "../../api/divisions";
-import formatDivisionString from '../../utils/rankings/formatDivisionString';
+import { formatDivisionString, combineDivisionData } from '../../utils/rankings/rankings.utils';
 
 type DivisionProps = {
   title: string;
@@ -19,15 +19,12 @@ type ToggleProps = {
 
 const Division: NextPage<DivisionProps> = ({ title, top15, data }) => {
   const [toggle, setToggle] = useState(false);
-  const ranked: string[] = [];
 
   return (
     <div>
       <DivisionTitle>{title}</DivisionTitle>
       <ul>
-        {top15.map((fighter: any, index: number) => {
-        ranked.push(fighter.link);  
-        return (
+        {top15.map((fighter: any, index: number) => (
           <li key={index}>
             {fighter.rank === "0" ? "(C)" : fighter.rank}.{" "} 
             {fighter.link ? (
@@ -37,14 +34,13 @@ const Division: NextPage<DivisionProps> = ({ title, top15, data }) => {
             ) : (
               fighter.name
             )}
+            | {fighter.age} | {fighter.height} | {fighter.record}
           </li>
-        )})}
+        ))}
       </ul>
       <Button onClick={() => setToggle(!toggle)}>{toggle ? "Show Less of Division" : "Show More of Division"}</Button>
       <ExpandableList toggle={toggle}>
-      {data.map((fighter: any, index: number) => {
-        if (!ranked.includes(fighter.link)) {
-          return (
+      {data.map((fighter: any, index: number) => (
           <li key={index}>
             {fighter.link ? (
               <Link href={fighter.link}>
@@ -55,9 +51,7 @@ const Division: NextPage<DivisionProps> = ({ title, top15, data }) => {
             )}
             | {fighter.age} | {fighter.height} | {fighter.record}
           </li>
-          );
-        }
-      })}
+      ))}
       </ExpandableList>
     </div>
   );
@@ -71,6 +65,9 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     title = formatDivisionString(division);
     top15 = await useCache(`${title}--top-15`, getTop15, title);
     data = await useCache(title, getDivisionData, title);
+    
+    // combine and compare rankings + division datasets
+    top15 = combineDivisionData(top15, data);
   }
 
   return { props: { title, top15, data } };
