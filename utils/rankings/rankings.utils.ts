@@ -11,6 +11,8 @@ export const formatDivisionString = (division: string) => {
 };
 
 export const combineDivisionData = (rankings: any, divisionData: any) => {
+  if (!rankings) return false;
+  
   return rankings.map((fighter: any) => {
     const { link, name } = fighter;
     const addtlData = divisionData.find((f: any, i: number, arr: any) => {

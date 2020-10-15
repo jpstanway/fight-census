@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { NextPage, GetServerSideProps } from "next";
-import Link from "next/link";
 import styled from "styled-components";
 
 import useCache from "../../api/useCache";
 import { getTop15, getDivisionData } from "../../api/divisions";
 import { formatDivisionString, combineDivisionData } from '../../utils/rankings/rankings.utils';
+
+import FighterTable from '../../components/Common/Tables/FighterTable';
 
 type DivisionProps = {
   title: string;
@@ -21,39 +22,20 @@ const Division: NextPage<DivisionProps> = ({ title, top15, data }) => {
   const [toggle, setToggle] = useState(false);
 
   return (
-    <div>
+    <Container>
       <DivisionTitle>{title}</DivisionTitle>
-      <ul>
-        {top15.map((fighter: any, index: number) => (
-          <li key={index}>
-            {fighter.rank === "0" ? "(C)" : fighter.rank}.{" "} 
-            {fighter.link ? (
-              <Link href={fighter.link}>
-                <a>{fighter.name}</a>
-              </Link>
-            ) : (
-              fighter.name
-            )}
-            | {fighter.age} | {fighter.height} | {fighter.record}
-          </li>
-        ))}
-      </ul>
-      <Button onClick={() => setToggle(!toggle)}>{toggle ? "Show Less of Division" : "Show More of Division"}</Button>
-      <ExpandableList toggle={toggle}>
-      {data.map((fighter: any, index: number) => (
-          <li key={index}>
-            {fighter.link ? (
-              <Link href={fighter.link}>
-                <a>{fighter.name}</a>
-              </Link>
-            ) : (
-              fighter.name
-            )}
-            | {fighter.age} | {fighter.height} | {fighter.record}
-          </li>
-      ))}
-      </ExpandableList>
-    </div>
+      {title === "women's featherweight" ? (
+        <FighterTable rows={data} />
+      ) : (
+        <>
+          <FighterTable rows={top15} />
+          <Button onClick={() => setToggle(!toggle)}>{toggle ? "Show Less of Division" : "Show More of Division"}</Button>
+          <ExpandableList toggle={toggle}>
+            <FighterTable rows={data} />
+          </ExpandableList>
+        </>
+      )}
+    </Container>
   );
 };
 
@@ -72,6 +54,12 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 
   return { props: { title, top15, data } };
 };
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const DivisionTitle = styled.h1`
   color: ${(props) => props.theme.textDark};

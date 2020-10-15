@@ -36,8 +36,6 @@ export const getTop15 = async (division: string) => {
           const rank = index.toString();
           let link = createFighterLink(element, name);
 
-          // TODO: get remaining details from fighter page using link
-
           return { rank, name, link };
         }
       )
