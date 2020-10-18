@@ -6,7 +6,7 @@ import { Fight, Cards } from "../../types/types";
 import useCache from "../../api/useCache";
 import { getFights } from "../../api/fights";
 import { getCards, getAdjacentCards } from "../../api/cards";
-import FightsTable from "../../components/Common/Tables/FightsTable";
+import FightsTable from "../../components/Tables/FightsTable";
 
 type CardProps = {
   fights: Fight[];

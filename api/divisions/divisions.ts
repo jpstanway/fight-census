@@ -1,9 +1,15 @@
 import axios from "axios";
 import cheerio from "cheerio";
 
+import { createFighterLink } from './divisions.utils';
+
 const baseURL = "https://en.wikipedia.org";
 const divisionsURL = "/wiki/List_of_current_UFC_fighters";
 
+/***************************************** */
+// desc:    web scraper to get top 15 rankings
+// source:  wikipedia
+/***************************************** */
 export const getTop15 = async (division: string) => {
   const { data } = await axios.get(baseURL + divisionsURL);
   let divisionIndex: number, rankingsMap: any;
@@ -34,9 +40,38 @@ export const getTop15 = async (division: string) => {
         async (index, element) => {
           const name = cheerio(element).text().replace(/\(.*\)|[0-9]|\*/g, "").trim();
           const rank = index.toString();
-          let link = createFighterLink(element, name);
+          let originalLink = "";
+          if (cheerio(element).find("a").length > 0) {
+            originalLink = cheerio(element).find("a")[0].attribs.href;
+          }
+          const link = createFighterLink(element, name);
 
-          return { rank, name, link };
+          // visit fighter page to get remaining information
+          const { data } = await axios.get(baseURL + originalLink);
+          let age, height, wins: string = "", losses: string = "";
+          cheerio("table.infobox > tbody > tr > th", data).each(async (index, element) => {
+            const el = cheerio(element);
+
+            if (el.text() === "Born") {
+              age = el.next().find("span.ForceAgeToShow").text().replace(/[^0-9]/g, "");
+            } else if (el.text() === "Height") {
+              height = el.next().text().replace(/\[.*\]/g, "");
+            } else if (el.text() === "Mixed martial arts record") {
+              el.closest('tr').nextAll().each(async (index, element) => {
+                const e = cheerio(element).find('th');
+                
+                if (e.text() === 'Wins' && !wins) {
+                  wins = e.next().text();
+                } else if (e.text() === 'Losses' && !losses) {
+                  losses = e.next().text();
+                }
+              });
+            } 
+          });
+          
+          const record = `${wins}-${losses}`;
+          
+          return { rank, name, link, age, height, record };
         }
       )
       .get();
@@ -48,6 +83,10 @@ export const getTop15 = async (division: string) => {
   return Promise.all(rankingsMap);
 };
 
+/***************************************** */
+// desc:    web scraper to get all fighters in a division
+// source:  wikipedia
+/***************************************** */
 export const getDivisionData = async (division: string) => {
   const { data } = await axios.get(baseURL + divisionsURL);
   let fightersMap: any;
@@ -77,12 +116,3 @@ export const getDivisionData = async (division: string) => {
   return Promise.all(fightersMap);
 };
 
-const createFighterLink = (element: any, name: string) => {
-  let link = "";
-  if (cheerio(element).find("a").length > 0) {
-    link = cheerio(element).find("a")[0].attribs.href.replace(/wiki/g, "fighters");
-  }  else {
-    link = `/fighters/${name.replace(/\s/g, "_")}`;
-  }
-  return link;
-};

@@ -3,10 +3,10 @@ import { NextPage, GetServerSideProps } from "next";
 import styled from "styled-components";
 
 import useCache from "../../api/useCache";
-import { getTop15, getDivisionData } from "../../api/divisions";
+import { getTop15, getDivisionData } from "../../api/divisions/divisions";
 import { formatDivisionString, combineDivisionData } from '../../utils/rankings/rankings.utils';
 
-import FighterTable from '../../components/Common/Tables/FighterTable';
+import FighterTable from '../../components/Tables/FighterTable';
 
 type DivisionProps = {
   title: string;

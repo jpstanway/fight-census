@@ -3,7 +3,7 @@ import { Cards as CardsType } from "../../types/types";
 
 import useCache from "../../api/useCache";
 import { getCards } from "../../api/cards";
-import CardsTable from "../../components/Common/Tables/CardsTable";
+import CardsTable from "../../components/Tables/CardsTable";
 
 type CardProps = {
   cards: CardsType;
