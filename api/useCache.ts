@@ -1,7 +1,7 @@
 import bluebird from "bluebird";
 import redis from "redis";
 
-const useCache = async (resource: string, getResource: any, arg = false) => {
+const useCache = async (resource: string, getResource: any, arg: null | string = null) => {
   bluebird.promisifyAll(redis.RedisClient.prototype);
   const cache = redis.createClient();
   let data: any = {};
@@ -10,7 +10,7 @@ const useCache = async (resource: string, getResource: any, arg = false) => {
   await cache.existsAsync(resource).then(async (reply: any) => {
     if (reply !== 1) {
       // cache miss, need to fetch
-      data = arg ? await getResource(resource) : await getResource();
+      data = arg ? await getResource(arg) : await getResource();
       // assign resource in cache with expiration time
       cache.set(resource, JSON.stringify(data), "EX", 86400);
     } else {

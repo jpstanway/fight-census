@@ -88,7 +88,6 @@ export default [
         url: "/rankings/womens-strawweight",
         limit: "115lb / 56kg",
       },
-      { id: 444, name: "Pound for Pound", url: "/rankings/pound-for-pound" },
     ],
   },
   {

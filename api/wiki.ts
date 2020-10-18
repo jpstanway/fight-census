@@ -63,6 +63,24 @@ export const getTableData = async (page: string, sectionIndex: string) => {
   return rows;
 };
 
+export const getPageSection = async (page: string, sectionIndex: string) => {
+  const searchParams = new URLSearchParams({
+    origin: "*",
+    action: "parse",
+    page,
+    format: "json",
+    prop: "text",
+    section: sectionIndex,
+  });
+
+  const url = `https://en.wikipedia.org/w/api.php?${searchParams}`;
+
+  const json = await fetcher(url);
+  if (json.error) return pageError();
+  let html = json.parse.text["*"];
+  return html;
+};
+
 export const pageError = () => {
   return [
     {
