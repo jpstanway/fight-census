@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import styled from "styled-components";
 
@@ -19,6 +19,10 @@ interface MenuItemProps {
 
 const MenuItem = (data: MenuItemProps) => {
   const [toggle, setToggle] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (data.header === 'Stats') setToggle(true);
+  }, []);
 
   return (
     <Container>
