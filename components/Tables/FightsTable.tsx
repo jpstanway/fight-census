@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styled from "styled-components";
-import { Fight as FightType } from "../../../types/types";
-import createLink from "../../../utils/createLink";
+import { Fight as FightType } from "../../types/types";
+import createLink from "../../utils/createLink";
 
 type TableProps = {
   rows: FightType[];

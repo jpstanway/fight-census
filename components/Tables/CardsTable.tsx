@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { Card as CardType } from "../../../types/types";
+import { Card as CardType } from "../../types/types";
 
-import createLink from "../../../utils/createLink";
+import createLink from "../../utils/createLink";
 
 type TableProps = {
   rows: CardType[];
