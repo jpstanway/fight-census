@@ -62,3 +62,13 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
+
+export type Event = {
+  id: number;
+  title: string;
+  link: string;
+  date: string;
+  venue: string;
+  city: string;
+  country: string;
+}
