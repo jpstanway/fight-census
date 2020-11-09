@@ -2,7 +2,8 @@ import { NextPage, GetServerSideProps } from 'next';
 import styled from "styled-components";
 
 import useCache from '../../api/useCache';
-import { getPastEvents } from '../../api/stats/stats';
+import { getPastEvents, getMatches } from '../../api/stats/stats';
+import { Event } from '../../types/types';
 
 const Stats: NextPage = () => {
 
@@ -15,7 +16,10 @@ const Stats: NextPage = () => {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const events = await useCache('pastEvents', getPastEvents);
-  console.log(events);
+  
+  const matchesData = await events.map(async (event: Event) => {
+    return await useCache(event.title, getMatches, event.link);
+  });
   return { props: {}};
 };
 

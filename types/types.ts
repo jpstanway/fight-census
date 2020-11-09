@@ -71,4 +71,16 @@ export type Event = {
   venue: string;
   city: string;
   country: string;
-}
+};
+
+export type Match = {
+  id: number;
+  division: string;
+  red: string;
+  redLink: string | undefined;
+  blue: string;
+  blueLink: string | undefined;
+  result: string;
+  round: string;
+  time: string;
+};
