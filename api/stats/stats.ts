@@ -115,9 +115,27 @@ export const getMatches = async (eventUrl: string) => {
 };
 
 /***************************************** */
-// desc:    collect fighter size stats
-// source:  wikipedia
+//@desc:    collect fighter size stats
+//@source:  wikipedia
+//@data:    height, weight, reach, division
 /***************************************** */
-export const getFighterPhysicalStats = async () => {
-  // Data Needed: height, weight, reach
+export const getFighterPhysicalStats = async (fighterUrl: string) => {
+  const { data } = await axios.get(baseURL + fighterUrl);
+  let height, weight, division, reach;
+
+  cheerio(".infobox", data).find("th").each((index, element) => {
+    const th = cheerio(element);
+
+    if (th.text().toLowerCase() === "height") height = th.next().text().trim();
+    if (th.text().toLowerCase() === "weight") weight = th.next().text().trim();
+    if (th.text().toLowerCase() === "division") division = th.next().text().trim();
+    if (th.text().toLowerCase() === "reach") reach = th.next().text().trim();
+  });
+  
+  return {
+    height,
+    weight,
+    division,
+    reach
+  };
 };

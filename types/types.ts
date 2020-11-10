@@ -78,9 +78,18 @@ export type Match = {
   division: string;
   red: string;
   redLink: string | undefined;
+  redStats?: FighterStats;
   blue: string;
   blueLink: string | undefined;
+  blueStats?: FighterStats;
   result: string;
   round: string;
   time: string;
+};
+
+export type FighterStats = {
+  height: string;
+  weight: string;
+  division: string;
+  reach: string;
 };
