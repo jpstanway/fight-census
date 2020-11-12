@@ -1,5 +1,5 @@
-import { Card, Cards } from "../types/types";
-import { getSectionIndex, getTableData } from "./wiki";
+import { Card, Cards } from "../../types/types";
+import { getSectionIndex, getTableData } from "../wiki";
 
 const createCardsTable = async (page: string, title: string) => {
   const sectionIndex = await getSectionIndex(page, title);

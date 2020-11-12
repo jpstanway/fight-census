@@ -4,8 +4,8 @@ import styled from "styled-components";
 import { Fight, Cards } from "../../types/types";
 
 import useCache from "../../api/useCache";
-import { getFights } from "../../api/fights";
-import { getCards, getAdjacentCards } from "../../api/cards";
+import { getFights } from "../../api/cards/fights";
+import { getCards, getAdjacentCards } from "../../api/cards/cards";
 import FightsTable from "../../components/Tables/FightsTable";
 
 type CardProps = {

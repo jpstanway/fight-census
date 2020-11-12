@@ -1,28 +1,21 @@
-import useSWR from "swr";
-import fetcher from "../../utils/fetcher";
+import { NextPage, GetServerSideProps } from 'next';
 import styled from "styled-components";
-import { Stat } from "../../types/types";
 
-const Stats = () => {
-  const { data, error } = useSWR(`/api/stats`, fetcher);
+type StatsProps = {
+  data: any;
+}
 
-  if (error) return <div>Failed to load</div>;
-  if (!data) return <div>Loading...</div>;
-
+const Stats: NextPage<StatsProps> = () => {
   return (
     <div>
       <h1>All Stats</h1>
-      <StatsList>
-        {data.stats.map((stat: Stat) => (
-          <li key={stat.id}>{stat.stat}</li>
-        ))}
-      </StatsList>
     </div>
   );
 };
 
-const StatsList = styled.ul`
-  list-style-type: none;
-`;
+export const getServerSideProps: GetServerSideProps = async () => {
+
+  return { props: {}}};
+};
 
 export default Stats;

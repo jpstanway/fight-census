@@ -2,7 +2,7 @@ import { NextPage, GetStaticProps } from "next";
 import { Cards as CardsType } from "../../types/types";
 
 import useCache from "../../api/useCache";
-import { getCards } from "../../api/cards";
+import { getCards } from "../../api/cards/cards";
 import CardsTable from "../../components/Tables/CardsTable";
 
 type CardProps = {

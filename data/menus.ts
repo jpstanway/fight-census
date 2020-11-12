@@ -89,12 +89,5 @@ export default [
         limit: "115lb / 56kg",
       },
     ],
-  },
-  {
-    header: "Fighters",
-    items: [
-      { id: 11, name: "Alphabetical", url: "/fighters" },
-      { id: 22, name: "by nationality", url: "/fighters/by-nationality" },
-    ],
-  },
+  }
 ];

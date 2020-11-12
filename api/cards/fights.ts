@@ -1,5 +1,5 @@
-import { Fight } from "../types/types";
-import { getSectionIndex, getTableData } from "./wiki";
+import { Fight } from "../../types/types";
+import { getSectionIndex, getTableData } from "../wiki";
 
 const createFightsTable = async (page: string) => {
   const sectionIndex = await getSectionIndex(page, "Results", "Fight card");
