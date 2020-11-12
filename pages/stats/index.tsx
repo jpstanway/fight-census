@@ -15,7 +15,7 @@ const Stats: NextPage<StatsProps> = () => {
 
 export const getServerSideProps: GetServerSideProps = async () => {
 
-  return { props: {}}};
+  return { props: {}};
 };
 
-export default Stats;
+export default Stats; 
