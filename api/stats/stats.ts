@@ -57,7 +57,7 @@ export const getPastEvents = async () => {
     }
   });
 
-  return events;
+  return Promise.all(events);
 };
 
 /***************************************** */
@@ -68,7 +68,7 @@ export const getPastEvents = async () => {
 /***************************************** */
 export const getMatches = async (eventUrl: string) => {
   const { data } = await axios.get(baseURL + eventUrl);
-  const matches: Match[] = [];
+  let matches: any;
 
   cheerio("h2", data).each((index, element) => {
     const h2 = cheerio(element);
@@ -76,7 +76,7 @@ export const getMatches = async (eventUrl: string) => {
     if (h2.text().toLowerCase().includes("results")) {
       const table = h2.next('table').find('tbody');
       
-      cheerio("tr", table).each((index, element) => {
+      matches = cheerio("tr", table).map((index, element) => {
         const row = cheerio(element).find("td");
         
         if (row.length > 0) {
@@ -95,7 +95,7 @@ export const getMatches = async (eventUrl: string) => {
             blueLink = row.eq(3).find("a")[0].attribs.href;
           }
           
-          matches.push({
+          return {
             id: index,
             division,
             red,
@@ -105,13 +105,16 @@ export const getMatches = async (eventUrl: string) => {
             result,
             round,
             time
-          });
+          };
         }
-      });
+      })
+      .get();
+
+      return false;
     }
   });
-
-  return matches;
+  
+  return Promise.all(matches);
 };
 
 /***************************************** */
