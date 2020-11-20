@@ -1,5 +1,4 @@
 import { NextPage, GetServerSideProps } from 'next';
-import styled from "styled-components";
 
 type StatsProps = {
   data: any;
