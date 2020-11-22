@@ -1,10 +1,6 @@
 import { NextPage, GetServerSideProps } from 'next';
 
-type StatsProps = {
-  data: any;
-}
-
-const Stats: NextPage<StatsProps> = () => {
+const Stats: NextPage = () => {
   return (
     <div>
       <h1>All Stats</h1>
@@ -12,9 +8,9 @@ const Stats: NextPage<StatsProps> = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
 
-  return { props: {}};
+  return { props: { }};
 };
 
 export default Stats; 
