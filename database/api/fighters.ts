@@ -1,4 +1,4 @@
-import Fighter from '../database/models/Fighter';
+import Fighter from '../models/Fighter';
 
 export const getAllFighters = async () => {
   const result = await Fighter.find({});

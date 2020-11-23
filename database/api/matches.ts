@@ -1,4 +1,4 @@
-import Match from '../database/models/Match';
+import Match from '../models/Match';
 
 export const getAllMatches = async () => {
   const result = await Match.find({});

@@ -1,4 +1,4 @@
-import Event from '../database/models/Event';
+import Event from '../models/Event';
 
 export const getAllEvents = async () => {
   const result = await Event.find({});

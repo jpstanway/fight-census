@@ -1,9 +1,10 @@
 import { NextPage, GetServerSideProps } from "next";
 
 import dbConnect from '../database/db';
-import { getAllEvents } from '../api/events';
-import { getAllMatches } from '../api/matches'; 
-import { getAllFighters } from '../api/fighters';
+import useCache from '../database/useCache';
+import { getAllEvents } from '../database/api/events';
+import { getAllMatches } from '../database/api/matches'; 
+import { getAllFighters } from '../database/api/fighters';
 import { Event, Match, Fighter } from '../types';
 
 type HomeProps = {
@@ -26,9 +27,9 @@ const Home: NextPage<HomeProps> = ({ events, matches, fighters }) => {
 export const getServerSideProps: GetServerSideProps = async () => {
   await dbConnect();
 
-  const events = await getAllEvents();
-  const matches = await getAllMatches();
-  const fighters = await getAllFighters();
+  const events = await useCache("events", getAllEvents);
+  const matches = await useCache("matches", getAllMatches);
+  const fighters = await useCache("fighters", getAllFighters);
 
   return { props: { events, matches, fighters } };
 };
