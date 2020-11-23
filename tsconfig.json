@@ -74,7 +74,7 @@
     "pages/fighters/[filter].tsx",
     "utils/aggregateByCountry.js",
     "data/getFighters.js",
-    "pages/stats/[filter].tsx",
+    "pages/[filter].tsx",
     "utils/cards/createEventTable.ts",
     "next.config.js"
   ],

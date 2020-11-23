@@ -1,6 +1,6 @@
 import Link from "next/link";
 import styled from "styled-components";
-import data from "../../../data/menus";
+import data from "../../../utils/menus";
 import { SidebarProps } from "../Layout";
 import MenuItem from "./MenuItem";
 

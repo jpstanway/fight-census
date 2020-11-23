@@ -19,6 +19,4 @@ const eventSchema = new Schema({
   country: String
 });
 
-const Event = mongoose.model<EventDoc>('Event', eventSchema);
-
-export default Event;
+export default mongoose.models.Event || mongoose.model<EventDoc>('Event', eventSchema);

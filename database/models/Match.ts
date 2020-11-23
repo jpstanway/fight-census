@@ -39,6 +39,4 @@ matchSchema.index({
   blue: 1
 }, { unique: true });
 
-const Match = mongoose.model<MatchDoc>('Match', matchSchema);
-
-export default Match;
+export default mongoose.models.Match || mongoose.model<MatchDoc>('Match', matchSchema);;

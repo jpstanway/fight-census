@@ -19,6 +19,4 @@ const fighterSchema = new Schema({
   reach: String
 });
 
-const Fighter = mongoose.model<FighterDoc>('Fighter', fighterSchema);
-
-export default Fighter;
+export default mongoose.models.Fighter || mongoose.model<FighterDoc>('Fighter', fighterSchema);
