@@ -1,10 +1,7 @@
 import { NextPage, GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 
-import useCache from '../database/useCache';
-import { getAllMatches } from '../database/api/matches';
-import { getAllFighters } from '../database/api/fighters';
-import { combineMatchAndFighterData } from '../utils/stats';
+
 
 const Filter: NextPage = () => {
   const { query } = useRouter();
@@ -16,11 +13,11 @@ const Filter: NextPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const matches = await useCache("matches", getAllMatches);
-  const fighters = await useCache("fighters", getAllFighters);
-  const combined = combineMatchAndFighterData(matches, fighters);
-
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const stats = (await import(`../stats/${query.filter}`)).default;
+  
+  const generatedStats = await stats();
+  console.log(generatedStats);
   return { props: {} }
 };
 
