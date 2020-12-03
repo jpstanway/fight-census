@@ -41,7 +41,7 @@ const sizeStats = async () => {
         }
       }
     });
-    
+    console.log('bigger', counter, 'sample size', tested);
     return {
       title: "Win rate of bigger fighters",
       stat: counter / tested

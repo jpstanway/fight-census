@@ -18,6 +18,15 @@ export const convertHeight = (height: string) => {
 };
 
 export const convertReach = (reach: string) => {
+  const match = reach.match(/^\d\d\.\d/gi);
+
+  // round up reach if in decimal format
+  if (match && match.length > 0) {
+    const decimal = match[0].substring(0, 4);
+    const rounded = Math.ceil(parseFloat(decimal));
+    reach = rounded.toString();
+  }
+
   const shortened = reach.substring(0, 2);
   return parseInt(shortened);
 };

@@ -1,10 +1,5 @@
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import styled from "styled-components";
-
-type Toggle = {
-  toggle: boolean;
-};
 
 type MenuItemObj = {
   id: number;
@@ -17,34 +12,22 @@ interface MenuItemProps {
   items: MenuItemObj[];
 }
 
-const MenuItem = (data: MenuItemProps) => {
-  const [toggle, setToggle] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (data.header === 'Stats') setToggle(true);
-  }, []);
-
-  return (
-    <Container>
-      <SubHeader onClick={() => setToggle(!toggle)}>
-        <span>{data.header}</span>
-        <img
-          src={toggle ? "/shrink-menu.svg" : "/expand-menu.svg"}
-          alt="expand"
-        />
-      </SubHeader>
-      <SubMenu toggle={toggle}>
-        {data.items.map((item) => (
-          <li key={item.id}>
-            <Link href={item.url}>
-              <SubItem>{item.name}</SubItem>
-            </Link>
-          </li>
-        ))}
-      </SubMenu>
-    </Container>
-  );
-};
+const MenuItem = (data: MenuItemProps) => (
+  <Container>
+    <SubHeader>
+      <span>{data.header}</span>
+    </SubHeader>
+    <SubMenu>
+      {data.items.map((item) => (
+        <li key={item.id}>
+          <Link href={item.url}>
+            <SubItem>{item.name}</SubItem>
+          </Link>
+        </li>
+      ))}
+    </SubMenu>
+  </Container>
+);
 
 const Container = styled.li`
   position: relative;
@@ -55,19 +38,10 @@ const SubHeader = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 1rem 2rem;
-  transition: all 0.2s;
-
-  &:hover {
-    background-color: ${(props) => props.theme.colors.darkGrey};
-    color: #fff;
-    cursor: pointer;
-  }
 `;
 
-const SubMenu = styled.ul<Toggle>`
+const SubMenu = styled.ul`
   background-color: ${(props) => props.theme.colors.medGrey};
-  display: ${(props) => (props.toggle ? "block" : "none")};
-  max-height: ${(props) => (props.toggle ? "100%" : "0")};
   overflow: hidden;
   transition: max-height 3s ease-out;
 `;
