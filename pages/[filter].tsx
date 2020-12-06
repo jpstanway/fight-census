@@ -1,23 +1,24 @@
 import { NextPage, GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 
+import Donut from '../charts/Donut';
+
 type StatType = {
   title: string;
-  stat: number;
-}
+  stats: any[];
+};
 
 type FilterProps = { generatedStats: StatType[] };
 
 const Filter: NextPage<FilterProps> = ({ generatedStats }) => {
   const { query } = useRouter();
-
   return (
     <div>
       <h1>Stats by {query.filter}</h1>
       <ul>
         {generatedStats.map((stat: StatType, index: number) => (
           <li key={index}>
-            <p><strong>{stat.title}:</strong> {Math.ceil(stat.stat * 100)}%</p>
+            <Donut label={stat.title} data={stat.stats} />
           </li>
         ))}
       </ul>

@@ -1,5 +1,4 @@
 import { NextPage, GetServerSideProps } from "next";
-
 import dbConnect from '../database/db';
 import useCache from '../database/useCache';
 import { getAllEvents } from '../database/api/events';
@@ -14,6 +13,7 @@ type HomeProps = {
 }
 
 const Home: NextPage<HomeProps> = ({ events, matches, fighters }) => {
+
   return (
     <div>
       <h1>Home Page</h1>

@@ -76,7 +76,7 @@
     "data/getFighters.js",
     "pages/[filter].tsx",
     "utils/cards/createEventTable.ts",
-    "next.config.js"
+    "next.config.ts"
   ],
   "exclude": ["node_modules"]
 }

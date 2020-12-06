@@ -8,8 +8,10 @@
     "start": "next start"
   },
   "dependencies": {
+    "@types/chart.js": "^2.9.28",
     "axios": "^0.20.0",
     "bluebird": "^3.7.2",
+    "chart.js": "^2.9.4",
     "env-var": "^7.0.0",
     "mongoose": "^5.10.15",
     "next": "9.5.1",

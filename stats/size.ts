@@ -8,7 +8,9 @@ const sizeStats = async () => {
   const stats = [];
 
   const biggerFighterWinRate = (matches: any) => {
-    let counter = 0;
+    let bigger = 0;
+    let smaller = 0;
+    let equal = 0;
     let tested = 0;
     
     matches.forEach((match: any) => {
@@ -18,7 +20,6 @@ const sizeStats = async () => {
       // only run calculation if both fighters
       // have these stats available
       if (winner.height && loser.height && winner.reach && loser.reach) {
-        tested++;
         winner.height = convertHeight(winner.height);
         winner.reach = convertReach(winner.reach);
         
@@ -27,24 +28,55 @@ const sizeStats = async () => {
       
         // increase if winner is all around larger
         if (winner.height > loser.height && winner.reach > loser.reach) {
-          counter++;
+          bigger++;
+          tested++;
         }
 
-        // increase if same reach but winner has more height
+        // increase if same reach but winner is taller
         if (winner.height > loser.height && winner.reach === loser.reach) {
-          counter++;
+          bigger++;
+          tested++;
         }
 
-        // increase if same height but winner has more reach
+        // increase if same height but winner is longer
         if (winner.height === loser.height && winner.reach > loser.reach) {
-          counter++;
+          bigger++;
+          tested++;
+        }
+
+        // increase if winner is all around smaller
+        if (winner.height < loser.height && winner.reach < loser.reach) {
+          smaller++;
+          tested++;
+        }
+
+        // increase if same reach but winner is shorter
+        if (winner.height < loser.height && winner.reach === loser.reach) {
+          smaller++;
+          tested++;
+        }
+
+        // increase if same height but winner is not as long
+        if (winner.height === loser.height && winner.reach < loser.reach) {
+          smaller++;
+          tested++;
+        }
+
+        // increase if both winner and loser are exact same size
+        if (winner.height === loser.height && winner.reach === loser.height) {
+          equal++;
+          tested++;
         }
       }
     });
-    console.log('bigger', counter, 'sample size', tested);
+    console.log('bigger', bigger, 'smaller', smaller, 'equal', equal, 'sample size', tested);
     return {
-      title: "Win rate of bigger fighters",
-      stat: counter / tested
+      title: "Size of winner compared to loser",
+      stats: [
+        Math.ceil((bigger / tested) * 100),
+        Math.ceil((smaller / tested) * 100),
+        Math.ceil((equal / tested) * 100)
+      ]
     };
   };
 
