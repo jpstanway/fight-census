@@ -5,7 +5,8 @@ export const convertHeight = (height: string) => {
   const matchAlt = height.match(regexpAlt);
 
   if (match && match.length > 0) {
-    const clean = match[0].replace(/[a-zA-Z]/g, "").split(" ");
+    let clean = match[0].replace(/[a-zA-Z]/g, "").split(" ");
+    clean = clean.filter((digit) => digit);
     const inches = parseInt(clean[0].trim()) * 12 + parseInt(clean[1].trim());
     return inches;
   } else if (matchAlt && matchAlt.length > 0) {
@@ -27,6 +28,7 @@ export const convertReach = (reach: string) => {
     reach = rounded.toString();
   }
 
-  const shortened = reach.substring(0, 2);
-  return parseInt(shortened);
+  const shortened = parseInt(reach.substring(0, 2));
+
+  return shortened;
 };

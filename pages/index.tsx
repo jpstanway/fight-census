@@ -16,7 +16,7 @@ const Home: NextPage<HomeProps> = ({ events, matches, fighters }) => {
 
   return (
     <div>
-      <h1>Home Page</h1>
+      <h1>2020 Fight Census</h1>
       <p>{events.length} events</p>
       <p>{matches.length} matches</p>
       <p>{fighters.length} fighters</p>
