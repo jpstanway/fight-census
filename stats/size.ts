@@ -1,14 +1,16 @@
-import { longStackTraces } from 'bluebird';
 import useCache from '../database/useCache';
 import { combineMatchAndFighterData } from '../database/utils';
-import { convertHeight, convertReach } from './utils/size.utils';
+import { getAllFighters } from '../database/api/fighters';
+import { convertHeight, convertReach, compareSize } from './utils/size.utils';
+import { Match, Fighter } from '../types';
 
 const sizeStats = async () => {
   const combined = await useCache("combined", combineMatchAndFighterData);
+  const fighters = await useCache("fighters", getAllFighters);
   const stats = [];
 
   // comparing size of winner compared to opponent
-  const winnerSizeComparison = (matches: any) => {
+  const winnerSizeComparison = (matches: Match[]) => {
     let bigger = 0;
     let smaller = 0;
     let equal = 0;
@@ -101,8 +103,6 @@ const sizeStats = async () => {
           tested++;
           return;
         }
-
-        console.log(winner.height, loser.height, winner.reach, loser.reach);
       }
     });
     console.log('bigger', bigger, 'smaller', smaller, 'equal', equal, 'sample size', tested, 'checking', checking);
@@ -120,8 +120,74 @@ const sizeStats = async () => {
 
   // gets list of the largest fighters in each division
   const biggestFightersByDivision = () => {
+    type FighterSpecial = { [key: string]: Fighter };
+    let biggest: FighterSpecial = {};
+    const regex = /\d\d\d\slb/i;
 
+    fighters.forEach((fighter: Fighter) => {
+      const match = fighter.weight?.match(regex);
+      let weight = 0;
+      if (match) weight = parseInt(match[0].substring(0, 3));
+
+      // if either of these are false, skip this fighter
+      if (!fighter.height || !fighter.reach) return;
+
+      // heavyweight
+      if (weight > 209) {
+        biggest = compareSize("heavyweight", biggest, fighter);
+        return;
+      }
+      // light heavyweight
+      if (weight > 200 && weight < 209) {
+        biggest = compareSize("lightHeavyweight", biggest, fighter);
+        return;
+      }
+      // middleweight
+      if (weight > 180 && weight < 189) {
+        biggest = compareSize("middleweight", biggest, fighter);
+        return;
+      }
+      // welterweight
+      if (weight > 165 && weight < 174) {
+        biggest = compareSize("welterweight", biggest, fighter);
+        return;
+      }
+      // lightweight
+      if (weight > 150 && weight < 159) {
+        biggest = compareSize("lightweight", biggest, fighter);
+        return;
+      }
+      // featherweight
+      if (weight > 140 && 149) {
+        biggest = compareSize("featherweight", biggest, fighter);
+        return;
+      }
+      // bantamweight
+      if (weight > 130 && 139) {
+        biggest = compareSize("bantamweight", biggest, fighter);
+        return;
+      }
+      // flyweight
+      if (weight > 120 && 129) {
+        biggest = compareSize("flyweight", biggest, fighter);
+        return;
+      }
+      // womens featherweight
+
+      // womens bantamweight
+
+      // womens flyweight
+
+      // womens strawweight
+    });
+
+    return {
+      title: "Biggest fighters by division",
+      stats: biggest
+    };
   };
+
+  stats.push(biggestFightersByDivision());
 
   // number of champions who are big for their weight class
   const championsAboveAverageSize = () => {

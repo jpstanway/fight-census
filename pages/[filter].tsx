@@ -16,11 +16,19 @@ const Filter: NextPage<FilterProps> = ({ generatedStats }) => {
     <div>
       <h1>Stats by {query.filter}</h1>
       <ul>
-        {generatedStats.map((stat: StatType, index: number) => (
-          <li key={index}>
-            <Donut label={stat.title} data={stat.stats} />
-          </li>
-        ))}
+        <li>
+          <Donut label={generatedStats[0].title} data={generatedStats[0].stats} />
+        </li>
+        <li>
+          <p>{generatedStats[1].title}</p>
+          <ul>
+            {Object.keys(generatedStats[1].stats).map((stat: string, i: number) => (
+              <li key={i}>
+                {stat} - {generatedStats[1].stats[stat].name}
+              </li>
+            ))}
+          </ul>
+        </li>
       </ul>
     </div>
   );

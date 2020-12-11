@@ -32,3 +32,22 @@ export const convertReach = (reach: string) => {
 
   return shortened;
 };
+
+export const compareSize = (
+  division: string, 
+  obj: any, 
+  fighter: any
+) => {
+  if (obj[division] && obj[division].height) {
+    // compare size
+    const currentTotal = obj[division].height + obj[division].reach;
+    const nextTotal = fighter.height + fighter.reach;
+
+    if (nextTotal > currentTotal) {
+      obj[division] = fighter;
+    }
+  } else {
+    obj[division] = fighter;
+  }
+  return obj;
+};
