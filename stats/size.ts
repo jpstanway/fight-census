@@ -107,7 +107,9 @@ const sizeStats = async () => {
     });
     console.log('bigger', bigger, 'smaller', smaller, 'equal', equal, 'sample size', tested, 'checking', checking);
     return {
+      type: "donut",
       title: "Size of winner compared to loser (%)",
+      labels: ["Bigger", "Smaller", "Equal"],
       stats: [
         Math.ceil((bigger / tested) * 100),
         Math.ceil((smaller / tested) * 100),
@@ -182,6 +184,7 @@ const sizeStats = async () => {
     });
 
     return {
+      chart: "table",
       title: "Biggest fighters by division",
       stats: biggest
     };

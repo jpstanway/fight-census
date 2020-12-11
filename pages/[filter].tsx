@@ -1,10 +1,12 @@
 import { NextPage, GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 
-import Donut from '../charts/Donut';
+import StatChart from '../charts/StatChart';
 
 type StatType = {
+  type: string;
   title: string;
+  labels: string[];
   stats: any[];
 };
 
@@ -16,7 +18,17 @@ const Filter: NextPage<FilterProps> = ({ generatedStats }) => {
     <div>
       <h1>Stats by {query.filter}</h1>
       <ul>
-        <li>
+        {generatedStats.map((stat, i) => (
+          <li key={i}>
+            <StatChart 
+              type={stat.type} 
+              title={stat.title} 
+              labels={stat.labels} 
+              data={stat.stats} 
+            />
+          </li>
+        ))}
+        {/* <li>
           <Donut label={generatedStats[0].title} data={generatedStats[0].stats} />
         </li>
         <li>
@@ -28,7 +40,7 @@ const Filter: NextPage<FilterProps> = ({ generatedStats }) => {
               </li>
             ))}
           </ul>
-        </li>
+        </li> */}
       </ul>
     </div>
   );

@@ -4,17 +4,19 @@ import { Chart } from 'chart.js';
 import styled from 'styled-components';
 
 type ChartProps = {
-  label: string;
+  type: string;
+  title: string;
+  labels: string[];
   data: number[];
 };
 
-const Donut: NextPage<ChartProps> = ({ label, data }) => {
+const StatChart: NextPage<ChartProps> = ({ type, title, labels, data }) => {
   useEffect(() => {
-    const ctx = document.getElementById('donutChart').getContext('2d');
-    const donutChart = new Chart(ctx, {
-      type: 'doughnut',
+    const ctx = document.getElementById('chart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type,
       data: {
-        labels: ['Bigger', 'Smaller', 'Equal'],
+        labels,
         datasets: [{
           data,
           backgroundColor: [
@@ -35,7 +37,7 @@ const Donut: NextPage<ChartProps> = ({ label, data }) => {
   
   return (
     <Container>
-      <p>{label}</p>
+      <p>{title}</p>
       <Canvas id="donutChart"></Canvas>
     </Container>
   );
@@ -50,4 +52,4 @@ const Canvas = styled.canvas`
   height: 40rem;
 `;
 
-export default Donut;
+export default StatChart;
