@@ -8,7 +8,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "@types/chart.js": "^2.9.28",
     "axios": "^0.20.0",
     "bluebird": "^3.7.2",
     "chart.js": "^2.9.4",
@@ -27,6 +26,7 @@
     "@types/react": "^16.9.44",
     "@types/redis": "^2.8.27",
     "@types/styled-components": "^5.1.2",
+    "@types/chart.js": "^2.9.28",
     "babel-plugin-styled-components": "^1.11.1",
     "typescript": "^3.9.7"
   }

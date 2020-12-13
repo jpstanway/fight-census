@@ -2,6 +2,7 @@ import { NextPage, GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 
 import StatChart from '../charts/StatChart';
+import ShortTable from '../components/Common/Tables/ShortTable';
 
 type StatType = {
   type: string;
@@ -18,29 +19,27 @@ const Filter: NextPage<FilterProps> = ({ generatedStats }) => {
     <div>
       <h1>Stats by {query.filter}</h1>
       <ul>
-        {generatedStats.map((stat, i) => (
-          <li key={i}>
-            <StatChart 
-              type={stat.type} 
-              title={stat.title} 
-              labels={stat.labels} 
-              data={stat.stats} 
-            />
-          </li>
-        ))}
-        {/* <li>
-          <Donut label={generatedStats[0].title} data={generatedStats[0].stats} />
-        </li>
-        <li>
-          <p>{generatedStats[1].title}</p>
-          <ul>
-            {Object.keys(generatedStats[1].stats).map((stat: string, i: number) => (
+        {generatedStats.map((stat, i) => {
+          if (stat.type === 'table') {
+            return (
               <li key={i}>
-                {stat} - {generatedStats[1].stats[stat].name}
+                <p>{stat.title}</p>
+                <ShortTable headers={stat.labels} rows={stat.stats} />
               </li>
-            ))}
-          </ul>
-        </li> */}
+            );
+          } else {
+            return (
+              <li key={i}>
+                <StatChart 
+                  type={stat.type} 
+                  title={stat.title} 
+                  labels={stat.labels} 
+                  data={stat.stats} 
+                />
+              </li>
+            );
+          }
+        })} 
       </ul>
     </div>
   );

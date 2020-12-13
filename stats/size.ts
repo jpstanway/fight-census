@@ -107,7 +107,7 @@ const sizeStats = async () => {
     });
     console.log('bigger', bigger, 'smaller', smaller, 'equal', equal, 'sample size', tested, 'checking', checking);
     return {
-      type: "donut",
+      type: "doughnut",
       title: "Size of winner compared to loser (%)",
       labels: ["Bigger", "Smaller", "Equal"],
       stats: [
@@ -124,6 +124,7 @@ const sizeStats = async () => {
   const biggestFightersByDivision = () => {
     type FighterSpecial = { [key: string]: Fighter };
     let biggest: FighterSpecial = {};
+    const stats: Fighter[] = [];
     const regex = /\d\d\d\slb/i;
 
     fighters.forEach((fighter: Fighter) => {
@@ -183,10 +184,14 @@ const sizeStats = async () => {
       // womens strawweight
     });
 
+    // create an array out of the object
+    Object.keys(biggest).forEach((div) => stats.push(biggest[div]));
+    
     return {
-      chart: "table",
+      type: "table",
       title: "Biggest fighters by division",
-      stats: biggest
+      labels: ["Division", "Name", "Height", "Reach"],
+      stats
     };
   };
 

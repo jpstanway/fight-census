@@ -44,10 +44,17 @@ export const compareSize = (
     const nextTotal = fighter.height + fighter.reach;
 
     if (nextTotal > currentTotal) {
-      obj[division] = fighter;
+      obj[division] = {
+        ...fighter,
+        division
+      };
     }
   } else {
-    obj[division] = fighter;
+    obj[division] = {
+      ...fighter,
+      division
+    };
   }
+
   return obj;
 };

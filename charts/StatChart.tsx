@@ -12,7 +12,8 @@ type ChartProps = {
 
 const StatChart: NextPage<ChartProps> = ({ type, title, labels, data }) => {
   useEffect(() => {
-    const ctx = document.getElementById('chart').getContext('2d');
+    const doc: any = document.getElementById('chart');
+    const ctx = doc.getContext('2d');
     const chart = new Chart(ctx, {
       type,
       data: {
@@ -38,7 +39,7 @@ const StatChart: NextPage<ChartProps> = ({ type, title, labels, data }) => {
   return (
     <Container>
       <p>{title}</p>
-      <Canvas id="donutChart"></Canvas>
+      <Canvas id="chart"></Canvas>
     </Container>
   );
 };
