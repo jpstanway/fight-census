@@ -137,42 +137,42 @@ const sizeStats = async () => {
 
       // heavyweight
       if (weight > 209) {
-        biggest = compareSize("heavyweight", biggest, fighter);
+        biggest = compareSize("Heavyweight", 1, biggest, fighter);
         return;
       }
       // light heavyweight
       if (weight > 200 && weight < 209) {
-        biggest = compareSize("lightHeavyweight", biggest, fighter);
+        biggest = compareSize("Light Heavyweight", 2, biggest, fighter);
         return;
       }
       // middleweight
       if (weight > 180 && weight < 189) {
-        biggest = compareSize("middleweight", biggest, fighter);
+        biggest = compareSize("Middleweight", 3, biggest, fighter);
         return;
       }
       // welterweight
       if (weight > 165 && weight < 174) {
-        biggest = compareSize("welterweight", biggest, fighter);
+        biggest = compareSize("Welterweight", 4, biggest, fighter);
         return;
       }
       // lightweight
       if (weight > 150 && weight < 159) {
-        biggest = compareSize("lightweight", biggest, fighter);
+        biggest = compareSize("Lightweight", 5, biggest, fighter);
         return;
       }
       // featherweight
       if (weight > 140 && 149) {
-        biggest = compareSize("featherweight", biggest, fighter);
+        biggest = compareSize("Featherweight", 6, biggest, fighter);
         return;
       }
       // bantamweight
       if (weight > 130 && 139) {
-        biggest = compareSize("bantamweight", biggest, fighter);
+        biggest = compareSize("Bantamweight", 7, biggest, fighter);
         return;
       }
       // flyweight
       if (weight > 120 && 129) {
-        biggest = compareSize("flyweight", biggest, fighter);
+        biggest = compareSize("Flyweight", 8, biggest, fighter);
         return;
       }
       // womens featherweight
@@ -186,7 +186,8 @@ const sizeStats = async () => {
 
     // create an array out of the object
     Object.keys(biggest).forEach((div) => stats.push(biggest[div]));
-    
+    stats.sort((a, b) => a.index - b.index);
+
     return {
       type: "table",
       title: "Biggest fighters by division",

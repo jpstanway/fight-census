@@ -1,4 +1,7 @@
 import { NextPage, GetServerSideProps } from "next";
+import Link from 'next/link';
+import styled from 'styled-components';
+
 import dbConnect from '../database/db';
 import useCache from '../database/useCache';
 import { getAllEvents } from '../database/api/events';
@@ -20,6 +23,11 @@ const Home: NextPage<HomeProps> = ({ events, matches, fighters }) => {
       <p>{events.length} events</p>
       <p>{matches.length} matches</p>
       <p>{fighters.length} fighters</p>
+      <LinkContainer>
+        <Link href="/size">
+          <a>Start here</a>
+        </Link>
+      </LinkContainer>
     </div>
   );
 };
@@ -33,5 +41,14 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   return { props: { events, matches, fighters } };
 };
+
+const LinkContainer = styled.div`
+  margin-top: 5rem;
+  text-align: center;
+
+  a {
+    font-size: 2rem;
+  }
+`;
 
 export default Home;

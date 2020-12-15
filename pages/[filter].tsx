@@ -1,5 +1,6 @@
 import { NextPage, GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import styled from 'styled-components';
 
 import StatChart from '../charts/StatChart';
 import ShortTable from '../components/Common/Tables/ShortTable';
@@ -22,21 +23,21 @@ const Filter: NextPage<FilterProps> = ({ generatedStats }) => {
         {generatedStats.map((stat, i) => {
           if (stat.type === 'table') {
             return (
-              <li key={i}>
-                <p>{stat.title}</p>
+              <StatContainer key={i}>
+                <StatTitle>{stat.title}</StatTitle>
                 <ShortTable headers={stat.labels} rows={stat.stats} />
-              </li>
+              </StatContainer>
             );
           } else {
             return (
-              <li key={i}>
+              <StatContainer key={i}>
                 <StatChart 
                   type={stat.type} 
                   title={stat.title} 
                   labels={stat.labels} 
                   data={stat.stats} 
                 />
-              </li>
+              </StatContainer>
             );
           }
         })} 
@@ -51,5 +52,13 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 
   return { props: { generatedStats } };
 };
+
+const StatTitle = styled.p`
+  text-align: center;
+`;
+
+const StatContainer = styled.li`
+  margin-bottom: 10rem;
+`;
 
 export default Filter;

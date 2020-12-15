@@ -35,6 +35,7 @@ export const convertReach = (reach: string) => {
 
 export const compareSize = (
   division: string, 
+  index: number,
   obj: any, 
   fighter: any
 ) => {
@@ -46,13 +47,15 @@ export const compareSize = (
     if (nextTotal > currentTotal) {
       obj[division] = {
         ...fighter,
-        division
+        division,
+        index
       };
     }
   } else {
     obj[division] = {
       ...fighter,
-      division
+      division,
+      index
     };
   }
 

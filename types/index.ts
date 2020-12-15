@@ -24,6 +24,7 @@ export type Match = {
 };
 
 export type Fighter = {
+  index: number;
   name: string;
   link: string | undefined;
   height?: string;
