@@ -6,7 +6,7 @@ type TableProps = {
   rows: any;
 }
 
-const ShortTable: NextPage<TableProps> = ({ headers, rows }) => (
+const AvgTable: NextPage<TableProps> = ({ headers, rows }) => (
   <Container>
     <Table>
       <TableHead>
@@ -20,9 +20,9 @@ const ShortTable: NextPage<TableProps> = ({ headers, rows }) => (
         {rows.map((row: any, i: number) => (
           <TableRow key={i}>
             <TableCell>{row.division}</TableCell>
-            <TableCell>{row.name}</TableCell>
-            <TableCell>{row.height}</TableCell>
-            <TableCell>{row.reach}</TableCell>
+            <TableCell>{row.champion}</TableCell>
+            <TableCell>{row.championAvg}</TableCell>
+            <TableCell>{row.avg}</TableCell>
           </TableRow>
         ))}
       </tbody>
@@ -64,4 +64,4 @@ const TableCell = styled.td`
   border: none;
 `;
 
-export default ShortTable;
+export default AvgTable;

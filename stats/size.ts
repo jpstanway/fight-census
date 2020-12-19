@@ -2,7 +2,7 @@ import useCache from '../database/useCache';
 import { combineMatchAndFighterData } from '../database/utils';
 import { getAllFighters } from '../database/api/fighters';
 import { convertHeight, convertReach, compareSize } from './utils/size.utils';
-import { Match, Fighter } from '../types';
+import { Match, Fighter, AvgSize } from '../types';
 
 const sizeStats = async () => {
   const combined = await useCache("combined", combineMatchAndFighterData);
@@ -161,27 +161,40 @@ const sizeStats = async () => {
         return;
       }
       // featherweight
-      if (weight > 140 && 149) {
+      if (weight > 140 && weight < 149 && !fighter.division?.includes("Women's")) {
         biggest = compareSize("Featherweight", 6, biggest, fighter);
         return;
       }
       // bantamweight
-      if (weight > 130 && 139) {
+      if (weight > 130 && weight < 139 && !fighter.division?.includes("Women's")) {
         biggest = compareSize("Bantamweight", 7, biggest, fighter);
         return;
       }
       // flyweight
-      if (weight > 120 && 129) {
+      if (weight > 120 && weight < 129 && !fighter.division?.includes("Women's")) {
         biggest = compareSize("Flyweight", 8, biggest, fighter);
         return;
       }
       // womens featherweight
-
+      if (weight > 140 && weight < 149) {
+        biggest = compareSize("Women's Featherweight", 9, biggest, fighter);
+        return;
+      }
       // womens bantamweight
-
+      if (weight > 130 && weight < 139) {
+        biggest = compareSize("Women's Bantamweight", 10, biggest, fighter);
+        return;
+      }
       // womens flyweight
-
+      if (weight > 120 && weight < 129) {
+        biggest = compareSize("Women's Flyweight", 11, biggest, fighter);
+        return;
+      }
       // womens strawweight
+      if (weight > 110 && weight < 119) {
+        biggest = compareSize("Women's Strawweight", 12, biggest, fighter);
+        return;
+      }
     });
 
     // create an array out of the object
@@ -200,9 +213,55 @@ const sizeStats = async () => {
 
   // number of champions who are big for their weight class
   const championsAboveAverageSize = () => {
+    const divisionAvgs: AvgSize = {};
+    const stats: any[] = [];
 
+    // collect total size data for each division
+    fighters.forEach((fighter: Fighter) => {
+      const fighterDiv = fighter.division.toLowerCase();
+      if (!divisionAvgs.hasOwnProperty(fighterDiv)) {
+        divisionAvgs[fighterDiv] = {
+          division: fighter.division,
+          avg: 0,
+          count: 0,
+          total: 0,
+          champion: '',
+          championAvg: 0
+        } ;
+      }
+
+      if (fighter.height && fighter.reach) {
+        const height = convertHeight(fighter.height);
+        const reach = convertReach(fighter.reach);
+
+        if (typeof height === 'number') {
+          const total = height + reach;
+
+          if (fighter.isChampion) {
+            divisionAvgs[fighterDiv].champion = fighter.name;
+            divisionAvgs[fighterDiv].championAvg = total;
+          }
+
+          divisionAvgs[fighterDiv].total += total;
+          divisionAvgs[fighterDiv].count += 1;
+          divisionAvgs[fighterDiv].avg = divisionAvgs[fighterDiv].total / divisionAvgs[fighterDiv].count;
+        }
+      }
+    });
+
+    // create an array out of the object
+    Object.keys(divisionAvgs).forEach((div) => stats.push(divisionAvgs[div]));
+    
+    return {
+      type: "avg",
+      title: "Champions vs avg size of division",
+      labels: ["Division", "Champion", "Champion Average", "Division Average"],
+      stats
+    };
   };
 
+  stats.push(championsAboveAverageSize());
+  
   // weight switching fighters win rate
   const divisionSwapWinRate = () => {
 

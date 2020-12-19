@@ -1,8 +1,8 @@
 export const convertHeight = (height: string) => {
   const regexp = /(\d\s\w\w\s\d+)/gi;
   const regexpAlt = /(\d.\d+)/gi;
-  const match = height.match(regexp);
-  const matchAlt = height.match(regexpAlt);
+  const match = height.toString().match(regexp);
+  const matchAlt = height.toString().match(regexpAlt);
 
   if (match && match.length > 0) {
     let clean = match[0].replace(/[a-zA-Z]/g, "").split(" ");
@@ -19,7 +19,7 @@ export const convertHeight = (height: string) => {
 };
 
 export const convertReach = (reach: string) => {
-  const match = reach.match(/^\d\d\.\d/gi);
+  const match = reach.toString().match(/^\d\d\.\d/gi);
 
   // round up reach if in decimal format
   if (match && match.length > 0) {
@@ -28,7 +28,7 @@ export const convertReach = (reach: string) => {
     reach = rounded.toString();
   }
 
-  const shortened = parseInt(reach.substring(0, 2));
+  const shortened = parseInt(reach.toString().substring(0, 2));
 
   return shortened;
 };

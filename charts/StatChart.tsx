@@ -49,8 +49,8 @@ const Container = styled.div`
 `;
 
 const Canvas = styled.canvas`
-  width: 40rem;
-  height: 40rem;
+  width: 30rem;
+  height: 30rem;
 `;
 
 export default StatChart;

@@ -1,6 +1,6 @@
 // General
 export type IterableObject = {
-  [key: string]: string;
+  [key: string]: string | number;
 };
 
 // Models
@@ -29,6 +29,19 @@ export type Fighter = {
   link: string | undefined;
   height?: string;
   weight?: string;
-  division?: string;
+  division: string;
   reach?: string;
+  isChampion?: boolean;
+};
+
+// Stats
+export type AvgSize = {
+  [key: string]: {
+    division: string;
+    total: number;
+    count: number;
+    avg: number;
+    champion: string;
+    championAvg: number;
+  }
 };
