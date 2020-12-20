@@ -1,19 +1,12 @@
 import { NextPage, GetServerSideProps } from "next";
+import dynamic from 'next/dynamic';
 import { useRouter } from "next/router";
 import styled from 'styled-components';
 
 import StatChart from '../charts/StatChart';
-import ShortTable from '../components/Common/Tables/ShortTable';
-import AvgTable from '../components/Common/Tables/AvgTable';
+import StatTable from '../components/Common/Tables/StatTable';
 
-type StatType = {
-  type: string;
-  title: string;
-  labels: string[];
-  stats: any[];
-};
-
-type FilterProps = { generatedStats: StatType[] };
+type FilterProps = { generatedStats: any[] };
 
 const Filter: NextPage<FilterProps> = ({ generatedStats }) => {
   const { query } = useRouter();
@@ -23,18 +16,13 @@ const Filter: NextPage<FilterProps> = ({ generatedStats }) => {
       <ul>
         {generatedStats.map((stat, i) => {
           if (stat.type === 'table') {
+            const Component = dynamic(() => import(`../components/Tables/${stat.component}`));
             return (
               <StatContainer key={i}>
                 <StatTitle>{stat.title}</StatTitle>
-                <ShortTable headers={stat.labels} rows={stat.stats} />
-              </StatContainer>
-            );
-          } else if (stat.type === 'avg') {
-            console.log(stat);
-            return (
-              <StatContainer key={i}>
-                <StatTitle>{stat.title}</StatTitle>
-                <AvgTable headers={stat.labels} rows={stat.stats} />
+                <StatTable headers={stat.labels}>
+                  <Component rows={stat.stats} />
+                </StatTable>
               </StatContainer>
             );
           } else {

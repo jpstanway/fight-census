@@ -3,10 +3,10 @@ import styled from 'styled-components';
 
 type TableProps = {
   headers: string[];
-  rows: any;
+  children: any;
 }
 
-const ShortTable: NextPage<TableProps> = ({ headers, rows }) => (
+const ShortTable: NextPage<TableProps> = ({ headers, children }) => (
   <Container>
     <Table>
       <TableHead>
@@ -16,16 +16,7 @@ const ShortTable: NextPage<TableProps> = ({ headers, rows }) => (
           ))}
         </TableRow>
       </TableHead>
-      <tbody>
-        {rows.map((row: any, i: number) => (
-          <TableRow key={i}>
-            <TableCell>{row.division}</TableCell>
-            <TableCell>{row.name}</TableCell>
-            <TableCell>{row.height}</TableCell>
-            <TableCell>{row.reach}</TableCell>
-          </TableRow>
-        ))}
-      </tbody>
+      {children}
     </Table>
   </Container>
 );
@@ -58,10 +49,6 @@ const TableRow = styled.tr`
 
 const TableHeader = styled.th`
   border-bottom: 1px solid rgba(224, 224, 224, 1);
-`;
-
-const TableCell = styled.td`
-  border: none;
 `;
 
 export default ShortTable;

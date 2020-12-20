@@ -4,6 +4,9 @@ import { getAllFighters } from '../database/api/fighters';
 import { convertHeight, convertReach, compareSize } from './utils/size.utils';
 import { Match, Fighter, AvgSize } from '../types';
 
+import WinnerBySizeTable from '../components/Tables/WinnerBySizeTable';
+import DivisionAvgTable from '../components/Tables/DivisionAvgTable';
+
 const sizeStats = async () => {
   const combined = await useCache("combined", combineMatchAndFighterData);
   const fighters = await useCache("fighters", getAllFighters);
@@ -205,7 +208,8 @@ const sizeStats = async () => {
       type: "table",
       title: "Biggest fighters by division",
       labels: ["Division", "Name", "Height", "Reach"],
-      stats
+      stats,
+      component: 'WinnerBySizeTable'
     };
   };
 
@@ -253,10 +257,11 @@ const sizeStats = async () => {
     Object.keys(divisionAvgs).forEach((div) => stats.push(divisionAvgs[div]));
     
     return {
-      type: "avg",
+      type: "table",
       title: "Champions vs avg size of division",
       labels: ["Division", "Champion", "Champion Average", "Division Average"],
-      stats
+      stats,
+      component: 'DivisionAvgTable'
     };
   };
 

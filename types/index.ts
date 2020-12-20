@@ -33,15 +33,3 @@ export type Fighter = {
   reach?: string;
   isChampion?: boolean;
 };
-
-// Stats
-export type AvgSize = {
-  [key: string]: {
-    division: string;
-    total: number;
-    count: number;
-    avg: number;
-    champion: string;
-    championAvg: number;
-  }
-};

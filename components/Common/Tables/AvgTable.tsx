@@ -16,16 +16,7 @@ const AvgTable: NextPage<TableProps> = ({ headers, rows }) => (
           ))}
         </TableRow>
       </TableHead>
-      <tbody>
-        {rows.map((row: any, i: number) => (
-          <TableRow key={i}>
-            <TableCell>{row.division}</TableCell>
-            <TableCell>{row.champion}</TableCell>
-            <TableCell>{row.championAvg}</TableCell>
-            <TableCell>{row.avg}</TableCell>
-          </TableRow>
-        ))}
-      </tbody>
+      
     </Table>
   </Container>
 );
