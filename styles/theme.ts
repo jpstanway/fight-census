@@ -10,6 +10,8 @@ export default {
     lightBlue: "#47BAC1",
     blue: "#2f878c",
     darkBlue: "#39a2a9",
+    green: "#5FC27E",
+    red: "#F44455"
   },
   breakpoints: {
     sm: 500,

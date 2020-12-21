@@ -4,7 +4,7 @@ import { getAllFighters } from '../database/api/fighters';
 import { convertHeight, convertReach, compareSize } from './utils/size.utils';
 import { Match, Fighter, AvgSize } from '../types';
 
-import WinnerBySizeTable from '../components/Tables/WinnerBySizeTable';
+import WinnerBySizeTable from '../components/Tables/BiggestFightersTable';
 import DivisionAvgTable from '../components/Tables/DivisionAvgTable';
 
 const sizeStats = async () => {
@@ -209,7 +209,7 @@ const sizeStats = async () => {
       title: "Biggest fighters by division",
       labels: ["Division", "Name", "Height", "Reach"],
       stats,
-      component: 'WinnerBySizeTable'
+      component: 'BiggestFightersTable'
     };
   };
 
@@ -244,6 +244,15 @@ const sizeStats = async () => {
           if (fighter.isChampion) {
             divisionAvgs[fighterDiv].champion = fighter.name;
             divisionAvgs[fighterDiv].championAvg = total;
+
+            // special case for women's bw
+            if (fighter.name === 'Amanda Nunes') {
+              divisionAvgs["women's bantamweight"].champion = fighter.name;
+              divisionAvgs["women's bantamweight"].championAvg = total;
+              divisionAvgs["women's bantamweight"].total += total;
+              divisionAvgs["women's bantamweight"].count += 1;
+              divisionAvgs["women's bantamweight"].avg = divisionAvgs["women's bantamweight"].total / divisionAvgs["women's bantamweight"].count;
+            }
           }
 
           divisionAvgs[fighterDiv].total += total;
@@ -254,12 +263,18 @@ const sizeStats = async () => {
     });
 
     // create an array out of the object
-    Object.keys(divisionAvgs).forEach((div) => stats.push(divisionAvgs[div]));
+    Object.keys(divisionAvgs).forEach((div) => {
+      divisionAvgs[div].avg = Math.round(divisionAvgs[div].avg);
+      stats.push(divisionAvgs[div])
+    });
+
+    // sort weight classes
+    stats.sort((a, b) => b.avg - a.avg);
     
     return {
       type: "table",
       title: "Champions vs avg size of division",
-      labels: ["Division", "Champion", "Champion Average", "Division Average"],
+      labels: ["Division", "Comparison (total height + reach)"],
       stats,
       component: 'DivisionAvgTable'
     };

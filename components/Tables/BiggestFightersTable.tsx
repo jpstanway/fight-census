@@ -5,7 +5,7 @@ import { Fighter } from '../../types';
 
 type TableProps = { rows: Fighter[] };
 
-const WinnerBySizeTable: NextPage<TableProps> = ({ rows }) => (
+const BiggestFightersTable: NextPage<TableProps> = ({ rows }) => (
   <tbody>
     {rows.map((row: Fighter, i: number) => (
       <TableRow key={i}>
@@ -28,4 +28,4 @@ const TableCell = styled.td`
   border: none;
 `;
 
-export default WinnerBySizeTable;
+export default BiggestFightersTable;

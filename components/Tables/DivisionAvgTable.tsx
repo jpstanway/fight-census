@@ -1,4 +1,6 @@
 import { NextPage } from 'next';
+import React from 'react';
+import Image from 'next/image';
 import styled from 'styled-components';
 
 type Stat = {
@@ -13,17 +15,36 @@ type Stat = {
 };
 
 type TableProps = { rows: Stat[] };
+type CellProps = { readonly isHigher: boolean };
 
-const WinnerBySizeTable: NextPage<TableProps> = ({ rows }) => (
+const DivisionAvgTable: NextPage<TableProps> = ({ rows }) => (
   <tbody>
-    {rows.map((row: Stat, i: number) => (
-      <TableRow key={i}>
-        <TableCell>{row.division}</TableCell>
-        <TableCell>{row.champion}</TableCell>
-        <TableCell>{row.championAvg}</TableCell>
-        <TableCell>{row.avg}</TableCell>
-      </TableRow>
-    ))}
+    {rows.map((row: Stat, i: number) => {
+      if (row.champion && row.championAvg) {
+        const isHigher = row.championAvg > row.avg;
+
+        return (
+          <React.Fragment key={i}>
+            <TableRow>
+              <TableCell rowSpan="2">{row.division}</TableCell>
+              <TableCellFlex isHigher={isHigher}>
+                <span>{row.champion}</span>
+                <span>
+                  <Image src={`/arrow-${isHigher ? "up" : "down"}-24px.svg`} width={24} height={24} /> 
+                  {row.championAvg} inches
+                </span>
+              </TableCellFlex>
+            </TableRow>
+            <TableRow>
+              <TableCellFlex isHigher={!isHigher}>
+                <span>Division Avg.</span>
+                <span>{row.avg} inches</span>
+              </TableCellFlex>
+            </TableRow>
+          </React.Fragment>
+        );
+      }
+    })}
   </tbody>
 );
 
@@ -35,6 +56,21 @@ const TableRow = styled.tr`
 
 const TableCell = styled.td`
   border: none;
+
+  &:not(:last-child) {
+    border-right: 1px solid rgba(224, 224, 224, 1);
+  }
 `;
 
-export default WinnerBySizeTable;
+const TableCellFlex = styled(TableCell)<CellProps>`
+  display: flex;
+  justify-content: space-between;
+  font-weight: ${(props) => props.isHigher ? "700" : "400"};
+
+  span {
+    display: flex;
+    align-items: center;
+  }
+`;
+
+export default DivisionAvgTable;
