@@ -25,6 +25,13 @@ const Filter: NextPage<FilterProps> = ({ generatedStats }) => {
                 </StatTable>
               </StatContainer>
             );
+          } else if (stat.type === 'single') {
+            return (
+              <StatContainer key={i}>
+                <StatTitle>{stat.title}</StatTitle>
+                <SingleStat>{stat.stats[0]}</SingleStat>
+              </StatContainer>
+            );
           } else {
             return (
               <StatContainer key={i}>
@@ -51,6 +58,15 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 };
 
 const StatTitle = styled.p`
+  font-size: 2rem;
+  text-align: center;
+`;
+
+const SingleStat = styled.p`
+  color: ${(props) => props.theme.colors.red};
+  font-size: 10rem;
+  font-weight: 700;
+  margin: 0;
   text-align: center;
 `;
 

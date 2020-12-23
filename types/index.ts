@@ -32,4 +32,5 @@ export type Fighter = {
   division: string;
   reach?: string;
   isChampion?: boolean;
+  allDivisions?: string[];
 };

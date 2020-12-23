@@ -4,9 +4,6 @@ import { getAllFighters } from '../database/api/fighters';
 import { convertHeight, convertReach, compareSize } from './utils/size.utils';
 import { Match, Fighter, AvgSize } from '../types';
 
-import WinnerBySizeTable from '../components/Tables/BiggestFightersTable';
-import DivisionAvgTable from '../components/Tables/DivisionAvgTable';
-
 const sizeStats = async () => {
   const combined = await useCache("combined", combineMatchAndFighterData);
   const fighters = await useCache("fighters", getAllFighters);
@@ -120,7 +117,6 @@ const sizeStats = async () => {
       ]
     };
   };
-
   stats.push(winnerSizeComparison(combined));
 
   // gets list of the largest fighters in each division
@@ -212,7 +208,6 @@ const sizeStats = async () => {
       component: 'BiggestFightersTable'
     };
   };
-
   stats.push(biggestFightersByDivision());
 
   // number of champions who are big for their weight class
@@ -279,13 +274,48 @@ const sizeStats = async () => {
       component: 'DivisionAvgTable'
     };
   };
-
   stats.push(championsAboveAverageSize());
   
   // weight switching fighters win rate
   const divisionSwapWinRate = () => {
+    let reds: string[] = [];
+    let blues: string[] = [];
 
+    const swappers = fighters.filter((fighter: Fighter) => {
+      return fighter.allDivisions && fighter.allDivisions.length > 1;
+    });
+
+    swappers.forEach((swapper: Fighter) => {
+      if (swapper.allDivisions) {
+        const latest = swapper.allDivisions[swapper.allDivisions.length - 1];
+        
+        // search for potential win in matches
+        combined.forEach((match: Match) => {
+          if (match.red.name === swapper.name && match.division === latest) {
+            if (reds.includes(match.red.name)) return;
+            reds.push(match.red.name);
+          }
+
+          if (match.blue.name === swapper.name && match.division === latest) {
+            if (blues.includes(match.blue.name)) return;
+            blues.push(match.blue.name);
+          }
+        });
+      }
+    });
+
+    let rate = reds.length / (reds.length + blues.length);
+    rate = Math.round(rate *= 100);
+    let stat = rate.toString() + '%';
+
+    return {
+      type: "single",
+      title: "Win rate of fighters who changed divisions",
+      labels: ["Rate"],
+      stats: [stat]
+    };
   };
+  stats.push(divisionSwapWinRate());
   
   return stats;
 };

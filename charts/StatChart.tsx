@@ -38,7 +38,7 @@ const StatChart: NextPage<ChartProps> = ({ type, title, labels, data }) => {
   
   return (
     <Container>
-      <p>{title}</p>
+      <StatTitle>{title}</StatTitle>
       <Canvas id="chart"></Canvas>
     </Container>
   );
@@ -53,4 +53,9 @@ const Canvas = styled.canvas`
   height: 30rem;
 `;
 
+const StatTitle = styled.p`
+  font-size: 2rem;
+`;
+
 export default StatChart;
+
