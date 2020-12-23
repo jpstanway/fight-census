@@ -1,20 +1,28 @@
 import { NextPage, GetServerSideProps } from "next";
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { useRouter } from "next/router";
 import styled from 'styled-components';
 
 import StatChart from '../charts/StatChart';
 import StatTable from '../components/Common/Tables/StatTable';
 
-type FilterProps = { generatedStats: any[] };
+type FilterProps = { 
+  generatedStats: {
+    stats: any[];
+    next: string;
+  } 
+};
 
 const Filter: NextPage<FilterProps> = ({ generatedStats }) => {
+  if (!generatedStats) return <div>404 Not Found</div>;
   const { query } = useRouter();
+
   return (
     <div>
       <h1>Stats by {query.filter}</h1>
       <ul>
-        {generatedStats.map((stat, i) => {
+        {generatedStats.stats.map((stat, i) => {
           if (stat.type === 'table') {
             const Component = dynamic(() => import(`../components/Tables/${stat.component}`));
             return (
@@ -46,13 +54,20 @@ const Filter: NextPage<FilterProps> = ({ generatedStats }) => {
           }
         })} 
       </ul>
+      <LinkContainer>
+        <Link href={generatedStats.next}>
+          <a>Next: Stats by {generatedStats.next.replace(/\//, "")}</a>
+        </Link>
+      </LinkContainer>
     </div>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const stats = (await import(`../stats/${query.filter}`)).default;
-  const generatedStats = await stats();
+  let generatedStats = await stats();
+
+  if (!generatedStats) generatedStats = null;
 
   return { props: { generatedStats } };
 };
@@ -72,6 +87,15 @@ const SingleStat = styled.p`
 
 const StatContainer = styled.li`
   margin-bottom: 10rem;
+`;
+
+const LinkContainer = styled.div`
+  margin-top: 5rem;
+  text-align: center;
+
+  a {
+    font-size: 2rem;
+  }
 `;
 
 export default Filter;

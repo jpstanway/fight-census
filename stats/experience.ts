@@ -1,5 +1,7 @@
 const experienceStats = () => {
-  console.log('stats by exp');
+  const stats = [];
+
+  return { stats, next: '/' };
 };
 
 export default experienceStats;

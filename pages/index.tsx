@@ -15,20 +15,41 @@ type HomeProps = {
   fighters: Fighter[];
 }
 
+type SingleStatProps = { readonly color: string };
+
 const Home: NextPage<HomeProps> = ({ events, matches, fighters }) => {
 
   return (
-    <div>
-      <h1>2020 Fight Census</h1>
-      <p>{events.length} events</p>
-      <p>{matches.length} matches</p>
-      <p>{fighters.length} fighters</p>
-      <LinkContainer>
-        <Link href="/size">
-          <a>Start here</a>
-        </Link>
-      </LinkContainer>
-    </div>
+    <Container>
+      <InnerContainer>
+        <Title>UFC Fighter Stats</Title>
+        <Items>
+          <li>
+            <SingleStat color="blue">
+              {events.length} 
+              <span>events</span>
+            </SingleStat>
+          </li>
+          <li>
+            <SingleStat color="green">
+              {matches.length} 
+              <span>matches</span>
+            </SingleStat>
+          </li>
+          <li>
+            <SingleStat color="red">
+              {fighters.length}
+              <span>fighters</span>
+            </SingleStat>
+          </li>
+        </Items>
+        <LinkContainer>
+          <Link href="/size">
+            <a>Start here</a>
+          </Link>
+        </LinkContainer>
+      </InnerContainer>
+    </Container>
   );
 };
 
@@ -41,6 +62,45 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   return { props: { events, matches, fighters } };
 };
+
+const Container = styled.div`
+  position: relative;
+  min-height: 100%;
+  min-width: 100%;
+`;
+
+const InnerContainer = styled.div`
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+`;
+
+const Title = styled.h2`
+  color: ${(props) => props.theme.colors.textLight};
+  font-style: italic;
+  text-align: center;
+`;
+
+const Items = styled.ul`
+  display: flex;
+  justify-content: space-around;
+`;
+
+const SingleStat = styled.p<SingleStatProps>`
+  color: ${(props) => props.theme.colors[props.color]};
+  display: flex;
+  flex-direction: column;
+  font-size: 10rem;
+  font-weight: 700;
+  margin: 0;
+  text-align: center;
+
+  span {
+    font-size: 1.6rem;
+  }
+`;
 
 const LinkContainer = styled.div`
   margin-top: 5rem;

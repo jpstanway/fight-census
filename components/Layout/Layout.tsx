@@ -15,7 +15,7 @@ export interface SidebarProps {
 }
 
 const Layout = (props: LayoutProps) => {
-  const [sidebar, setSidebar] = useState<boolean>(true);
+  const [sidebar, setSidebar] = useState<boolean>(false);
 
   return (
     <Container sidebar={sidebar}>

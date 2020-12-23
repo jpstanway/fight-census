@@ -1,5 +1,7 @@
 const ageStats = () => {
-  console.log('stats by age');
+  const stats = [];
+
+  return { stats, next: '/location' };
 };
 
 export default ageStats;

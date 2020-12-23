@@ -1,5 +1,7 @@
 const locationStats = () => {
-  console.log('stats by loc');
+  const stats = [];
+
+  return { stats, next: '/experience' };
 };
 
 export default locationStats;

@@ -2,7 +2,7 @@ import useCache from '../database/useCache';
 import { combineMatchAndFighterData } from '../database/utils';
 import { getAllFighters } from '../database/api/fighters';
 import { convertHeight, convertReach, compareSize } from './utils/size.utils';
-import { Match, Fighter, AvgSize } from '../types';
+import { Match, Fighter } from '../types';
 
 const sizeStats = async () => {
   const combined = await useCache("combined", combineMatchAndFighterData);
@@ -14,7 +14,6 @@ const sizeStats = async () => {
     let bigger = 0;
     let smaller = 0;
     let equal = 0;
-    let checking = 0;
     let tested = 0;
     
     matches.forEach((match: any) => {
@@ -24,7 +23,6 @@ const sizeStats = async () => {
       // only run calculation if both fighters
       // have these stats available
       if (winner.height && loser.height && winner.reach && loser.reach) {
-        checking++;
         winner.height = convertHeight(winner.height);
         winner.reach = convertReach(winner.reach);
         
@@ -105,7 +103,7 @@ const sizeStats = async () => {
         }
       }
     });
-    console.log('bigger', bigger, 'smaller', smaller, 'equal', equal, 'sample size', tested, 'checking', checking);
+
     return {
       type: "doughnut",
       title: "Size of winner compared to loser (%)",
@@ -210,6 +208,47 @@ const sizeStats = async () => {
   };
   stats.push(biggestFightersByDivision());
 
+  // weight switching fighters win rate
+  const divisionSwapWinRate = () => {
+    let reds: string[] = [];
+    let blues: string[] = [];
+
+    const swappers = fighters.filter((fighter: Fighter) => {
+      return fighter.allDivisions && fighter.allDivisions.length > 1;
+    });
+
+    swappers.forEach((swapper: Fighter) => {
+      if (swapper.allDivisions) {
+        const latest = swapper.allDivisions[swapper.allDivisions.length - 1];
+        
+        // search for potential win in matches
+        combined.forEach((match: Match) => {
+          if (match.red.name === swapper.name && match.division === latest) {
+            if (reds.includes(match.red.name)) return;
+            reds.push(match.red.name);
+          }
+
+          if (match.blue.name === swapper.name && match.division === latest) {
+            if (blues.includes(match.blue.name)) return;
+            blues.push(match.blue.name);
+          }
+        });
+      }
+    });
+
+    let rate = reds.length / (reds.length + blues.length);
+    rate = Math.round(rate *= 100);
+    let stat = rate.toString() + '%';
+
+    return {
+      type: "single",
+      title: "Win rate of fighters who changed divisions",
+      labels: ["Rate"],
+      stats: [stat]
+    };
+  };
+  stats.push(divisionSwapWinRate());
+
   // number of champions who are big for their weight class
   const championsAboveAverageSize = () => {
     const divisionAvgs: AvgSize = {};
@@ -275,50 +314,8 @@ const sizeStats = async () => {
     };
   };
   stats.push(championsAboveAverageSize());
-  
-  // weight switching fighters win rate
-  const divisionSwapWinRate = () => {
-    let reds: string[] = [];
-    let blues: string[] = [];
 
-    const swappers = fighters.filter((fighter: Fighter) => {
-      return fighter.allDivisions && fighter.allDivisions.length > 1;
-    });
-
-    swappers.forEach((swapper: Fighter) => {
-      if (swapper.allDivisions) {
-        const latest = swapper.allDivisions[swapper.allDivisions.length - 1];
-        
-        // search for potential win in matches
-        combined.forEach((match: Match) => {
-          if (match.red.name === swapper.name && match.division === latest) {
-            if (reds.includes(match.red.name)) return;
-            reds.push(match.red.name);
-          }
-
-          if (match.blue.name === swapper.name && match.division === latest) {
-            if (blues.includes(match.blue.name)) return;
-            blues.push(match.blue.name);
-          }
-        });
-      }
-    });
-
-    let rate = reds.length / (reds.length + blues.length);
-    rate = Math.round(rate *= 100);
-    let stat = rate.toString() + '%';
-
-    return {
-      type: "single",
-      title: "Win rate of fighters who changed divisions",
-      labels: ["Rate"],
-      stats: [stat]
-    };
-  };
-  stats.push(divisionSwapWinRate());
-  
-  return stats;
+  return { stats, next: '/age' };
 };
 
 export default sizeStats;
-
