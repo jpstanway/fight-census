@@ -49,6 +49,7 @@ const Filter: NextPage<FilterProps> = ({ generatedStats }) => {
                   title={stat.title} 
                   labels={stat.labels} 
                   data={stat.stats} 
+                  query={query}
                 />
               </StatContainer>
             );

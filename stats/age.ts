@@ -39,8 +39,37 @@ const ageStats = async () => {
   stats.push(ageGroups());
 
   const medianVsChampionsAge = () => {
+    let median = 0;
+    let champions = 0;
+    let champCount = 0;
 
+    fighters.forEach((fighter: Fighter) => {
+      median += parseInt(fighter.age);
+
+      if (fighter.isChampion) {
+        champions += parseInt(fighter.age);
+        champCount++;
+      }
+    });
+
+    const medianStat = { 
+      group: "All", 
+      stat: Math.round(median / fighters.length)
+    };
+    const championsStat = { 
+      group: "Champions", 
+      stat: Math.round(champions / champCount)
+    };
+
+    return {
+      type: "table",
+      title: "Median age for all fighters vs median for champions",
+      labels: ["Group", "Median age"],
+      stats: [medianStat, championsStat],
+      component: "MedianAgeTable"
+    };
   };
+  stats.push(medianVsChampionsAge());
 
   const oldestAndYoungest = () => {
 

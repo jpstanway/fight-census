@@ -9,9 +9,17 @@ type ChartProps = {
   title: string;
   labels: string[];
   data: number[];
+  query: string;
 };
 
-const StatChart: NextPage<ChartProps> = ({ id, type, title, labels, data }) => {
+const StatChart: NextPage<ChartProps> = ({ 
+  id, 
+  type, 
+  title, 
+  labels, 
+  data, 
+  query 
+}) => {
   useEffect(() => {
     const doc: any = document.getElementById(`chart-${id}`);
     const ctx = doc.getContext('2d');
@@ -37,7 +45,11 @@ const StatChart: NextPage<ChartProps> = ({ id, type, title, labels, data }) => {
         }]
       },
     });
-  }, []);
+
+    return () => {
+      chart.destroy();
+    };
+  }, [query]);
   
   return (
     <Container>

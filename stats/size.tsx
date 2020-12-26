@@ -252,7 +252,7 @@ const sizeStats = async () => {
 
   // number of champions who are big for their weight class
   const championsAboveAverageSize = () => {
-    const divisionAvgs: AvgSize = {};
+    const divisionAvgs: any = {};
     const stats: any[] = [];
 
     // collect total size data for each division
