@@ -44,6 +44,7 @@ const Filter: NextPage<FilterProps> = ({ generatedStats }) => {
             return (
               <StatContainer key={i}>
                 <StatChart 
+                  id={stat.id}
                   type={stat.type} 
                   title={stat.title} 
                   labels={stat.labels} 

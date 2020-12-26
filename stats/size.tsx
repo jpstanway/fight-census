@@ -105,6 +105,7 @@ const sizeStats = async () => {
     });
 
     return {
+      id: "size",
       type: "doughnut",
       title: "Size of winner compared to loser (%)",
       labels: ["Bigger", "Smaller", "Equal"],

@@ -4,15 +4,16 @@ import { Chart } from 'chart.js';
 import styled from 'styled-components';
 
 type ChartProps = {
+  id: string;
   type: string;
   title: string;
   labels: string[];
   data: number[];
 };
 
-const StatChart: NextPage<ChartProps> = ({ type, title, labels, data }) => {
+const StatChart: NextPage<ChartProps> = ({ id, type, title, labels, data }) => {
   useEffect(() => {
-    const doc: any = document.getElementById('chart');
+    const doc: any = document.getElementById(`chart-${id}`);
     const ctx = doc.getContext('2d');
     const chart = new Chart(ctx, {
       type,
@@ -23,12 +24,14 @@ const StatChart: NextPage<ChartProps> = ({ type, title, labels, data }) => {
           backgroundColor: [
             'rgba(255, 99, 132, 0.9)',
             'rgba(54, 162, 235, 0.9)',
-            'rgba(255, 206, 86, 0.9)'
+            'rgba(255, 206, 86, 0.9)',
+            'rgba(75, 192, 192, 0.9)'
           ],
           borderColor: [
             'rgba(255, 99, 132, 1)',
             'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)'
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)'
           ],
           borderWidth: 1
         }]
@@ -39,18 +42,17 @@ const StatChart: NextPage<ChartProps> = ({ type, title, labels, data }) => {
   return (
     <Container>
       <StatTitle>{title}</StatTitle>
-      <Canvas id="chart"></Canvas>
+      <canvas id={`chart-${id}`}></canvas>
     </Container>
   );
 };
 
 const Container = styled.div`
   text-align: center;
-`;
-
-const Canvas = styled.canvas`
-  width: 30rem;
-  height: 30rem;
+  margin: auto;
+  position: relative;
+  height: 40vh;
+  width: 80vw;
 `;
 
 const StatTitle = styled.p`

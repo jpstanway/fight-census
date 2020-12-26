@@ -27,8 +27,9 @@ export type Fighter = {
   index: number;
   name: string;
   link: string | undefined;
-  height?: string;
+  height: string;
   weight?: string;
+  age: string;
   division: string;
   reach?: string;
   isChampion?: boolean;
