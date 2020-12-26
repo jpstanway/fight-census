@@ -1,6 +1,8 @@
 import useCache from '../database/useCache';
 import { getAllFighters } from '../database/api/fighters';
 import { Fighter } from '../types';
+import { totalmem } from 'os';
+import { title } from 'process';
 
 const ageStats = async () => {
   const fighters = await useCache('fighters', getAllFighters);
@@ -72,8 +74,41 @@ const ageStats = async () => {
   stats.push(medianVsChampionsAge());
 
   const oldestAndYoungest = () => {
+    let maxAge = 0, minAge = 99;
+    let oldest = { name: '', age: '' }; 
+    let youngest = { name: '', age: '' };
 
+    fighters.forEach((fighter: Fighter) => {
+      const age = parseInt(fighter.age);
+
+      if (age > maxAge) {
+        maxAge = age;
+        oldest = fighter;
+      }
+      if (age < minAge) {
+        minAge = age;
+        youngest = fighter;
+      }
+    });
+
+    return [
+      {
+        type: "single",
+        color: "blue",
+        title: "Oldest fighter age",
+        labels: [oldest.name],
+        stats: [oldest.age]
+      },
+      {
+        type: "single",
+        color: "green",
+        title: "Youngest fighter age",
+        labels: [youngest.name],
+        stats: [youngest.age]
+      }
+    ];
   };
+  stats.push(...oldestAndYoungest());
 
   return { stats, next: '/location' };
 };

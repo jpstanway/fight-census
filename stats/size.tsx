@@ -243,8 +243,9 @@ const sizeStats = async () => {
 
     return {
       type: "single",
-      title: "Win rate of fighters who changed divisions",
-      labels: ["Rate"],
+      color: "red",
+      title: "Result of fighters who switch divisions",
+      labels: ["Win rate"],
       stats: [stat]
     };
   };

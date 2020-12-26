@@ -14,6 +14,8 @@ type FilterProps = {
   } 
 };
 
+type SingleProps = { readonly color: string };
+
 const Filter: NextPage<FilterProps> = ({ generatedStats }) => {
   if (!generatedStats) return <div>404 Not Found</div>;
   const { query } = useRouter();
@@ -37,7 +39,10 @@ const Filter: NextPage<FilterProps> = ({ generatedStats }) => {
             return (
               <StatContainer key={i}>
                 <StatTitle>{stat.title}</StatTitle>
-                <SingleStat>{stat.stats[0]}</SingleStat>
+                <SingleStat color={stat.color}>
+                  {stat.stats[0]}
+                </SingleStat>
+                <SubText>{stat.labels[0]}</SubText>
               </StatContainer>
             );
           } else {
@@ -49,7 +54,7 @@ const Filter: NextPage<FilterProps> = ({ generatedStats }) => {
                   title={stat.title} 
                   labels={stat.labels} 
                   data={stat.stats} 
-                  query={query}
+                  query={query.toString()}
                 />
               </StatContainer>
             );
@@ -79,12 +84,19 @@ const StatTitle = styled.p`
   text-align: center;
 `;
 
-const SingleStat = styled.p`
-  color: ${(props) => props.theme.colors.red};
+const SingleStat = styled.p<SingleProps>`
+  color: ${(props) => props.color && props.theme.colors[props.color]};
   font-size: 10rem;
   font-weight: 700;
   margin: 0;
   text-align: center;
+`;
+
+const SubText = styled.p`
+  font-style: italic;
+  text-align: center;
+  margin: 0;
+  font-size: 1.6rem;
 `;
 
 const StatContainer = styled.li`
