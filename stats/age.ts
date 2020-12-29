@@ -24,7 +24,7 @@ const ageStats = async () => {
       if (age > 39) old++;
       total++;
     });
-
+    
     return {
       id: "age",
       type: "pie",
