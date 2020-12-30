@@ -1,8 +1,6 @@
 import useCache from '../database/useCache';
 import { getAllFighters } from '../database/api/fighters';
 import { Fighter } from '../types';
-import { totalmem } from 'os';
-import { title } from 'process';
 
 const ageStats = async () => {
   const fighters = await useCache('fighters', getAllFighters);

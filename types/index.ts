@@ -11,6 +11,7 @@ export type Event = {
   venue: string;
   city: string;
   country: string;
+  matches?: Match[];
 };
 
 export type Match = {
