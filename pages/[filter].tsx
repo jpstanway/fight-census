@@ -55,6 +55,7 @@ const Filter: NextPage<FilterProps> = ({ generatedStats }) => {
                   labels={stat.labels} 
                   data={stat.stats} 
                   query={query.toString()}
+                  options={stat.options}
                 />
               </StatContainer>
             );

@@ -38,6 +38,46 @@ const locationStats = async () => {
   };
   stats.push(fightersByCountryOfOrigin());
 
+  const championsByCountry = () => {
+    type Total = { [key: string]: number };
+    type Stat = { country: string, count: number };
+    const countries: Total = {};
+    const stats: Stat[] = [];
+
+    fighters.forEach((fighter: Fighter) => {
+      if (fighter.isChampion) {
+        if (countries[fighter.country]) {
+          countries[fighter.country]++;
+        } else {
+          countries[fighter.country] = 1;
+        }
+      }
+    });
+
+    // create an array out of the object
+    Object.keys(countries).forEach((country) => stats.push({ country, count: countries[country] }));
+    stats.sort((a, b) => b.count - a.count);
+    
+    return {
+      id: "location",
+      type: "bar",
+      title: "Current share of champions by country",
+      labels: [...stats.map((s) => s.country)],
+      stats: [...stats.map((s) => s.count)],
+      options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: 5
+                }
+            }]
+        }
+    }
+    };
+  };
+  stats.push(championsByCountry());
+ 
   const homeCountryWinRate = () => {
     let wins = 0, counted = 0;
 
@@ -63,9 +103,9 @@ const locationStats = async () => {
       type: "single",
       color: "green",
       title: "Home country advantage",
-      labels: ["Win rate"],
+      labels: ["Win rate of fighters fighting in home country versus foreigner"],
       stats: [rate]
-    }
+    };
   };
   stats.push(homeCountryWinRate());
 
