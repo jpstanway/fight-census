@@ -1,9 +1,13 @@
+import * as env from 'env-var';
 import bluebird from "bluebird";
 import redis from "redis";
 
 const useCache = async (resource: string, getResource: any, arg: null | string = null) => {
   bluebird.promisifyAll(redis.RedisClient.prototype);
-  const cache = redis.createClient();
+  const CACHE_URI: string = env.get('CACHE_URI').required().asString();
+  const CACHE_PORT: string = env.get('CACHE_PORT').required().asString();
+  const options = { host: CACHE_URI };
+  const cache = redis.createClient(CACHE_PORT, options);
   let data: any = {};
 
   // check in-memory cache for card data
