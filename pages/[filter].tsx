@@ -72,12 +72,16 @@ const Filter: NextPage<FilterProps> = ({ generatedStats }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const stats = (await import(`../stats/${query.filter}`)).default;
-  let generatedStats = await stats();
+  try {
+    const stats = (await import(`../stats/${query.filter}`)).default;
+    let generatedStats = await stats();
 
-  if (!generatedStats) generatedStats = null;
+    if (!generatedStats) generatedStats = null;
 
-  return { props: { generatedStats } };
+    return { props: { generatedStats } };
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 const StatTitle = styled.p`

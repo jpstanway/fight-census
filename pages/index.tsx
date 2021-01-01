@@ -53,11 +53,14 @@ const Home: NextPage<HomeProps> = ({ events, matches, fighters }) => (
 export const getServerSideProps: GetServerSideProps = async () => {
   await dbConnect();
 
-  const events = await useCache("events", getAllEvents);
-  const matches = await useCache("matches", getAllMatches);
-  const fighters = await useCache("fighters", getAllFighters);
-
-  return { props: { events, matches, fighters } };
+  try {
+    const events = await useCache("events", getAllEvents);
+    const matches = await useCache("matches", getAllMatches);
+    const fighters = await useCache("fighters", getAllFighters);
+    return { props: { events, matches, fighters } };
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
 
 const Container = styled.div`
