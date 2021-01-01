@@ -51,7 +51,7 @@ const Home: NextPage<HomeProps> = ({ events, matches, fighters }) => (
 );
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  //await dbConnect();
+  await dbConnect();
 
   try {
     const events = [1];
