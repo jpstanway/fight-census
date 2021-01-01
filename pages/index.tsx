@@ -17,7 +17,7 @@ type HomeProps = {
 
 type SingleStatProps = { readonly color: string };
 
-const Home: NextPage<HomeProps> = ({ events, matches, fighters }) => {
+const Home: NextPage<HomeProps> = ({ events }) => {
 
   return (
     <Container>
@@ -30,7 +30,7 @@ const Home: NextPage<HomeProps> = ({ events, matches, fighters }) => {
               <span>events</span>
             </SingleStat>
           </li>
-          <li>
+          {/* <li>
             <SingleStat color="green">
               {matches.length} 
               <span>matches</span>
@@ -41,7 +41,7 @@ const Home: NextPage<HomeProps> = ({ events, matches, fighters }) => {
               {fighters.length}
               <span>fighters</span>
             </SingleStat>
-          </li>
+          </li> */}
         </Items>
         <LinkContainer>
           <Link href="/size">
@@ -56,14 +56,11 @@ const Home: NextPage<HomeProps> = ({ events, matches, fighters }) => {
 export const getServerSideProps: GetServerSideProps = async () => {
   await dbConnect();
 
-  const events = await getAllEvents();
-  const matches = await getAllMatches();
-  const fighters = await getAllFighters();
-  // const events = await useCache("events", getAllEvents);
+  const events = await useCache("events", getAllEvents);
   // const matches = await useCache("matches", getAllMatches);
   // const fighters = await useCache("fighters", getAllFighters);
 
-  return { props: { events, matches, fighters } };
+  return { props: { events } };
 };
 
 const Container = styled.div`
