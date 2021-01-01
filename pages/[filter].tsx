@@ -26,7 +26,7 @@ const Filter: NextPage<FilterProps> = ({ generatedStats }) => {
       <ul>
         {generatedStats.stats.map((stat, i) => {
           if (stat.type === 'table') {
-            const Component = dynamic(() => import(`../components/Tables/${stat.component}`));
+            const Component: any = dynamic(() => import(`../components/Tables/${stat.component}`));
             return (
               <StatContainer key={i}>
                 <StatTitle>{stat.title}</StatTitle>

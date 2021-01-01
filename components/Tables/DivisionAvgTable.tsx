@@ -26,7 +26,7 @@ const DivisionAvgTable: NextPage<TableProps> = ({ rows }) => (
         return (
           <React.Fragment key={i}>
             <TableRow>
-              <TableCell rowSpan="2">{row.division}</TableCell>
+              <TableCell rowSpan={2}>{row.division}</TableCell>
               <TableCellFlex isHigher={isHigher}>
                 <span>{row.champion}</span>
                 <span>

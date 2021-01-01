@@ -1,5 +1,5 @@
 const experienceStats = () => {
-  const stats = [];
+  const stats: any = [];
 
   return { stats, next: '/' };
 };
