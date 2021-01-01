@@ -3,11 +3,11 @@ import Link from 'next/link';
 import styled from 'styled-components';
 
 import dbConnect from '../database/db';
-// import useCache from '../database/useCache';
-// import { getAllEvents } from '../database/api/events';
-// import { getAllMatches } from '../database/api/matches'; 
-// import { getAllFighters } from '../database/api/fighters';
-// import { Event, Match, Fighter } from '../types';
+import useCache from '../database/useCache';
+import { getAllEvents } from '../database/api/events';
+import { getAllMatches } from '../database/api/matches'; 
+import { getAllFighters } from '../database/api/fighters';
+import { Event, Match, Fighter } from '../types';
 
 type HomeProps = {
   events: any[];
@@ -54,12 +54,9 @@ export const getServerSideProps: GetServerSideProps = async () => {
   await dbConnect();
 
   try {
-    const events = [1];
-    const matches = [1, 2];
-    const fighters = [1, 2, 3];
-    // const events = await useCache("events", getAllEvents);
-    // const matches = await useCache("matches", getAllMatches);
-    // const fighters = await useCache("fighters", getAllFighters);
+    const events = await useCache("events", getAllEvents);
+    const matches = await useCache("matches", getAllMatches);
+    const fighters = await useCache("fighters", getAllFighters);
     return { props: { events, matches, fighters } };
   } catch (error) {
     throw new Error(error.message);
