@@ -17,50 +17,47 @@ type HomeProps = {
 
 type SingleStatProps = { readonly color: string };
 
-const Home: NextPage<HomeProps> = ({ events }) => {
-
-  return (
-    <Container>
-      <InnerContainer>
-        <Title>UFC Fighter Stats</Title>
-        <Items>
-          <li>
-            <SingleStat color="blue">
-              {events.length} 
-              <span>events</span>
-            </SingleStat>
-          </li>
-          {/* <li>
-            <SingleStat color="green">
-              {matches.length} 
-              <span>matches</span>
-            </SingleStat>
-          </li>
-          <li>
-            <SingleStat color="red">
-              {fighters.length}
-              <span>fighters</span>
-            </SingleStat>
-          </li> */}
-        </Items>
-        <LinkContainer>
-          <Link href="/size">
-            <a>Start here</a>
-          </Link>
-        </LinkContainer>
-      </InnerContainer>
-    </Container>
-  );
-};
+const Home: NextPage<HomeProps> = ({ events, matches, fighters }) => (
+  <Container>
+    <InnerContainer>
+      <Title>UFC Fighter Stats</Title>
+      <Items>
+        <li>
+          <SingleStat color="blue">
+            {events.length} 
+            <span>events</span>
+          </SingleStat>
+        </li>
+        <li>
+          <SingleStat color="green">
+            {matches.length} 
+            <span>matches</span>
+          </SingleStat>
+        </li>
+        <li>
+          <SingleStat color="red">
+            {fighters.length}
+            <span>fighters</span>
+          </SingleStat>
+        </li>
+      </Items>
+      <LinkContainer>
+        <Link href="/size">
+          <a>Start here</a>
+        </Link>
+      </LinkContainer>
+    </InnerContainer>
+  </Container>
+);
 
 export const getServerSideProps: GetServerSideProps = async () => {
   await dbConnect();
 
   const events = await useCache("events", getAllEvents);
-  // const matches = await useCache("matches", getAllMatches);
-  // const fighters = await useCache("fighters", getAllFighters);
+  const matches = await useCache("matches", getAllMatches);
+  const fighters = await useCache("fighters", getAllFighters);
 
-  return { props: { events } };
+  return { props: { events, matches, fighters } };
 };
 
 const Container = styled.div`
