@@ -20,7 +20,7 @@ const useCache = async (resource: string, getResource: any, arg: null | string =
       }
     })
     .catch((error: any) => {
-      throw new Error(error.message);
+      throw new Error(`RedisError: ${error.message}`);
     });
 
   return data;
