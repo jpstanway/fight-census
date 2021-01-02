@@ -6,7 +6,12 @@ const useCache = async (resource: string, getResource: any, arg: null | string =
   bluebird.promisifyAll(redis.RedisClient.prototype);
   const CACHE_URI: string = env.get('CACHE_URI').required().asString();
   const CACHE_PORT: string = env.get('CACHE_PORT').required().asString();
-  const options = { host: CACHE_URI };
+  const CACHE_PASS: string = env.get('CACHE_PASS').required().asString();
+  const options = { 
+    host: CACHE_URI,
+    password: CACHE_PASS
+  
+  };
   const cache = redis.createClient(CACHE_PORT, options);
   let data: any = {};
 
