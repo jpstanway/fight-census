@@ -10,9 +10,9 @@ import { getAllFighters } from '../database/api/fighters';
 import { Event, Match, Fighter } from '../types';
 
 type HomeProps = {
-  events: Event[];
-  matches: Match[];
-  fighters: Fighter[];
+  events: any[];
+  matches: any[];
+  fighters: any[];
 }
 
 type SingleStatProps = { readonly color: string };
