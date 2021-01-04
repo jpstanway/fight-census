@@ -22,24 +22,24 @@ const Home: NextPage<HomeProps> = ({ events, matches, fighters }) => (
     <InnerContainer>
       <Title>UFC Fighter Stats</Title>
       <Items>
-        <li>
+        <Item>
           <SingleStat color="blue">
             {events.length} 
             <span>events</span>
           </SingleStat>
-        </li>
-        <li>
+        </Item>
+        <Item>
           <SingleStat color="green">
             {matches.length} 
             <span>matches</span>
           </SingleStat>
-        </li>
-        <li>
+        </Item>
+        <Item>
           <SingleStat color="red">
             {fighters.length}
             <span>fighters</span>
           </SingleStat>
-        </li>
+        </Item>
       </Items>
       <LinkContainer>
         <Link href="/size">
@@ -86,6 +86,10 @@ const Title = styled.h2`
 const Items = styled.ul`
   display: flex;
   justify-content: space-around;
+`;
+
+const Item = styled.li`
+  min-width: 17rem;
 `;
 
 const SingleStat = styled.p<SingleStatProps>`
