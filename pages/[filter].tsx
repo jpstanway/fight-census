@@ -63,9 +63,11 @@ const Filter: NextPage<FilterProps> = ({ generatedStats }) => {
         })} 
       </ul>
       <LinkContainer>
-        <Link href={generatedStats.next}>
-          <a>Next: Stats by {generatedStats.next.replace(/\//, "")}</a>
-        </Link>
+        {generatedStats.next !== "/" && (
+          <Link href={generatedStats.next}>
+            <a>Next: Stats by {generatedStats.next.replace(/\//, "")}</a>
+          </Link>
+        )}
       </LinkContainer>
     </Container>
   );

@@ -32,6 +32,7 @@ export type Fighter = {
   weight?: string;
   age: string;
   division: string;
+  debut: string;
   country: string;
   reach?: string;
   isChampion?: boolean;

@@ -210,46 +210,46 @@ const sizeStats = async () => {
   stats.push(biggestFightersByDivision());
 
   // weight switching fighters win rate
-  const divisionSwapWinRate = () => {
-    let reds: string[] = [];
-    let blues: string[] = [];
+  // const divisionSwapWinRate = () => {
+  //   let reds: string[] = [];
+  //   let blues: string[] = [];
 
-    const swappers = fighters.filter((fighter: Fighter) => {
-      return fighter.allDivisions && fighter.allDivisions.length > 1;
-    });
+  //   const swappers = fighters.filter((fighter: Fighter) => {
+  //     return fighter.allDivisions && fighter.allDivisions.length > 1;
+  //   });
 
-    swappers.forEach((swapper: Fighter) => {
-      if (swapper.allDivisions) {
-        const latest = swapper.allDivisions[swapper.allDivisions.length - 1];
+  //   swappers.forEach((swapper: Fighter) => {
+  //     if (swapper.allDivisions) {
+  //       const latest = swapper.allDivisions[swapper.allDivisions.length - 1];
         
-        // search for potential win in matches
-        combined.forEach((match: Match) => {
-          if (match.red.name === swapper.name && match.division === latest) {
-            if (reds.includes(match.red.name)) return;
-            reds.push(match.red.name);
-          }
+  //       // search for potential win in matches
+  //       combined.forEach((match: Match) => {
+  //         if (match.red.name === swapper.name && match.division === latest) {
+  //           if (reds.includes(match.red.name)) return;
+  //           reds.push(match.red.name);
+  //         }
 
-          if (match.blue.name === swapper.name && match.division === latest) {
-            if (blues.includes(match.blue.name)) return;
-            blues.push(match.blue.name);
-          }
-        });
-      }
-    });
+  //         if (match.blue.name === swapper.name && match.division === latest) {
+  //           if (blues.includes(match.blue.name)) return;
+  //           blues.push(match.blue.name);
+  //         }
+  //       });
+  //     }
+  //   });
+    
+  //   let rate = reds.length / (reds.length + blues.length);
+  //   rate = Math.round(rate *= 100);
+  //   let stat = rate.toString() + '%';
 
-    let rate = reds.length / (reds.length + blues.length);
-    rate = Math.round(rate *= 100);
-    let stat = rate.toString() + '%';
-
-    return {
-      type: "single",
-      color: "red",
-      title: "Result of fighters who switch divisions",
-      labels: ["Win rate"],
-      stats: [stat]
-    };
-  };
-  stats.push(divisionSwapWinRate());
+  //   return {
+  //     type: "single",
+  //     color: "red",
+  //     title: "Result of fighters who switch divisions",
+  //     labels: ["Win rate"],
+  //     stats: [stat]
+  //   };
+  // };
+  // stats.push(divisionSwapWinRate());
 
   // number of champions who are big for their weight class
   const championsAboveAverageSize = () => {

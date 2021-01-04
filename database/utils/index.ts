@@ -15,7 +15,7 @@ export const combineMatchAndFighterData = async () => {
 
     if (winner) match.red = winner;
     if (loser) match.blue = loser;
-
+    
     return match;
   });
 
