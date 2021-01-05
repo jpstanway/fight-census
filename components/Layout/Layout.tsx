@@ -39,7 +39,7 @@ const Container = styled.div<SidebarProps>`
 const Main = styled.div`
   min-height: 100vh;
   display: grid;
-  grid-template-rows: 7rem 1fr 5rem;
+  grid-template-rows: 8rem 1fr 5rem;
 `;
 
 const MainContainer = styled.div`

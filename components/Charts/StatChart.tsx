@@ -65,7 +65,9 @@ const StatChart: NextPage<ChartProps> = ({
   return (
     <Container>
       <StatTitle>{title}</StatTitle>
-      <canvas id={`chart-${id}`}></canvas>
+      <ChartContainer>
+        <canvas id={`chart-${id}`}></canvas>
+      </ChartContainer>
     </Container>
   );
 };
@@ -73,13 +75,16 @@ const StatChart: NextPage<ChartProps> = ({
 const Container = styled.div`
   text-align: center;
   margin: auto;
-  position: relative;
-  height: 40vh;
-  width: 80vw;
 `;
 
 const StatTitle = styled.p`
   font-size: 2rem;
+`;
+
+const ChartContainer = styled.div`
+  margin: auto;
+  max-width: 70rem;
+  position: relative;
 `;
 
 export default StatChart;

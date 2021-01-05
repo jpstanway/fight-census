@@ -88,6 +88,7 @@ const SiteTitle = styled.h1`
 
 const CustomLink = styled.a`
   cursor: pointer;
+  margin-left: -4.5rem;
 
   &:hover {
     text-decoration: none;

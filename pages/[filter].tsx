@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from "next/router";
 import styled from 'styled-components';
 
-import StatChart from '../charts/StatChart';
+import StatChart from '../components/Charts/StatChart';
 import StatTable from '../components/Common/Tables/StatTable';
 
 type FilterProps = { 
@@ -21,8 +21,8 @@ const Filter: NextPage<FilterProps> = ({ generatedStats }) => {
   const { query } = useRouter();
 
   return (
-    <div>
-      <h1>Stats by {query.filter}</h1>
+    <Container>
+      <PageTitle>Stats by {query.filter}</PageTitle>
       <ul>
         {generatedStats.stats.map((stat, i) => {
           if (stat.type === 'table') {
@@ -63,11 +63,13 @@ const Filter: NextPage<FilterProps> = ({ generatedStats }) => {
         })} 
       </ul>
       <LinkContainer>
-        <Link href={generatedStats.next}>
-          <a>Next: Stats by {generatedStats.next.replace(/\//, "")}</a>
-        </Link>
+        {generatedStats.next !== "/" && (
+          <Link href={generatedStats.next}>
+            <a>Next: Stats by {generatedStats.next.replace(/\//, "")}</a>
+          </Link>
+        )}
       </LinkContainer>
-    </div>
+    </Container>
   );
 };
 
@@ -83,6 +85,15 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     throw new Error(error);
   }
 };
+
+const Container = styled.div`
+  margin: 5rem 0;
+`;
+
+const PageTitle = styled.h1`
+  color: ${(props) => props.theme.colors.textDark};
+  padding: 0 5rem;
+`;
 
 const StatTitle = styled.p`
   font-size: 2rem;

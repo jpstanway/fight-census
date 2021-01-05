@@ -213,7 +213,7 @@ const sizeStats = async () => {
   const divisionSwapWinRate = () => {
     let reds: string[] = [];
     let blues: string[] = [];
-
+    
     const swappers = fighters.filter((fighter: Fighter) => {
       return fighter.allDivisions && fighter.allDivisions.length > 1;
     });
@@ -221,7 +221,6 @@ const sizeStats = async () => {
     swappers.forEach((swapper: Fighter) => {
       if (swapper.allDivisions) {
         const latest = swapper.allDivisions[swapper.allDivisions.length - 1];
-        
         // search for potential win in matches
         combined.forEach((match: Match) => {
           if (match.red.name === swapper.name && match.division === latest) {
@@ -236,7 +235,7 @@ const sizeStats = async () => {
         });
       }
     });
-
+    
     let rate = reds.length / (reds.length + blues.length);
     rate = Math.round(rate *= 100);
     let stat = rate.toString() + '%';
