@@ -18,7 +18,7 @@ export const combineMatchAndFighterData = async () => {
     
     return match;
   });
-
+  
   return matchesMap;
 };
 
