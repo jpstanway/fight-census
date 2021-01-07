@@ -85,14 +85,16 @@ const locationStats = async () => {
       const country = event.country;
 
       event.matches?.forEach((match: Match) => {
-        if (match.red.country === country && match.blue.country !== country) {
-          wins++;
-          counted++;
-          return;
-        }
-        if (match.blue.country === country && match.red.country !== country) {
-          counted++;
-          return;
+        if (!match.result.toLowerCase().includes("draw")) {
+          if (match.red.country === country && match.blue.country !== country) {
+            wins++;
+            counted++;
+            return;
+          }
+          if (match.blue.country === country && match.red.country !== country) {
+            counted++;
+            return;
+          }
         }
       });
     });
