@@ -10,9 +10,9 @@ import { getAllFighters } from '../database/api/fighters';
 import { Event, Match, Fighter } from '../types';
 
 type HomeProps = {
-  events: any[];
-  matches: any[];
-  fighters: any[];
+  events: Event[];
+  matches: Match[];
+  fighters: Fighter[];
 }
 
 type SingleStatProps = { readonly color: string };
@@ -75,6 +75,10 @@ const InnerContainer = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
+
+  @media screen and (max-width: 550px) {
+    top: 50%;
+  }
 `;
 
 const Title = styled.h2`
@@ -85,6 +89,7 @@ const Title = styled.h2`
 
 const Items = styled.ul`
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
 `;
 

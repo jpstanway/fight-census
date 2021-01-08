@@ -46,6 +46,10 @@ const MainContainer = styled.div`
   background-color: ${(props) => props.theme.colors.lightGrey};
   color: ${(props) => props.theme.colors.textDark};
   padding: 2rem;
+
+  @media screen and (max-width: 400px) {
+    padding: 0 1rem;
+  }
 `;
 
 export default Layout;

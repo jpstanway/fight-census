@@ -84,6 +84,11 @@ const SiteTitle = styled.h1`
   margin: 0;
   text-align: center;
   text-transform: uppercase;
+
+  @media screen and (max-width: 500px) {
+    font-size: 2.2rem;
+    padding-top: 0.5rem;
+  }
 `;
 
 const CustomLink = styled.a`
