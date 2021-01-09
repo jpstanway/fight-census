@@ -34,6 +34,11 @@ const Container = styled.div<SidebarProps>`
   grid-template-columns: ${(props) =>
     props.sidebar ? "25rem 1fr" : "0rem 1fr"};
   height: 100%;
+  position: relative;
+
+  @media screen and (max-width: ${(props) => props.theme.breakpoints.md}px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const Main = styled.div`

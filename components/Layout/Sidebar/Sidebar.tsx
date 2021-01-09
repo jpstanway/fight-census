@@ -26,6 +26,16 @@ const Container: any = styled.div<SidebarProps>`
   color: rgba(255, 255, 255, 0.7);
   transition: max-width 0.2s ease-out;
   max-width: ${(props) => (props.sidebar ? "50rem" : "0")};
+
+  @media screen and (max-width: ${(props) => props.theme.breakpoints.md}px) {
+    position: absolute;
+    top: 0;
+    left: ${(props) => (props.sidebar ? "0" : "-1000px")};
+    height: 100%;
+    margin-top: 8rem;
+    min-width: 25rem;
+    z-index: 999;
+  }
 `;
 
 const Brand = styled.a`

@@ -109,6 +109,10 @@ const SingleStat = styled.p<SingleStatProps>`
   span {
     font-size: 1.6rem;
   }
+
+  @media screen and (max-width: ${(props) => props.theme.breakpoints.sm}px) {
+    font-size: 8rem;
+  }
 `;
 
 const LinkContainer = styled.div`
