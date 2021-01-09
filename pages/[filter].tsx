@@ -93,6 +93,7 @@ const Container = styled.div`
 const PageTitle = styled.h1`
   color: ${(props) => props.theme.colors.textDark};
   padding: 0 5rem;
+  text-align: center;
 `;
 
 const StatTitle = styled.p`
