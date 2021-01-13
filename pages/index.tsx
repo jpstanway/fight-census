@@ -46,6 +46,14 @@ const Home: NextPage<HomeProps> = ({ events, matches, fighters }) => (
           <a>Start here</a>
         </Link>
       </LinkContainer>
+      <Summary>
+        <SummaryItem>
+          This site compiles information about the UFC fighter base into a census. The stats provided are to help identify current trends, as well as to help inform betting decisions.
+        </SummaryItem>
+        <SummaryItem>
+          Please keep in mind that the data only covers the current UFC roster, and for the previous year (or season). Enjoy!
+        </SummaryItem>
+      </Summary>
     </InnerContainer>
   </Container>
 );
@@ -70,15 +78,7 @@ const Container = styled.div`
 `;
 
 const InnerContainer = styled.div`
-  position: absolute;
-  top: 25%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 100%;
-
-  @media screen and (max-width: 550px) {
-    top: 50%;
-  }
 `;
 
 const Title = styled.h2`
@@ -116,12 +116,27 @@ const SingleStat = styled.p<SingleStatProps>`
 `;
 
 const LinkContainer = styled.div`
-  margin-top: 5rem;
+  margin: 5rem 0;
   text-align: center;
 
   a {
     font-size: 2rem;
   }
+`;
+
+const Summary = styled.div`
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 
+              0px 1px 1px 0px rgba(0,0,0,0.14), 
+              0px 1px 3px 0px rgba(0,0,0,0.12);
+  margin: auto;
+  max-width: 50rem;
+  padding: 1rem 2rem;
+`;
+
+const SummaryItem = styled.p`
+  font-style: italic;
 `;
 
 export default Home;

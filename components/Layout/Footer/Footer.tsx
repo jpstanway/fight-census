@@ -17,6 +17,10 @@ const Container = styled.footer`
   padding: 2rem;
   display: flex;
   align-items: center;
+
+  p { 
+    margin: 0;
+  }
 `;
 
 export default Footer;

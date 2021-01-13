@@ -33,7 +33,8 @@ const Container = styled.div<SidebarProps>`
   display: grid;
   grid-template-columns: ${(props) =>
     props.sidebar ? "25rem 1fr" : "0rem 1fr"};
-  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
   position: relative;
 
   @media screen and (max-width: ${(props) => props.theme.breakpoints.md}px) {
@@ -42,7 +43,7 @@ const Container = styled.div<SidebarProps>`
 `;
 
 const Main = styled.div`
-  min-height: 100vh;
+  min-height: 100%;
   display: grid;
   grid-template-rows: 8rem 1fr 5rem;
 `;
@@ -51,10 +52,6 @@ const MainContainer = styled.div`
   background-color: ${(props) => props.theme.colors.lightGrey};
   color: ${(props) => props.theme.colors.textDark};
   padding: 2rem;
-
-  @media screen and (max-width: 400px) {
-    padding: 0 1rem;
-  }
 `;
 
 export default Layout;
