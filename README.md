@@ -1,30 +1,11 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## What Fight Census is all about
+Most MMA stats revolve around *in fight* statistics - how many punches were thrown or landed, how many takedowns each fighter gets, etc.
 
-## Getting Started
+Fight Census seeks to compile data on a much broader scope however, taking into account the fighter base itself. For example, what is the average age, or size advantage of most winning fighters?
 
-First, run the development server:
+This 'census' is compiled on an annual basis, and seeks to help those understand certain trends that may not be so obvious, as well as help those in making betting decisions.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## Disclaimer
+Fight Census is new and not perfect. Most of the data is gathered automatically via web scraper, while some is manually added into the database.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Also, currently the census only covers the UFC fighter base, but will be extended to include other organizations such as Bellator in the future.
