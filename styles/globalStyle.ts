@@ -8,7 +8,7 @@ const GlobalStyle = createGlobalStyle`
 html,
 body,
 div#__next {
-  min-height: 100%;
+  height: 100%;
 }
 
 html,
