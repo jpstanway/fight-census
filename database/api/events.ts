@@ -1,6 +1,7 @@
-import Event from '../models/Event';
+import { getEventModel } from '../models/Event';
 
 export const getAllEvents = async () => {
+  const Event = getEventModel('2021');
   const result = await Event.find({});
   const events = result.map((doc) => {
     const event = doc.toObject();

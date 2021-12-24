@@ -19,4 +19,13 @@ const eventSchema = new Schema({
   country: String
 });
 
+
+export const getEventModel = (year: string = '') => {
+  let model = 'Event';
+  if (year) {
+    model += year;
+  }
+  return mongoose.models[model] || mongoose.model<EventDoc>(model, eventSchema);
+};
+
 export default mongoose.models.Event || mongoose.model<EventDoc>('Event', eventSchema);

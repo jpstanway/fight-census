@@ -1,6 +1,7 @@
-import Match from '../models/Match';
+import { getMatchModel } from '../models/Match';
 
 export const getAllMatches = async () => {
+  const Match = getMatchModel('2021');
   const result = await Match.find({});
   const matches = result.map((doc) => {
     const match = doc.toObject();

@@ -1,6 +1,7 @@
-import Fighter from '../models/Fighter';
+import { getFighterModel } from '../models/Fighter';
 
 export const getAllFighters = async () => {
+  const Fighter = getFighterModel('2021');
   const result = await Fighter.find({});
   const fighters = result.map((doc) => {
     const fighter = doc.toObject();

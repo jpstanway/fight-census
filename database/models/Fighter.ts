@@ -19,4 +19,12 @@ const fighterSchema = new Schema({
   reach: String
 });
 
+export const getFighterModel = (year: string = '') => {
+  let model = 'Fighter';
+  if (year) {
+    model += year;
+  }
+  return mongoose.models[model] || mongoose.model<FighterDoc>(model, fighterSchema);
+};
+
 export default mongoose.models.Fighter || mongoose.model<FighterDoc>('Fighter', fighterSchema);
