@@ -16,7 +16,7 @@ const Header = (props: SidebarProps) => {
       </ToggleButton>
       <SiteTitle>
         <Link href="/">
-          <CustomLink>Fight Census 2021</CustomLink>
+          <CustomLink>Fight Census 2022</CustomLink>
         </Link>
       </SiteTitle>
     </Container>

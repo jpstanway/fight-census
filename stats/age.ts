@@ -81,8 +81,10 @@ const ageStats = async () => {
     let champCount = 0;
 
     fighters.forEach((fighter: Fighter) => {
-      median += parseInt(fighter.age);
-
+      if (fighter.age) {
+        median += parseInt(fighter.age);
+      }
+      
       if (fighter.isChampion) {
         champions += parseInt(fighter.age);
         champCount++;

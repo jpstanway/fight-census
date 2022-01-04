@@ -16,7 +16,7 @@ const locationStats = async () => {
 
     fighters.forEach((fighter: Fighter) => {
       const country = fighter.country;
-      
+    
       if (countries[country]) {
         countries[country]++;
       } else {
@@ -36,7 +36,6 @@ const locationStats = async () => {
       component: 'CountryOfOriginTable'
     };
   };
-  stats.push(fightersByCountryOfOrigin());
 
   const championsByCountry = () => {
     type Total = { [key: string]: number };
@@ -76,7 +75,6 @@ const locationStats = async () => {
     }
     };
   };
-  stats.push(championsByCountry());
  
   const homeCountryWinRate = () => {
     let wins = 0, counted = 0;
@@ -109,6 +107,9 @@ const locationStats = async () => {
       stats: [rate]
     };
   };
+  
+  stats.push(fightersByCountryOfOrigin());
+  stats.push(championsByCountry());
   stats.push(homeCountryWinRate());
 
   return { stats, next: '/experience' };
