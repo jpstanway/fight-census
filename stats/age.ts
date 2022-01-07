@@ -41,7 +41,6 @@ const ageStats = async () => {
       }
     ];
   };
-  stats.push(...oldestAndYoungest());
 
   const ageGroups = () => {
     let young = 0; // 18-24
@@ -73,7 +72,6 @@ const ageStats = async () => {
       ]
     };
   };
-  stats.push(ageGroups());
 
   const medianVsChampionsAge = () => {
     let median = 0;
@@ -108,6 +106,9 @@ const ageStats = async () => {
       component: "MedianAgeTable"
     };
   };
+
+  stats.push(...oldestAndYoungest());
+  stats.push(ageGroups());
   stats.push(medianVsChampionsAge());
 
   return { stats, next: '/location' };

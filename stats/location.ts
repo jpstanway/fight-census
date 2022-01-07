@@ -61,6 +61,7 @@ const locationStats = async () => {
       id: "location",
       type: "bar",
       title: "Current share of champions by country",
+      label: 'Country',
       labels: [...stats.map((s) => s.country)],
       stats: [...stats.map((s) => s.count)],
       options: {

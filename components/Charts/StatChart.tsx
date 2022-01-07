@@ -10,6 +10,7 @@ type ChartProps = {
   labels: string[];
   data: number[];
   query: string;
+  label?: string;
   options?: any;
 };
 
@@ -17,6 +18,7 @@ const StatChart: NextPage<ChartProps> = ({
   id, 
   type, 
   title, 
+  label,
   labels, 
   data, 
   query,
@@ -30,6 +32,7 @@ const StatChart: NextPage<ChartProps> = ({
       data: {
         labels,
         datasets: [{
+          label,
           data,
           backgroundColor: [
             'rgba(255, 99, 132, 0.9)',

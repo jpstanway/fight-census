@@ -116,7 +116,6 @@ const sizeStats = async () => {
       ]
     };
   };
-  stats.push(winnerSizeComparison(combined));
 
   // gets list of the largest fighters in each division
   const biggestFightersByDivision = () => {
@@ -207,7 +206,6 @@ const sizeStats = async () => {
       component: 'BiggestFightersTable'
     };
   };
-  stats.push(biggestFightersByDivision());
 
   // weight switching fighters win rate
   const divisionSwapWinRate = () => {
@@ -248,7 +246,6 @@ const sizeStats = async () => {
       stats: [stat]
     };
   };
-  stats.push(divisionSwapWinRate());
 
   // number of champions who are big for their weight class
   const championsAboveAverageSize = () => {
@@ -314,6 +311,10 @@ const sizeStats = async () => {
       component: 'DivisionAvgTable'
     };
   };
+
+  stats.push(winnerSizeComparison(combined));
+  stats.push(biggestFightersByDivision());
+  stats.push(divisionSwapWinRate());
   stats.push(championsAboveAverageSize());
 
   return { stats, next: '/age' };

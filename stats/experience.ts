@@ -34,7 +34,6 @@ const experienceStats = async () => {
       stats: [rate]
     };
   };
-  stats.push(debutFighterWinRate());
 
   const perfectSeason = () => {
     type Stat = { name: string; count: number };
@@ -81,6 +80,8 @@ const experienceStats = async () => {
       component: 'PerfectSeasonTable'
     };
   };
+  
+  stats.push(debutFighterWinRate());
   stats.push(perfectSeason());
 
   return { stats, next: '/' };
